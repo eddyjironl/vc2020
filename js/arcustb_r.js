@@ -3,7 +3,6 @@ function init(){
 	document.getElementById("btquit").addEventListener("click",cerrar_pantalla,false);
 	document.getElementById("btprint").addEventListener("click",print,false);
 	document.getElementById("btnueva").addEventListener("click",nueva,false);
-	
 	document.getElementById("cformato").addEventListener("change",show_opc,false);
 	
 	// Ocultando elementos segun tipo de estado
@@ -57,6 +56,33 @@ function cerrar_pantalla(){
 	document.getElementById("arcustb_r").style.display="none";
 }
 function print(){
+	
+ // validaciones previas al envio
+
+// que no este vacio el cliente
+if (document.getElementById("ccustno_1").value == ""){
+	getmsgalert("Indique un cliente para emitir un EC");
+	return; 
+}
+
+// validando las fechas segun sea el caso.
+if (document.getElementById("cformato").value == "rango"){
+	if (document.getElementById("dstar_1").value == ""){
+		getmsgalert("Indique rango de fechas, al menos la de inicio");
+		return;
+	}
+	
+}else{
+	// es al corte
+	if (document.getElementById("dstar_3").value == ""){
+		getmsgalert("Indique la fecha de corte");
+		return;
+	}
+}
+
+
+// que haya indicado una fecha
+ 
  document.getElementById("arcustb_r").submit();
 }
 

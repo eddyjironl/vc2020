@@ -38,16 +38,18 @@
 					
 				<br>
 				<input type="checkbox" id="lvencidas" name="lvencidas">Solo Mostrar Facturas Vencidas unicamente </input>
+			
+			<!--
 				<br>
 				<input type="checkbox" id="lexmoney" name="lexmoney">Mostrar en Moneda Extrangera </input>
-					
+			-->
+			
 			</fieldset>
 		</form>
 		
 		<script>
 				get_xm_menu();
 				get_msg();
-				//get_btdtrn("btprint2","Imprimiendo reporte", "../reports/rpt_arinvc.php");
 		</script>
 		
 	</body>
