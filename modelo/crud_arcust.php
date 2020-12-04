@@ -81,6 +81,7 @@ if($lcAccion=="NEW"){
 												cwhseno,crespno,cpaycode,cctaid,cpasword,nlimcrd,cfoto,mnotas,mdirecc)
 							values('$lccustno','$lcname','$ldstar','$lcstatus','$lctel','$lcemail','$lcweb','$lcubino','$lccateno',
 								    '$lcwhseno','$lcrespno','$lcpaycode','$lcctaid','$lcpasword',$lnlimcrd,'$lcfotoI','$lmnotas','$lmdirecc')";
+				
 		}else{
 			//echo "Update <br>";
 			// el codigo existe lo que hace es actualizarlo.	
@@ -90,6 +91,7 @@ if($lcAccion=="NEW"){
 											cpasword = '$lcpasword',nlimcrd = $lnlimcrd,$lcfoto mnotas = '$lmnotas' ,mdirecc = '$lmdirecc'
 						where ccustno = '$lccustno'	";
 		}
+		
 		// ------------------------------------------------------------------------------------------------
 		// Generando coneccion y procesando el comando.
 		// ------------------------------------------------------------------------------------------------

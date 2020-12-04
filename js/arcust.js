@@ -330,7 +330,7 @@ function update_window(pckeyid){
 	// desplegando pantalla de menu con su informacion.
 	var persona = JSON.parse(oRequest.response);
 	//cargando los valores de la pantalla.
-	if (persona.ccustno != null){
+	if (persona != null){
 		document.getElementById("ccustno").value  = persona.ccustno;
 		document.getElementById("dstar").value    = persona.dstar;
 		document.getElementById("cname").value    = persona.cname;

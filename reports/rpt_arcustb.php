@@ -48,8 +48,6 @@
 	if ($lcwhere != ""){
 		$lcwhere = " where " . $lcwhere;
 	}
-
-
 	//--------------------------------------------------------------------------------------------------------
 	// C- Obteniendo datos segun sea el caso.
 	//--------------------------------------------------------------------------------------------------------
@@ -71,10 +69,8 @@
 					left outer join artcas on artcas.cpaycode = arinvc.cpaycode 
 					$lcwhere ";
 	
-	//echo $lcsqlcmd ."<br>";
-	//return ;
-	
-	$lcgrp_g = mysqli_query($oConn,$lcsqlcmd);		
+	$lcgrp_g = mysqli_query($oConn,$lcsqlcmd);	
+	$lcinf_c = mysqli_query($oConn,$lcsqlcmd);	
 	// determinando si hay datos o no en la consulta.
 	if (mysqli_num_rows($lcgrp_g)== 0){
 		echo "<h1>No hay datos para este reporte.</h1>";
@@ -99,14 +95,18 @@
 	// total de ventas general de todo el reporte
 	$lnsalesgeneral = 0;
 	// poniendo la cabecera.
-	$nombre = mysqli_fetch_assoc($lcgrp_g);
+	$nombre = mysqli_fetch_assoc($lcinf_c);
 	
 	// armando encabezado del reporte.
 	cabecera($ofpdf,$nombre["cname"],$nombre["ctel"],$lcpdate_1,$lcpdate_2,$lctype_stado,$llfirstime);
 	// poniendo el saldo inicial.
-	if($lctype_stado == "rango"){get_balance_inicial($lccustno_1,$dtrndate_1,$oConn,$ofpdf,$lncargo,$lncredito);}
+	if($lctype_stado == "rango"){
+		get_balance_inicial($lccustno_1,$dtrndate_1,$oConn,$ofpdf,$lncargo,$lncredito);
+	}
 
 	while($row = mysqli_fetch_assoc($lcgrp_g)){
+		
+		
 		$lnveces = 1 + $lnveces;
 		if ($lnveces == $lnNewPag){
 			cabecera($ofpdf,$row["cname"],$row["ctel"],$lcpdate_1,$lcpdate_2,$lctype_stado,true);
@@ -125,7 +125,7 @@
 						FROM arcasm  
 						join arcash on arcasm.ccashno = arcash.ccashno
 						WHERE arcasm.cstatus  = 'OP' AND
-						      (arcasm.dtrndate >= '". $dtrndate_1 ."'  or arcasm.dtrndate <= '". $dtrndate_2 ."' ) and
+						      (arcasm.dtrndate >= '". $dtrndate_1 ."'  and arcasm.dtrndate <= '". $dtrndate_2 ."' ) and
 						       arcash.cinvno = " . $row["cinvno"] . " GROUP BY 4 ";
 						
 			// oteniendo los resultados.			
@@ -231,7 +231,6 @@ function cabecera($ofpdf,$pcname,$pctel,$pcdate1,$pcdate2,$pctype,$lladdpage){
 	//$ofpdf->cell(15,5,"",0,1,"");   // cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
 	$ofpdf->setfont("arial","",10);
 }	// function cabecera($ofpdf,$ldstar,$lpname){
-
 // obteniendo el balance inicial del estado de cuenta por rango de fecha.
 function get_balance_inicial($pccustno,$pdate,$poConn,$pofpdf,&$plncargo,&$plncredito){
 
@@ -266,8 +265,8 @@ $plncargo     = $lnsaldo;
 $plncredito   = $lnpayamt;
 
 // escribiendo registro.
-$pofpdf->cell(20,8, "Inicial",0,0,"");   	
-$pofpdf->cell(90,8, "Saldo Inicial para el ".$pdate,0,0,"");   	
+$pofpdf->cell(50,8, "Inicial",0,0,"");   	
+$pofpdf->cell(60,8, "Saldo Inicial para el ".$pdate,0,0,"");   	
 $pofpdf->Cell(25,8, $lnsaldo ,0,0,"R");   	
 $pofpdf->Cell(25,8, $lnpayamt,0,0,"R");   	
 $pofpdf->cell(25,8, $lnsaldo - $lnpayamt,0,1,"R");   
