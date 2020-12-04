@@ -36,10 +36,10 @@
 				<label class="labelnormal" id="ldstar2" >Fecha de Corte </label>
 				<input type="date" id="dstar_3" name="dstar_3">
 					
+			<!--		
 				<br>
 				<input type="checkbox" id="lvencidas" name="lvencidas">Solo Mostrar Facturas Vencidas unicamente </input>
 			
-			<!--
 				<br>
 				<input type="checkbox" id="lexmoney" name="lexmoney">Mostrar en Moneda Extrangera </input>
 			-->

@@ -133,10 +133,10 @@
 	// A) Obteniendo agrupacion principal y por cada una generando el dato.
 	$lcsqlcmd  = " select distinct $lcXsortBy as unico , $lcDescBy as cdesc 
 					from arinvc 
-					join arcust on arcust.ccustno  = arinvc.ccustno
-					join artcas on artcas.cpaycode = arinvc.cpaycode
-					join arresp on arresp.crespno  = arinvc.crespno
-					join arwhse on arwhse.cwhseno  = arinvc.cwhseno 
+					left outer join arcust on arcust.ccustno  = arinvc.ccustno
+					left outer join artcas on artcas.cpaycode = arinvc.cpaycode
+					left outer join arresp on arresp.crespno  = arinvc.crespno
+					left outer join arwhse on arwhse.cwhseno  = arinvc.cwhseno 
 					$lcwhere order by 1 ";		
 
 	$lcrestgrp = mysqli_query($oConn,$lcsqlcmd);			
@@ -147,6 +147,7 @@
 		return;
 	}
 	*/
+	
 	// ----------------------------------------------------------------------------------------------------------------
 	// INGRESANDO LA PAGINA
 	// ----------------------------------------------------------------------------------------------------------------
@@ -188,11 +189,13 @@
 						 arinvc.ntaxamt,
 						 arinvc.ntc
 				from arinvc 
-				join arcust on arcust.ccustno  = arinvc.ccustno
-				join artcas on artcas.cpaycode = arinvc.cpaycode
-				join arresp on arresp.crespno  = arinvc.crespno 
-				join arwhse on arwhse.cwhseno  = arinvc.cwhseno
+				left outer join arcust on arcust.ccustno  = arinvc.ccustno
+				left outer join artcas on artcas.cpaycode = arinvc.cpaycode
+				left outer join arresp on arresp.crespno  = arinvc.crespno 
+				left outer join arwhse on arwhse.cwhseno  = arinvc.cwhseno
 				$lcwhere_g 	";		
+
+
 
 		$lcresult = mysqli_query($oConn,$lcsql);
 		//--------------------------------------------------------------------------------------------------------------
