@@ -29,6 +29,9 @@ function verif_cartera(){
 	var oDatos   = new FormData();
 	oDatos.append("ccustno","");
 	oRequest.send();
+	if (oRequest.readyState == 4 && oRequest.status == 200){
+		getmsgalert(oRequest.responseText);
+	}
 }
 
 function verif_requisa(){
