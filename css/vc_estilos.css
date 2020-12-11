@@ -120,6 +120,8 @@ estilos del tabs
   border: 1px solid #ccc;
   border-top: none;
 }
+
+
 /* estilo de las etiquetas base*/
 input, select{
 	font-size:12px;
@@ -363,6 +365,7 @@ Boton de Ayuda de pantallas
 .bthelp:hover{
 	box-shadow:yellow 5px 5px 10px;
 }		
+
 /* 
 ---------------------------------------------------------------------------------------
 Barra de navegacion y sus botones.

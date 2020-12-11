@@ -1,12 +1,19 @@
 function init(){
 	var otbinfo1 = document.getElementById("tbinfo1");
 	var otbinfo2 = document.getElementById("tbinfo2");
+	var otbinfo3 = document.getElementById("tbinfo3");
 	var obtsave  = document.getElementById("btsave");
+	var obtver1  = document.getElementById("btverinv");
+	var obtver2  = document.getElementById("btverreq")
+	
 	document.getElementById("btquit").addEventListener("click",salir,false);
 	// poniendo los botones a la escucha.
 	otbinfo1.addEventListener("click",tabshow,false);
 	otbinfo2.addEventListener("click",tabshow,false);
+	otbinfo3.addEventListener("click",tabshow,false);
 	obtsave.addEventListener("click",guardar,false);
+	obtver1.addEventListener("click",verif_cartera,false);
+	obtver2.addEventListener("click",verif_requisa,false);
 	
 	// poniendo visible el objeto tab del info 
 	document.getElementById("finfo1").style.display = "block";
@@ -15,6 +22,19 @@ function init(){
 	// refrescando la pantalla con todo sus contenidos.
 	update_window();
 }
+
+function verif_cartera(){
+	var oRequest = new XMLHttpRequest();
+	oRequest.open("POST","../modelo/valid_cartera.php",false); 
+	var oDatos   = new FormData();
+	oDatos.append("ccustno","");
+	oRequest.send();
+}
+
+function verif_requisa(){
+	getmsgalert("Proceso no implementado todabia.");
+}
+
 function salir(){
 	//var pantalla = document.defaultView;
 	var pantalla = document.getElementsByTagName("html");
@@ -82,23 +102,23 @@ function tabshow(e){
 	for (i = 0; i < oTabForm.length; i++) {
 		oTabForm[i].style.display = "none";
 	}
-	// obteniendo todos los links del tab y dejandolos normales.
-	/*var oTabLinks = document.getElementsByClassName("tablinks");
-	for (i = 0; i < oTabLinks.length; i++) {
-		var mama = oTabLinks[i];
-		mama.setAttribute("class","tablinks");
-		//oTabLinks[i].setAttribute("class","tablinks");
-	}
-	*/
+	
 
 	if(oTabFormBoton == "tbinfo1"){
 		document.getElementById("finfo1").style.display = "block";
 		document.getElementById("tbinfo2").setAttribute("class","")
+		document.getElementById("tbinfo3").setAttribute("class","")
 	}
 	
 	if(oTabFormBoton == "tbinfo2"){
 		document.getElementById("finfo2").style.display = "block";
 		document.getElementById("tbinfo1").setAttribute("class","")
+		document.getElementById("tbinfo3").setAttribute("class","")
+	}
+	if(oTabFormBoton == "tbinfo3"){
+		document.getElementById("finfo3").style.display = "block";
+		document.getElementById("tbinfo1").setAttribute("class","")
+		document.getElementById("tbinfo2").setAttribute("class","")
 	}
 	document.getElementById(oTabFormBoton).setAttribute("class","active");
 

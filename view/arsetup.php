@@ -21,8 +21,9 @@ if (vc_funciones::Star_session() == 1){
 		<form method="post" action="../modelo/arsetup_crud.php" name="arsetup" id= "arsetup" class="form">
 
 			<div class="tab">
-				<button  class="tablinks" id="tbinfo1" >Informacion General</button>
+				<button  class="tablinks" id="tbinfo1" >Configuracion #1</button>
 				<button  class="tablinks" id="tbinfo2" >Reportes</button>
+				<button  class="tablinks" id="tbinfo3" >Configuracion #2</button>
 			</div>		
 			<div id="finfo1" class="tabcontent">
 				<fieldset>
@@ -102,7 +103,13 @@ if (vc_funciones::Star_session() == 1){
 					<textarea id="mcoti" name="mcoti" rows="5" cols="43"></textarea>
 				</fieldset>
 			</div>
-
+			<div id="finfo3" class="tabcontent">
+				<fieldset>
+				<input type="button" value="Cartera Verificacion" id="btverinv" class="btbarra" title="Ajusta los saldos de los clientes segun todas las facturas , pero tambien verifica encabezado de cada factura con sus detalles y pagos.">
+				<br>
+				<input type="button" value="Inventario Verificacion" id="btverreq" class="btbarra" title="ajusta las existencias de los inventarios segun los movimientos, <br> igual pone los saldos de las facturas segun sea el detalle de los articulos ">
+				</fieldset>
+			</div>
 			<div id="div_botones">
 				<script>
 					get_btprinc("btquit","btquit");
