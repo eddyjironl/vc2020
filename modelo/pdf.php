@@ -42,16 +42,7 @@ class PDF extends FPDF{
 		$this->setfont("arial","",10);
 		$this->cell(75,5,$pctel,"BR",0,"","true");
 		$this->Ln(12);
-		/* 
-		// Movernos a la derecha
-		$this->Cell(60);
-		// Título
-		$this->Cell(60,10,$pcdesc,0,0,'C');
-		 // Salto de línea 25
-		$this->Ln(12); */
 	}
-	
-	
 	// Pie de página
 	function Footer(){
 		// Posición: a 1,5 cm del final

@@ -190,7 +190,16 @@ function ck_vuelto(){
 }
 // imprime una factura 
 function print_invoice(){
-	alert("Imprimiendo factura....");
+	//alert("Imprimiendo factura....");
+
+	var oRequest = new XMLHttpRequest();
+	// Creando objeto para empaquetado de datos.
+	var oDatos = new FormData();
+	oDatos.append("cinvno",document.getElementById("ctrnno1").value);
+	oRequest.open("POST","../reports/rpt_arinvc1.php",false); 
+	oRequest.send(oDatos);
+	// poniendo la factura en modo de nueva factura.
+	nueva_factura();
 }
 // nueva factura despues de que se guardo la que se estaba haciendo.
 function nueva_factura(){

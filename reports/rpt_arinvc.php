@@ -282,25 +282,4 @@
 	$ofpdf->cell(20,5, $lnsalesgeneral ,0,1,"R");   
 	$ofpdf->output();
 
-function cabecera($ofpdf){
-	$ofpdf->AddPage();
-	// c-1 Encabezado de la pagina.
-	//----------------------------------------------------------
-	$ofpdf->RPTheader("Reporte de Ventas");
-	// c-2 Dibujando el cuerpo de la pagina
-	//----------------------------------------------------------
-	$ofpdf->setfont("arial","B",10);
-	//$ofpdf->cell(20,5,"",0,0,"");   
-	$ofpdf->cell(15,5,"Trn No",1,0,"");   // cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-	$ofpdf->cell(20,5,"Ref No",1,0,"");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-	$ofpdf->cell(20,5,"Estado",1,0,"");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-	$ofpdf->cell(50,5,"Nombre Cliente",1,0,"");	// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-	$ofpdf->cell(20,5,"Subtotal",1,0,"R");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-	$ofpdf->cell(20,5,"Descuento",1,0,"R");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-	$ofpdf->cell(20,5,"Impuesto",1,0,"R");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-	$ofpdf->cell(20,5,"Total",1,1,"R");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-	//$ofpdf->cell(15,5,"",0,1,"");   // cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-	$ofpdf->setfont("arial","",10);
-}	// function cabecera($ofpdf,$ldstar,$lpname){
-
 ?>		
