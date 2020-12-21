@@ -144,7 +144,9 @@ if (vc_funciones::Star_session() == 1){
 			</fieldset>
 
 
-			<section id="pantalla_pago">	
+		</form>
+			
+		<form target="_blank" id="pantalla_pago" name="pantalla_pago" method="POST" action="../reports/rpt_arinvc1.php">	
 				<section id="fpago" class="form2"  name="fpago">
 					<div id="div1">
 						<h1>Creacion de Factura</h1>
@@ -153,7 +155,7 @@ if (vc_funciones::Star_session() == 1){
 
 					<fieldset id="set7">
 						<label class="labelnormal">Trans No</label>
-						<input type="text" class="saytext" id="ctrnno1" readonly>
+						<input type="text" class="saytext" id="ctrnno1" name="ctrnno1" readonly>
 						<br>
 						<label class="labelnormal">Fecha de recibo</label>
 						<input type="date" name="dpay" id="dpay" class="textdate">
@@ -199,8 +201,7 @@ if (vc_funciones::Star_session() == 1){
 					</div>
 					<br>
 				</section>
-			</section>	
-		</form>
+		</form>	
 		<script>
 			get_msg();
 			get_xm_menu();

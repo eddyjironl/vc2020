@@ -44,13 +44,16 @@ class PDF extends FPDF{
 		$this->Ln(12);
 	}
 	// Pie de página
-	function Footer(){
+	function Footer1(){
 		// Posición: a 1,5 cm del final
-		$this->SetY(-15);
+		$this->SetY(-1);
 		// Arial italic 8
 		$this->SetFont('Arial','I',8);
 		// Número de página
 		$this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
+	}
+	function Footer(){
+		$this->SetY(10);
 	}
 }
 ?>

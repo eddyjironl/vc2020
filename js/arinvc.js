@@ -22,6 +22,7 @@ function init(){
 	// -----------------------------------------------------------------
 	efectivo.addEventListener("change",ck_vuelto,false);
 	// ocultando la pantalla de pago 
+	var pantalla_pago = document.getElementById("pantalla_pago");
 	pantalla_pago.style.display="none";
 	// poniendo boton de cerrar pantallas.
 	btsalir.addEventListener("click",cerrar_pantalla_pago,false);
@@ -190,15 +191,7 @@ function ck_vuelto(){
 }
 // imprime una factura 
 function print_invoice(){
-	//alert("Imprimiendo factura....");
-
-	var oRequest = new XMLHttpRequest();
-	// Creando objeto para empaquetado de datos.
-	var oDatos = new FormData();
-	oDatos.append("cinvno",document.getElementById("ctrnno1").value);
-	oRequest.open("POST","../reports/rpt_arinvc1.php",false); 
-	oRequest.send(oDatos);
-	// poniendo la factura en modo de nueva factura.
+	document.getElementById("pantalla_pago").submit();
 	nueva_factura();
 }
 // nueva factura despues de que se guardo la que se estaba haciendo.

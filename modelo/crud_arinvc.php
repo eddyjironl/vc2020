@@ -158,9 +158,9 @@ if (isset($_POST["xtrnno"])){
 
 		$lnSaldo = $lnbalance - $lnpayamt;
 		$lcsql   = "insert into arinvc(cinvno, ccustno, cwhseno, crespno, cpaycode, dstar, dend, mnotas,
-                                      nsalesamt, ntaxamt, ndesamt, nbalance,ntc,cdesc, crefno, cuserid, fecha, hora)
+                                      nsalesamt, ntaxamt, ndesamt, nbalance,ntc,cdesc, crefno, cuserid, fecha, hora, nefectivo)
 							values('$lcNewInvno', '$lccustno', '$lcwhseno', '$lcrespno', '$lcpaycode', '$ldstardate', '$ldenddate', '$lmnotas',
-							        $lnsalesamt, $lntaxamt, $lndesamt, $lnSaldo ,$lntc, '$lcdesc','$lcrefno','". $_SESSION['cuserid']. "','','')";
+							        $lnsalesamt, $lntaxamt, $lndesamt, $lnSaldo ,$lntc, '$lcdesc','$lcrefno','". $_SESSION['cuserid']. "','','',". $lnefectivo .")";
 		mysqli_query($oConn,$lcsql);
 
 		// -------------------------------------------------------------------------------------------------------

@@ -11,12 +11,12 @@
 	$oConn = get_coneccion("CIA");
 	
 	// filtrando cliente.	
-	//$lcinvno  = mysqli_real_escape_string($oConn,$_POST["cinvno"]);
-	$lcinvno  = "25";
+	$lcinvno  = mysqli_real_escape_string($oConn,$_POST["ctrnno1"]);
+	//$lcinvno  = "58";
 	$lcsqlcmd = " select * from arinvc where cinvno ='" . $lcinvno ."' ";
 	$lnInoices = mysqli_num_rows(mysqli_query($oConn,$lcsqlcmd));
 	if ($lnInoices == 0){
-		echo "No hay datos que coincidan con estos criterios.";
+		echo "<H1>No hay datos que coincidan con estos criterios.</H>";
 		return ;
 	}
 	// ----------------------------------------------------------------------------------------------------------------
@@ -29,10 +29,10 @@
 	// c-2 Dibujando el cuerpo de la pagina
 	$lnVeces  = 0;
 	$llFirst  = true;
-	$lnNewPag = 45;
+	$lnNewPag = 32;
 	// total de ventas general de todo el reporte
 	$lnsalesgeneral = 0;
-	
+	$lnefectivo = 0;
 	// ----------------------------------------------------------------------------------------------------------------
 	// B) Generrando el reporte
 	// ----------------------------------------------------------------------------------------------------------------
@@ -40,10 +40,12 @@
 						arinvc.dstar,
 						arinvc.dend,
 						arinvc.crefno,
+						arinvc.cdesc as cdescname,
 						arinvc.mnotas , 
 						arinvc.nsalesamt,
 						arinvc.ntaxamt,
 						arinvc.ndesamt,
+						arinvc.nefectivo,
 						arcust.cname,
 						arcust.ctel, arcust.mdirecc,
 						arresp.cfullname,
@@ -76,48 +78,100 @@
 			$llFirst = false;
 			cabecera($ofpdf,$row);
 		}
+		
 		$ofpdf->cell(10,5,"",0,0,""); 
 		$ofpdf->cell(25,5,$row["cservno"],0,0,"","");  
 		$ofpdf->cell(90,5,$row["cdescservno"],0,0,"","");   					
 		$ofpdf->cell(25,5,$row["nqty"],0,0,"C","");   					
 		$ofpdf->cell(25,5,$row["nprice"],0,1,"C","");	
+		$lcmnotas   = $row["mnotas"];
 		// cargamdp valores de la factura.
 		$lnsalesamt = $row["nsalesamt"];
 		$lntaxamt   = $row["ntaxamt"];
 		$lndesamt   = $row["ndesamt"];
+		$lnefectivo = $row["nefectivo"];
 	}	//while($inv_row = mysqli_fetch_assoc($lcrestgrp)){
+	
 	// ----------------------------------------------------------------------------------------------------------------
 	// Final de Reporte.
 	// ----------------------------------------------------------------------------------------------------------------
-	
-	pie_pagina($ofpdf,$lnsalesamt,$lntaxamt,$lndesamt);
+	put_footer($ofpdf,$lnsalesamt,$lntaxamt,$lndesamt,$lnVeces,$lnNewPag,$lcmnotas,$lnefectivo);
+	//$ofpdf->output("F","../FACTURA# " . $lcinvno . ".pdf");
 	$ofpdf->output();
 	
 // dibuja el pie de pagina de la factura	
-function pie_pagina(&$pofpdf,$pnsalesamt,$plntaxamt,$plndesamt){
-	
-	$pofpdf->Ln(150);
+function put_footer(&$pofpdf,$pnsalesamt,$plntaxamt,$plndesamt,$pnveces,$pnpagline,$pcmnotas,$pnefectivo){
+	$lnSpaces = $pnpagline - $pnveces;
+	for ($i=0; $i <= $lnSpaces; $i++){
+		$pofpdf->cell(25,5,"",0,1,"C","");	
+	}
+	$pofpdf->Ln(2);
 	$pofpdf->setfont("arial","B",10);
 	$pofpdf->cell(10,0,'',0,0,"");  
 	$pofpdf->cell(165,1,'',"T",1,"C");  
-	$pofpdf->Ln(5);
-	$pofpdf->cell(125,5,'Comentarios Generales',0,0,"");  
+	$pofpdf->Ln(0);
+
+	$pofpdf->cell(125,5,'',0,0,"C");  
 	$pofpdf->cell(25,5,'Subtotal',0,0,"","true");  
+	$pofpdf->setfont("arial","",10);
 	$pofpdf->cell(25,5,$pnsalesamt,0,1,"R","true");  
 
+	$pofpdf->setfont("arial","B",10);
 	$pofpdf->cell(125,5,'',0,0,"C");  
+	$pofpdf->cell(25,5,'Descuento',0,0,"","true");  
+	$pofpdf->setfont("arial","",10);
+
+	$pofpdf->cell(25,5,$plndesamt,0,1,"R","true");  
+	
+	/*$pofpdf->cell(125,5,'',0,0,"C");  
 	$pofpdf->cell(25,5,"Descuento",0,0,"","true");  
 	$pofpdf->cell(25,5,$plndesamt,0,1,"R","true");  
-
+	*/
+	$pofpdf->setfont("arial","B",10);
 	$pofpdf->cell(125,5,'',0,0,"C");  
 	$pofpdf->cell(25,5,"Impuesto",0,0,"","true");  
+	$pofpdf->setfont("arial","",10);
 	$pofpdf->cell(25,5,$plntaxamt,0,1,"R","true");  
 	
-	$lntotal = $pnsalesamt + $plntaxamt - $plndesamt;
+	$lntotal  = $pnsalesamt + $plntaxamt - $plndesamt;
+	// -----------------------------------------------------------
+	// determinando el cambio
+	// -----------------------------------------------------------
+	//$lnVuelto = $lntotal - $pnefectivo;
 	
+	//switch ($pnefectivo){
+	switch (true){
+		case $pnefectivo == $lntotal:
+			$lnVuelto = 0.00;
+			break;
+		case $pnefectivo > $lntotal:
+			$lnVuelto = $pnefectivo - $lntotal;
+			break;	
+		case $pnefectivo < $lntotal:
+			$lnVuelto = 0.00;
+			break;	
+	}
+		
+	
+	// -----------------------------------------------------------
+	
+	$pofpdf->setfont("arial","B",10);
 	$pofpdf->cell(125,5,'',0,0,"C");  
 	$pofpdf->cell(25,5,'Total Neto',0,0,"","true");  
+	$pofpdf->setfont("arial","",10);
 	$pofpdf->cell(25,5,$lntotal,0,1,"R","true");  
+	
+	$pofpdf->setfont("arial","B",10);
+	$pofpdf->cell(125,5,'',0,0,"C");  
+	$pofpdf->cell(25,5,'Efectivo',0,0,"","true");  
+	$pofpdf->setfont("arial","",10);
+	$pofpdf->cell(25,5,$pnefectivo,0,1,"R","true");  
+
+	$pofpdf->setfont("arial","B",10);
+	$pofpdf->cell(125,5,'',0,0,"C");  
+	$pofpdf->cell(25,5,'Cambio',0,0,"","true");  
+	$pofpdf->setfont("arial","",10);
+	$pofpdf->cell(25,5,$lnVuelto,0,1,"R","true");  
 	
 }
 
@@ -126,11 +180,11 @@ function cabecera(&$pofpdf,$porow){
 	//----------------------------------------------------------
 	// c-1 Encabezado de la pagina.
 	//----------------------------------------------------------
-	$pofpdf->setfont("arial","B",10);
-	$pofpdf->cell(175,10,'$_SESSION["compdesc"]',0,1,"C");  
+	$pofpdf->setfont("arial","B",16);
+	$pofpdf->cell(175,10,$_SESSION["compdesc"],0,1,"C");  
 	$pofpdf->Ln(5);
 
-	$pofpdf->setfont("arial","B",16);
+	//$pofpdf->setfont("arial","B",16);
 	$pofpdf->cell(80,10,"FACTURA No ".$porow["cinvno"],0,0,"L");  
 
 	$pofpdf->setfont("arial","B",10);
@@ -149,7 +203,7 @@ function cabecera(&$pofpdf,$porow){
 
 	$pofpdf->cell(20,5,"Cliente:","",0,"","");
 	$pofpdf->setfont("arial","",10);
-	$pofpdf->cell(75,5,$porow["cname"],"",0,"L","");
+	$pofpdf->cell(75,5,($porow["cdescname"] =="")?$porow["cname"]:$porow["cdescname"],"",0,"L","");
 	
 	$pofpdf->setfont("arial","B",10);
 	$pofpdf->cell(40,5,"Vendedor:",0,0,"R","");
