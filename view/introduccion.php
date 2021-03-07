@@ -1,4 +1,3 @@
-
 <link rel="stylesheet" href="../css/introduccion.css">
 <div class="informacion" id="form_introduccion">
 	<div class="star_dv">
@@ -7,6 +6,21 @@
 	</div>
 
 	<div class="instructions">
+	
+		<h1>DATOS DE CONECCION PARA LAS EMPRESAS</h1>
+		<?php
+			echo $_SESSION["compdesc"] ."<BR>";
+			echo $_SESSION["dbname"] ."<BR>";
+			echo $_SESSION["chost"] ."<BR>";
+			echo $_SESSION["ckeyid"] ."<BR>";
+			echo $_SESSION["cuser"] ."<BR>";
+			
+		
+		
+		?>
+		
+		
+		
 
 		<H2> DOS PASOS A SEGUIR </h2><br>
 		<p> 1)- Elija en la parte de arriba una compañia haciendo click en la lupa amarilla de la etiqueta compañia.</p>

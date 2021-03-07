@@ -16,7 +16,8 @@ if (vc_funciones::Star_session() == 1){
 		<script src="../js/vc_funciones.js?v1"></script>
 		<script src="../js/escritorio.js?v1" ></script>
 	</head>
-	<body>
+	<body id="espacio" background="../photos/fondo3.png">
+	
 		<iframe id="ventana"></iframe>
 		<section id="barra_screen">
 			<fieldset class="fieldset_scren">
@@ -29,7 +30,7 @@ if (vc_funciones::Star_session() == 1){
 			<fieldset class="fieldset_scren" id="area_menu">
 				<label class="labelnormal">Compañia</label>
 				<!-- <label class="labeltitle">Compañia de pruebas</label> -->
-				<input type="text" id="cia_desc"  readonly>
+				<input type="text" id="cia_desc"  readonly value=" <?php ECHO  $_SESSION["compdesc"] ?>">
 				<script>get_btmenu("btcias","Listado de Compañias");</script>
 				<br>
 				<label class="labelnormal">Sistema</label>
@@ -45,10 +46,8 @@ if (vc_funciones::Star_session() == 1){
 		</section>
 		<?php
 			include("introduccion.php");
+			// <img src="../photos/VC2009-AUM.gif" id="fondo"> 
 		?>
-
-		<img src="../photos/VC2009-AUM.gif" id="fondo">
-
 		<script>
 			get_xm_menu();
 			get_msg();

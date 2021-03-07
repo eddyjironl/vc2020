@@ -1,9 +1,17 @@
 *{
 	font-size:12px;
 	font-family:arial;
-	margin: 0;
-	padding: 0;
+	/*margin: 0;
+	padding: 0;*/
 }
+
+#espacio{
+	background:url("../photos/fondo3.png");
+	background-repeat:no-repeat;
+	background-size: 100% 100%;
+}
+
+
 .fieldset_scren{
 	padding:0px;
 	display:inline-block;

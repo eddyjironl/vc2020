@@ -1,43 +1,163 @@
-#sysinit{
-	border:solid 1px black;
-	width:410px;
-	padding:15px;
-	margin-top:10%;
-	margin-left:30%;
-	box-shadow:grey 7px 7px 10px;
-	border-radius:5px 4px 4px 4px;
-	height:307px;
-	/*float:left;*/
-	background-color:rgba(202,202,202,1);
+*{
+	font-family:arial;
+	font-size:12px;	
+}
+#btsalir{
+ background: rgb(240,240,240);
+    border: 1px solid;
+    text-decoration: none;
+    text-align: center;
+    border-block-color: black;
+    display: inline-block;
+    color: #141313;
+    width: 90;
+    height: 18;
+    border-radius: 2px;
+}
+h2{
+	font-size:25px;
+	font-decoration:none;
+	text-shadow:black 10px 10px 5px;
+	color:white;
+	text-aline:center;
+	display:inline;
+	padding:10px;
+	margin:auto;
 }
 
-#fsinfo{
-	width:200px;
+#separador{
+	display:inline-block;
+	height:140px;
+}
+
+#divtitulo{
+	padding-top:10px;
+}
+
+form{	
+	/*centrado de izquierda a derecha.*/
+	margin:auto;
+	/* centrado vertical aproximado.*/
+	margin-top:15%;	background:rgb(192,192,192);
+	border:solid 1px black;
+	border-radius:15px 15px 15px 15px;
+	box-shadow:#171616 10px 10px 14px;
+	height:200px;
+	min-height:320px;
+	width:500px;
+}	
+
+#logo{
+	  width:100%;
+  }
+
+#seclogo{
+	display:inline-block;
 	float:left;
-	margin-right:15px;
+	width:200px;
+	height:213px;
+}
+
+#secdatos{
+	float:left;
+	display:inline-block;
+	width:300px;
+	height:213px;
+}
+
+#barra1{
+	background:rgb(192,192,192);
+	border: solid 2px ;
+	padding:5px;
+	margin-top:-8px;
+	width:100%;
+	margin-left:-5px;
 }
 
 #logo{
-	width:190px;
-	height:190px;
+	margin:auto;
+	padding:10px;
 }
 
-#sysinit h3{
+div{
+	max-width:250px;
+	margin-top:2px;
+	margin:auto;
+}
+
+footer{
+	padding-left:90px;
+	padding-top:220px;
+}
+
+footer p{
+	display:inline-block;
+	margin:auto;
+}
+
+label{
+	display:inline-block;
 	color:white;
-	text-align:center;
-	text-shadow:black 4px 4px 5px;
-	font-size:20px;
+	background:#FF9800;
+	padding:2px;
+	width:100px;
+	max-width:100px;
+}
+
+#cuserid, #cpasword {
+	width:100px;
+}
+
+#botones{
+	width:fit-content;
+	margin:auto;
+	height:20px;
+}
+
+#botones button, input{
+	width:90px;
 }
 
 body{
-	background:"pictures/fondo3.jpg";
+	/*background-:url("Aqua_blue.jpg");*/
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
 }
 
-#fslogo2{
-	text-align:center;
-}
+@media screen and (max-width: 515px) {
+	*{	font-size:11;}	
+	
+	label{width:70px;}
+	
+	form {
+		padding:5px;
+		height:350px;
+		width:210px;
+  	}
 
-#consulta2{
-	text-align:center;
-	font-size:30px;
+	footer{	padding-left:15; padding-top:10px;}
+
+  	#logo{ width:90%;}
+	
+	h2{font-size:16px; color:red;}
+
+  	#seclogo{
+        width:100%;
+	    height:fit-content;
+	}
+	
+	#separador{display:none;}
+	
+	#secdatos{ 
+	    margin:auto;
+	    height:fit-content; 
+	    width:100%;
+	}
+
+	#botones{
+		padding-top:260px;
+		width:fit-content;
+		margin:auto;
+		height:20px;
+	}
 }
