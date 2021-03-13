@@ -84,7 +84,7 @@ function guardar(){
 	oDatos.append("accion","NEW");
 	oRequest.open("POST","../modelo/crud_aradjm.php",false); 
 	oRequest.send(oDatos);
-	document.getElementById("cadjno").value = oRequest.responseText;
+	document.getElementById("cadjno").value = oRequest.responseText.trim();
 }
 function refresh_window(){
 	if(cwhseno.value == ""){

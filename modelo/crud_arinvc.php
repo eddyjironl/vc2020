@@ -1,9 +1,7 @@
 <?php
-
 include("../modelo/armodule.php");
 include("../modelo/vc_funciones.php");
-vc_funciones::Star_session();
-$oConn = get_coneccion("CIA");
+$oConn = vc_funciones::get_coneccion("CIA");
 if (isset($_POST["xtrnno"])){
 	// CAMPOS 
 	$lcinvno  = $_POST["xtrnno"];
@@ -23,7 +21,6 @@ if (isset($_POST["xtrnno"])){
 		// retornando objeto json
 		echo $jsondata;
 	}
-
 	// b)-  inserta una linea en el detalle de factura temporal.
 	// ------------------------------------------------------------------------------
 	if($lcaccion == "INSERT"){
@@ -35,13 +32,11 @@ if (isset($_POST["xtrnno"])){
 		$lmnotas  = ""; //$_POST["mnotas"];
 		$lcsql    = " insert into arinvt_tmp(cinvno,cservno,cdesc,nqty,nprice,ncost,ntax, mnotas)
     		                          values('$lcinvno','$lcservno','". $odata['cdesc'] ."',". $lnqty .",". $odata['nprice'] .",". $odata['ncost'] .",". $odata['ntax'] .",'$lmnotas')";	
-		
 		// insertando los datos.
 		$lcresult = mysqli_query($oConn,$lcsql);
 		// Refrescando el detalle de la factura.
 		get_detalle($lcinvno,$oConn);
 	}
-
 	// c)-  actualiza un registro segun el ID que se proporciona.
 	// ------------------------------------------------------------------------------
 	if($lcaccion == "UPDATE"){
@@ -57,7 +52,6 @@ if (isset($_POST["xtrnno"])){
 		mysqli_query($oConn,$lcsql);
 		get_detalle($lcinvno,$oConn);
 	}
-
 	// d)-  Elimina una linea.
 	// ------------------------------------------------------------------------------
 	if($lcaccion == "DELETE"){
@@ -67,11 +61,9 @@ if (isset($_POST["xtrnno"])){
 		mysqli_query($oConn,$lcsql);
 		get_detalle($lcinvno,$oConn);
 	}
-	
 	// e)-  Guarda la factura en forma definitiva.
 	// ------------------------------------------------------------------------------
 	if($lcaccion == "SAVE"){
-		
 		$lccustno   = $_POST["ccustno"];
 		$lcwhseno   = $_POST["cwhseno"];
 		$lcpaycode  = $_POST["cpaycode"];
@@ -92,8 +84,7 @@ if (isset($_POST["xtrnno"])){
 		$lcNewCashno = 0;
 		$lnefectivo = $_POST["efectivo"];
 		//obteniendo el numero de factura.
-		$lcNewInvno = GetNewDoc("ARINVC");
-
+		$lcNewInvno = GetNewDoc($oConn,"ARINVC");
 		// -------------------------------------------------------------------------------------------------------
 		// A)- Cargando el detalle de factura.
 		// -------------------------------------------------------------------------------------------------------
@@ -111,12 +102,9 @@ if (isset($_POST["xtrnno"])){
 			$lnsalesamt += $odata['nqty'] * $odata['nprice'] ;
 			$lndesamt   += $odata['ndesc'];
 			$lntaxamt   += (($odata['nqty'] * $odata['nprice']) -$odata['ndesc']) * ($odata['ntax']/100);
-			
 		}
 		//total monto de la factura.
 		$lnbalance = ($lnsalesamt + $lntaxamt) - $lndesamt;
-
-
 		// -------------------------------------------------------------------------------------------------------
 		// B)- Generando registro del pago
 		// -------------------------------------------------------------------------------------------------------
@@ -134,9 +122,8 @@ if (isset($_POST["xtrnno"])){
 			if ($lnefectivo > $lnbalance){
 				$lnpayamt = $lnbalance;
 			}
-			
 			// obteniendo el numero del recibo de caja.
-			$lcNewCashno = GetNewDoc("ARCASM");
+			$lcNewCashno = GetNewDoc($oConn,"ARCASM");
 			// inserta el encabezado del pago.
 			$ldpay   = $_POST["dpay"];
 			$mnotasr = $_POST["mnotasr"];
@@ -150,26 +137,22 @@ if (isset($_POST["xtrnno"])){
 			mysqli_query($oConn,$lcsql_h);
 			mysqli_query($oConn,$lcsql_d);
 		}  // if ($lnefectivo !=""){
-			
 		// -------------------------------------------------------------------------------------------------------
 		// C)- Cargando el encabezado.
 		// -------------------------------------------------------------------------------------------------------
 		// saldo de la factura.
-
 		$lnSaldo = $lnbalance - $lnpayamt;
 		$lcsql   = "insert into arinvc(cinvno, ccustno, cwhseno, crespno, cpaycode, dstar, dend, mnotas,
                                       nsalesamt, ntaxamt, ndesamt, nbalance,ntc,cdesc, crefno, cuserid, fecha, hora)
 							values('$lcNewInvno', '$lccustno', '$lcwhseno', '$lcrespno', '$lcpaycode', '$ldstardate', '$ldenddate', '$lmnotas',
 							        $lnsalesamt, $lntaxamt, $lndesamt, $lnSaldo ,$lntc, '$lcdesc','$lcrefno','". $_SESSION['cuserid']. "','','')";
 		mysqli_query($oConn,$lcsql);
-
 		// -------------------------------------------------------------------------------------------------------
 		// D)- Actualizando saldo de cliente
 		// -------------------------------------------------------------------------------------------------------
 		// si registra algun pago genera el registro del saldo de factura.
 		$lcsql = " update arcust set nbbalance = nbbalance + $lnSaldo, nbsalestot = nbsalestot + $lnbalance where ccustno = '$lccustno' ";
 		mysqli_query($oConn,$lcsql);	
-		
 		// -------------------------------------------------------------------------------------------------------
 		// E)- Cerrando las transaciones del temporal 
 		// -------------------------------------------------------------------------------------------------------

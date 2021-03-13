@@ -2,7 +2,9 @@
 // iniciando validacion de session
 include("../modelo/vc_funciones.php");
 //--------------------------------------------------------------------------------------------------------------
-if (vc_funciones::Star_session() == 1){
+$lcStarSession = vc_funciones::Star_session();
+//--------------------------------------------------------------------------------------------------------------
+if ($lcStarSession == 1){
 	return;
 }
 ?>
@@ -85,7 +87,7 @@ if (vc_funciones::Star_session() == 1){
 					<br>
 					<fieldset class="fieldset" id="area_info">
 						<label class="labelnormal">Requisa No</label>
-						<input  type="number" class="sayamt" id="cadjno" readonly>
+						<input  type="number" class="sayamt" id="cadjno" name="cadjno" readonly>
 					</fieldset>
 					<BR>
 					<div id="btopciones">

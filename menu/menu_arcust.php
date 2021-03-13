@@ -1,8 +1,10 @@
 <?php
 	// incluyendo la clase de coneccion
-	include("../modelo/coneccion.php");
-  // creando la coneccion.
-	$oConn    = get_coneccion("CIA");
+	include("../modelo/vc_funciones.php");
+	session_start();
+  	// creando la coneccion.
+	$oConn    = vc_funciones::get_coneccion("CIA");
+	//$oConn    = get_coneccion("CIA");
 	$lcSqlCmd = " select ccustno , cname from arcust order by cname ";
 	$lcResult = $oConn->query($lcSqlCmd);
 

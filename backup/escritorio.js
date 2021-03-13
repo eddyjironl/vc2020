@@ -1,5 +1,6 @@
 function init(){
 	document.getElementById("cmodule_select").addEventListener("change",change_module,false);
+	document.getElementById("btok").addEventListener("click",close_introduccion,false);
 	// ------------------------------------------------------------------------
 	// CODIGO PARA LOS MENUS INTERACTIVOS.
 	// CADA MENU
@@ -105,9 +106,7 @@ function select_xkey(e){
 	var oCia = JSON.parse(oRequest.response);
 	if (oCia != null){
 		document.getElementById("cia_desc").value = oCia.compdesc;
-		// cerrando las pantallas que puedan existir
-		document.getElementById("ventana").setAttribute('src', '');
-		if (oCia.compdesc == ""){getmsgalert("No Compañias Definidas ");}
+		if (oCia.compdesc == ""){getmsgalert("Compañia Invalida");}
 	}else{
 		getmsgalert("Compañia Invalida");
 	}	
@@ -229,7 +228,7 @@ function upd_ctmenu(){
 function upd_symenu(){
 	document.getElementById("sy001").addEventListener("click",sy001,false);
 	document.getElementById("sy002").addEventListener("click",sy002,false);
-	//document.getElementById("sy003").addEventListener("click",sy003,false);
+	document.getElementById("sy003").addEventListener("click",sy003,false);
 	document.getElementById("sy004").addEventListener("click",sy004,false);
 }
 function upd_armenu(){

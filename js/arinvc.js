@@ -133,7 +133,6 @@ function select_xkey(e){
 }
 // -----------------------------------------------------------------------
 
-
 function get_tc_rate(){
 	var oRequest = new XMLHttpRequest();
 	// Creando objeto para empaquetado de datos.

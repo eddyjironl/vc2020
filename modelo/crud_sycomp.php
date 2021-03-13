@@ -5,10 +5,10 @@
 //	$lcaccion = isset($_POST["accion"])? $_POST["accion"],$_GET["accion"];
 // ------------------------------------------------------------------------------------------------
 include("../modelo/vc_funciones.php");
-include("../modelo/coneccion.php");
+//include("../modelo/coneccion.php");
 
 vc_funciones::Star_session();
-$oConn = get_coneccion("SYS");
+$oConn = vc_funciones::get_coneccion("SYS");
 
 if(isset($_POST["accion"])){
 	$lcaccion = $_POST["accion"]; 	
@@ -69,8 +69,8 @@ if($lcaccion=="NEW"){
 	$lcciudad  = $_POST["cciudad"];
 	$lcpais    = $_POST["cpais"];
 	$lnanofisc = $_POST["nanofisc"];
-	$lcuserid  = $_POST["cuserid"];
-	$lcpasword = $_POST["cpasword"];
+	$lcuserid  = $_POST["cuser"];
+	$lcpasword = $_POST["ckeyid"];
 	$lchost    = $_POST["chost"];
 	$ldbname   = $_POST["dbname"];
 	$lunicontdat =($_POST["lunicontdat"] == "true" )? 1:0; 
@@ -91,16 +91,17 @@ if($lcaccion=="NEW"){
 	// desidiendo que se hara con el codigo, si crea un regisrto nuevo o actualiza el existente.	
 	if ($llupd == 0){
 		$lcsql = " insert into syscomp(ccompid,compdesc,cstatus,ctel,cfax,cciudad,cpais,mdirecc,
-		                               nanofisc,cuserid,cpasword,chost,dbname,lunicontdat,cfoto) 
+		                               nanofisc,cuser,ckeyid,chost,dbname,lunicontdat,cfoto) 
 							   values('$lccompid','$lcompdesc','$lcstatus','$lctel' ,'$lcfax' ,'$lcciudad','$lcpais','$lmdirecc',
 							   			$lnanofisc,'$lcuserid','$lcpasword','$lchost','$ldbname',$lunicontdat,'$lcfotoI') ";
 	}else{
 		$lcsql = " update syscomp set ccompid = '$lccompid',compdesc = '$lcompdesc',cstatus = '$lcstatus',ctel = '$lctel',
-									   cfax = '$lcfax' ,cciudad = '$lcciudad',cpais = '$lcpais',mdirecc = '$lmdirecc',
-									    nanofisc = $lnanofisc,cuserid = '$lcuserid',cpasword = '$lcpasword' ,chost = '$lchost' ,dbname = '$ldbname',lunicontdat = $lunicontdat $lcfoto										 
-					where ccompid = '$lccompid' ";
+					   cfax = '$lcfax' ,cciudad = '$lcciudad',cpais = '$lcpais',mdirecc = '$lmdirecc',
+					   nanofisc = $lnanofisc,cuser = '$lcuserid',ckeyid = '$lcpasword' ,chost = '$lchost' ,dbname = '$ldbname',lunicontdat = $lunicontdat $lcfoto  
+				where ccompid = '$lccompid' ";
 	}
 	
+	echo $lcsql;
 	// actualizando la base de datos.
 	$lresult = mysqli_query($oConn,$lcsql);
 }

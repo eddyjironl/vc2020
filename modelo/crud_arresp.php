@@ -8,7 +8,7 @@
 include("../modelo/armodule.php");
 include("../modelo/vc_funciones.php");
 vc_funciones::Star_session();
-$oConn = get_coneccion("CIA");
+$oConn = vc_funciones::get_coneccion("CIA");
 
 if(isset($_POST["accion"])){
 	$lcAccion=$_POST["accion"]; 	
@@ -24,7 +24,6 @@ $lnRowsAfect = 0;
 // DELETE, Borrando los datos.
 // ------------------------------------------------------------------------------------------------
 if($lcAccion=="DELETE"){
-	$oConn = get_coneccion("CIA");
 	$lcsqlcmd = " delete from arresp where crespno = '" . $lcrespno . "' ";
 	$lresultF = mysqli_query($oConn,$lcsqlcmd);	
 }
@@ -33,8 +32,6 @@ if($lcAccion=="DELETE"){
 // INSERT / UPDATE, guardando datos existentes o nuevos.
 // ------------------------------------------------------------------------------------------------
 if($lcAccion=="NEW"){
-	// haciendo la coneccion.
-	$oConn = get_coneccion("CIA");
 	if (isset($_POST["crespno"])){
 		$lcfullname = $_POST["cfullname"];
 		$lcruc      = $_POST["cruc"];
@@ -98,7 +95,6 @@ if($lcAccion=="NEW"){
 // ------------------------------------------------------------------------------------------------
 if ($lcAccion == "JSON"){
 	if (isset($_POST["crespno"])){
-	//	$oConn = get_coneccion("CIA");
  		// Consulta unitaria
 		//$lcSqlCmd = " select * from arresp where arresp.crespno ='". $_POST["crespno"] ."'";
 		$lcSqlCmd = " select * from arresp 

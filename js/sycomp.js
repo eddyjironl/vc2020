@@ -144,17 +144,17 @@ function guardar(){
 	oDatos.append("cpais",document.getElementById("cpais").value);
 
 	oDatos.append("nanofisc",document.getElementById("nanofisc").value);
-	oDatos.append("cuserid",document.getElementById("cuserid").value);
-	oDatos.append("cpasword",document.getElementById("cpasword").value);
+	oDatos.append("cuser",document.getElementById("cuser").value);
+	oDatos.append("ckeyid",document.getElementById("ckeyid").value);
 	oDatos.append("chost",document.getElementById("chost").value);
 	oDatos.append("dbname",document.getElementById("dbname").value);
 
 	oDatos.append("lunicontdat",document.getElementById("lunicontdat").checked);
-	oDatos.append("cfoto",document.getElementById("cfoto").files[0].name);
+	//oDatos.append("cfoto",document.getElementById("cfoto").files[0].name);
 
 	oRequest.open("POST","../modelo/crud_sycomp.php",false); 
 	oRequest.send(oDatos);
-	
+	var respuesta = oRequest.response;
 	update_window();
 }
 function update_window(){
@@ -183,8 +183,8 @@ function update_window(){
 		document.getElementById("cfoto1").setAttribute("src",odata.cfoto) ;
 
 		document.getElementById("nanofisc").value = odata.nanofisc;
-		document.getElementById("cuserid").value  = odata.cuserid;
-		document.getElementById("cpasword").value = odata.cpasword;
+		document.getElementById("cuser").value  = odata.cuser;
+		document.getElementById("ckeyid").value = odata.ckeyid;
 		document.getElementById("chost").value    = odata.chost;
 		document.getElementById("dbname").value   = odata.dbname;
 		estado_key("I");

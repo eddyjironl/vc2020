@@ -262,7 +262,7 @@ input, select{
 /* buscando poner estilo responsive */
 .form2{
 	background-color:rgba(202,202,202,1);
-	box-shadow:grey 7px 7px 10px;
+	box-shadow:black 7px 7px 10px;
 	padding:2px;
 	border-radius:10px 10px 0px 0px;
 	width:fit-content;
@@ -279,7 +279,7 @@ input, select{
 }
 .form{
 	background-color:rgba(202,202,202,1);
-	box-shadow:grey 7px 7px 10px;
+	box-shadow:black 7px 7px 10px;
 	padding:2px;
 	padding-top:10px;
 }

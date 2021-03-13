@@ -1,9 +1,12 @@
 <?php
 
 	if(isset($_POST["cpasword"])){
+
+		include("../modelo/vc_funciones.php");
+		vc_funciones::Star_session();
+		$oConn = vc_funciones::get_coneccion("CIA");
 		
 		$lcPasWord = $_POST["cpasword"];
-		$oConn     = get_coneccion("CIA");
 		// obteniendo datos del cliente
 		$lcsqlcmd  = " select sum(artran.namount) as nsaldo,
                           		artran.ccustno, 
@@ -58,23 +61,6 @@
 		//header("location:arcust.html");
 	}
 	
-
-	function get_coneccion($opc){
-			require("parameters_conection.php");
-			$lcDbb = "";
-			if($opc == 'SYS'){
-				$lcDbb=$oPSys;
-			}else{
-				$lcDbb=$oPCia;
-			}
-			$oConn = mysqli_connect($gHostId,$gUserId,$gPasWord,$lcDbb);
-			if(!mysqli_connect_errno($oConn)){
-				mysqli_set_charset($oConn,"utf8");
-			}else{
-				echo "Coneccion NO Establecida.";
-			}
-			return $oConn;
-	}
 
 
 

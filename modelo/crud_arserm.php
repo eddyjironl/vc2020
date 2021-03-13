@@ -8,7 +8,7 @@
 include("../modelo/armodule.php");
 include("../modelo/vc_funciones.php");
 vc_funciones::Star_session();
-$oConn = get_coneccion("CIA");
+$oConn = vc_funciones::get_coneccion("CIA");
 
 
 if(isset($_POST["accion"])){
@@ -26,7 +26,6 @@ $lnRowsAfect = 0;
 // DELETE, Borrando los datos.
 // ------------------------------------------------------------------------------------------------
 if($lcaccion=="DELETE"){
-	$oConn = get_coneccion("CIA");
 	//verificando si hay datos historicos para borrar.
 	$lcsql = "SELECT aradjm.cwhseno,
 			     sum(aradjt.nqty) as nqty
@@ -58,7 +57,6 @@ if($lcaccion=="DELETE"){
 }
 
 if($lcaccion=="DELETE_CUID"){
-	$oConn = get_coneccion("CIA");
 	$lcsqlcmd = " delete from arskit where cuid = '" . $_POST["cuid"] . "' ";
 	$lresultF = mysqli_query($oConn,$lcsqlcmd);	
 	get_detalle($lcservno,$oConn);
@@ -69,7 +67,6 @@ if($lcaccion=="DELETE_CUID"){
 // -----------------------------------------------------------------------------------------------
 if($lcaccion=="NEW"){
 	// haciendo la coneccion.
-	$oConn = get_coneccion("CIA");
 	if (isset($_POST["cservno"])){
 		$lcdesc     = $_POST["cdesc"];
 		$lcdesc2    = $_POST["cdesc2"];

@@ -1,8 +1,9 @@
 <?php
 // iniciando validacion de session
 include("../modelo/vc_funciones.php");
+$lcStarSession = vc_funciones::Star_session();
 //--------------------------------------------------------------------------------------------------------------
-if (vc_funciones::Star_session() == 1){
+if ($lcStarSession == 1){
 	return;
 }
 ?>

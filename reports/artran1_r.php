@@ -39,10 +39,10 @@
 	// ------------------------------------------------------------------------------------------------------------------	
 	// B)- Coneccion a la base de datos.
 	// ------------------------------------------------------------------------------------------------------------------	
-	include("../modelo/pdf.php");
-	include("../modelo/parameters_conection.php");
-	$lcDbb=$oPCia;
-	$oConn = mysqli_connect($gHostId,$gUserId,$gPasWord,$lcDbb);
+	include("../modelo/vc_funciones.php");
+
+  	// creando la coneccion.
+	$oConn = vc_funciones::get_coneccion("CIA");	
 	if(!mysqli_error($oConn)){
 		mysqli_set_charset($oConn,"utf8");
 		//echo "se logro la coneccion ";
@@ -144,34 +144,6 @@ function cabecera($ofpdf,$ldstar,$lpname){
 	$ofpdf->cell(20,5,"Saldo",1,1,"R");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
 	$ofpdf->setfont("arial","",10);
 }	// function cabecera($ofpdf,$ldstar,$lpname){
-	
-/*
-	$ofpdf->AddPage();
-	// c-1 Encabezado de la pagina.
-	//----------------------------------------------------------
-	$ofpdf->RPTheader("ESTADO DE CUENTA");
-	$ofpdf->setfont("arial","B",10);
-	$ofpdf->cell(20,5,"Periodo:",0,0,""); 
-	$ofpdf->setfont("arial","",10);
-	$ofpdf->cell(20,5,"Rango del $ldstar a la Fecha.",0,1,"");  
-	$ofpdf->setfont("arial","B",10);
-	$ofpdf->cell(20,5,"Nombre:",0,0,"");   						
-	$ofpdf->setfont("arial","",10);
-	$ofpdf->cell(25,5,$dataperson["cname"],0,1,"");   			
-	$ofpdf->cell(15,5,"",0,1,"");
-	
-	// c-2 Dibujando el cuerpo de la pagina
-	//----------------------------------------------------------
-	$ofpdf->setfont("arial","B",10);
-	//$ofpdf->cell(20,5,"",0,0,"");   
-	$ofpdf->cell(15,5,"Trn No",1,0,"");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-	$ofpdf->cell(15,5,"Tipo",1,0,"");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-	$ofpdf->cell(20,5,"Fecha ",1,0,"");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-	$ofpdf->cell(100,5,"Descripcion Movimiento",1,0,"");	// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-	$ofpdf->cell(20,5,"Monto",1,0,"");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-	$ofpdf->cell(20,5,"Saldo",1,1,"R");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-	$ofpdf->setfont("arial","",10);
-	*/
-	
+
 	
 ?>		

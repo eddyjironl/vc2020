@@ -3,11 +3,11 @@
 	// A)- Coneccion a la base de datos.
 	// ------------------------------------------------------------------------------------------------------------------	
 
-	include("../modelo/coneccion.php");
 	include("../modelo/vc_funciones.php");
 	include("../modelo/pdf.php");
 	vc_funciones::Star_session();
-	$oConn = get_coneccion("CIA");
+	// creando la coneccion.
+	$oConn = vc_funciones::get_coneccion("CIA");
 	//echo var_dump($_POST);
 	// ------------------------------------------------------------------------------------------------------------------	
 	// B- Recibiendo parametros de filtros.

@@ -1,6 +1,6 @@
 <?PHP
+
 CLASS vc_funciones{
-		
 	public static function Star_session(){
 		// iniciando session
 		session_start();
@@ -14,7 +14,6 @@ CLASS vc_funciones{
 			return true;
 		}
 	}
-	
 	public static function End_session(){
 		// iniciando session
 		session_start();
@@ -23,13 +22,11 @@ CLASS vc_funciones{
 		//llamando el login.
 		header("location:index.php");
 	}
-
 	public static function init_index(){
 		session_start();
 		// cerrando sesion.
 		session_destroy();
 	}
-
 	public static function getcialist(){
 		$oConn = vc_funciones::get_coneccion("SYS");
 		$lcSqlCiaList = " select ccompid, compdesc from syscomp where cstatus = 'OP'";
@@ -41,18 +38,18 @@ CLASS vc_funciones{
 			}
 		echo "</select>";
 	}
-
-	public static function get_coneccion($opc){
-		$lcDbb = "";
-		if($opc == 'SYS'){
-			include("parameters_conection.php");
+	public static function get_coneccion($opc){	
+		include("parameters_conection.php");
+		// Iniciando la session si por alguna razon se apago.	
+		IF (!isset($_SESSION["cuserid"])) {
+			session_start();
+		}	
+		if($opc == 'SYS'){		
 			$lcDbb=$oPSys;
 			$oConn = mysqli_connect($gHostId,$gUserId,$gPasWord,$lcDbb);
 		}else{
-			$oConn = mysqli_connect($_SESSION["chost"],$_SESSION["cuserid"],$_SESSION["cpasword"],$_SESSION["dbname"]);
+			$oConn = mysqli_connect($_SESSION["chost"],$_SESSION["cuser"],$_SESSION["ckeyid"],$_SESSION["dbname"]);
 		}
-		
-		//if($this->oConn->errno){
 		if(!mysqli_connect_errno($oConn)){
 			mysqli_set_charset($oConn,"utf8");
 		}else{
@@ -60,8 +57,7 @@ CLASS vc_funciones{
 		}
 		return $oConn;
 	}		
-
-	public static function get_msg(){
+	public static function get_msg2(){
 		/*
 		var lcbt  = '<button class="btbarra" ';
 		lcbt +=	'style="width:60px; height:60px" ';
@@ -81,8 +77,6 @@ CLASS vc_funciones{
 		echo '		<br>';
 		//echo '<script>get_btprinc("btquit","msgquit")</script> ';
 		echo '	</section>';
-
 	}
-
 }
 ?>	

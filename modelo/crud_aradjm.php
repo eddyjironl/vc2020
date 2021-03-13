@@ -4,11 +4,9 @@
 // 	Definiendo funciones que se realizaran .
 //	$lcaccion = isset($_POST["accion"])? $_POST["accion"],$_GET["accion"];
 // ------------------------------------------------------------------------------------------------
-
-include("../modelo/armodule.php");
 include("../modelo/vc_funciones.php");
-vc_funciones::Star_session();
-$oConn = get_coneccion("CIA");
+include("../modelo/armodule.php");
+$oConn = vc_funciones::get_coneccion("CIA");
 
 
 if(isset($_POST["accion"])){
@@ -36,7 +34,7 @@ if($lcaccion=="NEW"){
 	$json = $_POST["json"];
 	$oAjt = json_decode($json,true);
 	//obteniendo el numero de factura.
-	$lcadjno  = GetNewDoc("ARADJM");
+	$lcadjno  = GetNewDoc($oConn,"ARADJM");
 	$lcwhseno = $oAjt['cwhseno'];
 	$lnfactor = 1;
 	// Determinando el factor de movimiento en la requisa.

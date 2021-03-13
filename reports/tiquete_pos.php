@@ -1,8 +1,11 @@
 <?php
 // CONFIGURACIÓN PREVIA
-	include("../modelo/coneccion.php");
 	include("../modelo/vc_funciones.php");
 	include("../modelo/pdf.php");
+	vc_funciones::Star_session();
+	//session_start();
+	// creando la coneccion.
+	$oConn = vc_funciones::get_coneccion("CIA");
 
 //require('fpdf181/fpdf.php');
 define('EURO',chr(128));

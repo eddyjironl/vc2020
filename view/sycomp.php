@@ -59,10 +59,10 @@ if (vc_funciones::Star_session() == 1){
 				<label class="labelsencilla">Parametros de Coneccion</label>
 				<br>
 				<label class="labelnormal">Usuario</label>
-				<input type="text" id="cuserid" name="cuserid" class="textcdesc" >
+				<input type="text" id="cuser" name="cuser" class="textcdesc" >
 				<br>
 				<label class="labelnormal">Clave</label>
-				<input type="text" id="cpasword" name="cpasword" class="textcdesc" >
+				<input type="text" id="ckeyid" name="ckeyid" class="textcdesc" >
 				<br>
 				<label class="labelnormal">Hosting Name</label>
 				<input type="text" id="chost" name="chost" class="textcdesc" >

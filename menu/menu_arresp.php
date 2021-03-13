@@ -8,9 +8,15 @@
 // 3- Una pantalla. = lista de menu tipo las de VC2009 de escritorio.
 //---------------------------------------------------------------------------------------------------
 // incluyendo la clase de coneccion
+/*
 include("../modelo/coneccion.php");
 // creando la coneccion.
 $oConn = get_coneccion("CIA");
+*/
+include("../modelo/vc_funciones.php");
+session_start();
+// creando la coneccion.
+$oConn    = vc_funciones::get_coneccion("CIA");
 
 if (isset($_POST["accion"])){
 	$lcaccion = $_POST["accion"];

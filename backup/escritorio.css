@@ -1,61 +1,15 @@
 *{
 	font-size:12px;
 	font-family:arial;
-	margin: 0;
-	padding: 0;
+	/*margin: 0;
+	padding: 0;*/
 }
+
 #espacio{
-	background-repeat: no-repeat;
+	background:url("../photos/fondo3.png");
+	background-repeat:no-repeat;
 	background-size: 100% 100%;
-	background-color:blue;
-	background-size: cover;
-    /*background-repeat: no-repeat;
-    background-image: url(../photos/fondo3.png);
-	background-color:blue;*/
 }
-#barra1{
-	box-shadow:black 0px 5px 10px;
-	border-radius:5px 5px 50px 50px;
-	background:rgb(240,240,240);
-    height: 60px;
-	width:99.5%;
-    border: solid #b2b2b2;
-    border-right-color: white;
-    border-left-color: white;
-}
-
-#divlogo{
-	margin-left:40px;
-}
-
-#barra1 div{
-	display:inline-block;
-	float: left;
-}
-#barra1-a, #cmodule_select{
-	padding-left:10px;
-}
-
-#logovc{
-	width:60px;
-}
-
-/* PIE DE PAGINA*/
-
-footer{
-	background:rgb(240,240,240);
-    height: 60px;
-	width:99.5%;
-    border: solid #b2b2b2;
-    border-right-color: white;
-    border-left-color: white;
-	position: absolute;
-  	bottom: 0;
-}
-
-
-
-
 
 
 .fieldset_scren{
@@ -64,10 +18,10 @@ footer{
 	float:left;
 	border:none;
 }
-
 #area_menu{
-	margin-top: 18px;
-    margin-left: 3px;
+	margin-top:26px;
+	margin-left:5px;
+	display:inline-block;
 	position:fixed;
 }
 #system_name{
@@ -78,7 +32,7 @@ footer{
 	color:blue;
 	text-shadow:black 3px 3px 7px;
 }
-#cia_desc ,#cfullname{
+#cia_desc{
 	padding-left:5px;
 	padding-right:5px;
 	margin-bottom:1px;
@@ -95,13 +49,13 @@ footer{
 	margin-left:5px;
 }
 #ventana{
-	width: 90%;
-	height: 79%; 
+	border:1px solid red;
+	width: -webkit-fill-available;
+	height: -webkit-fill-available; 
 	border:none;
-	top:105px;
+	top:120px;
 	left:40px;
 	position:fixed;
-
 }
 #fondo{
    width:48%;
@@ -130,7 +84,6 @@ footer{
 CONFIGURACION DEL MenuText
 -----------------------------------------------------------------------------------------------------
 */
-
 header{
 	font-family: Helvetica;
 	width:900px;

@@ -11,7 +11,7 @@ DESCRIPCION.
 Este programa engloba las funciones propias del sistema de administracion.
 ----------------------------------------------------------------------------------
 */
-include("coneccion.php");
+//include("coneccion.php");
 include("../modelo/vc_funciones.php");
 //--------------------------------------------------------------------------------------------------------------
 if (vc_funciones::Star_session() == 1){
@@ -22,7 +22,7 @@ if (!isset($_POST["program"])){
 	return ;
 }
 // estableciendo coneccion.
-$oConn = get_coneccion("SYS");
+$oConn = vc_funciones::get_coneccion("SYS");
 // Verificando si un usuario tiene derecho de acceso o no.
 if ($_POST["program"]== "permiso_de_acceso"){
 	$lcmenuid = $_POST["cmenuid"];
@@ -60,12 +60,11 @@ if ($_POST["program"]== "entry_cia_work"){
 		// actualizando la session de datos.
 		$_SESSION["ccompid"]  = $oCia["ccompid"];
 		$_SESSION["compdesc"] = $oCia["compdesc"];
-		
 		// Parametros de coneccion a la base de datos.
-		$_SESSION["cuserid_db"] = $oCia["cuserid"];
-		$_SESSION["cpasword"]   = $oCia["cpasword"];
-		$_SESSION["dbname"]     = $oCia["dbname"];
-		$_SESSION["chost"]      = $oCia["chost"];
+		$_SESSION["cuser"]  = $oCia["cuser"];
+		$_SESSION["ckeyid"] = $oCia["ckeyid"];
+		$_SESSION["dbname"] = $oCia["dbname"];
+		$_SESSION["chost"]  = $oCia["chost"];
 		echo json_encode($oCia); 
 	}
 

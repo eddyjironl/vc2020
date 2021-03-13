@@ -1,35 +1,29 @@
 <?php 
-	include("coneccion.php");
 	// -----------------------------------------------------------------------------------------------------
 	// A) - Llamadas a las funciones desde JavaScript
 	// -----------------------------------------------------------------------------------------------------
-/*		if ($_GET["program"]== "GetNewDoc"){
-		GetNewDoc("ARINVC");
-		}
-*/
 	if (isset($_POST["program"])){
+		include("vc_funciones.php");
+		$oConn = vc_funciones::get_coneccion("CIA");
 		if ($_POST["program"]== "get_sales_amount"){
 			$lccustno = $_POST["ccustno"];
-			get_sales_amount($lccustno);
+			get_sales_amount($oConn,$lccustno);
 		}
 		if ($_POST["program"]== "get_buys_amount"){
-			get_buys_amount($_POST["crespno"]);
+			get_buys_amount($oConn,$_POST["crespno"]);
 		}
 		if ($_POST["program"]== "get_tc_rate"){
-			get_tc_rate($_POST["dtrndate"]);
+			get_tc_rate($oConn,$_POST["dtrndate"]);
 		}
 		if ($_POST["program"]== "get_inventory_onhand"){
-			get_inventory_onhand($_POST["cservno"]);
+			get_inventory_onhand($oConn,$_POST["cservno"]);
 		}
 	}
-	
 	// -----------------------------------------------------------------------------------------------------
 	// B) - Funciones especiales del modulo
 	// -----------------------------------------------------------------------------------------------------
-
 // obteniendo el numero siguiente de la transaccion en las diferentes tablas.	
-function getsetupnumber($pctable){
-	$oConn = get_coneccion("CIA");
+function getsetupnumber($poConn, $pctable){
 	if ($pctable == "ARINVC"){
 		$lcsql = "select ninvno as numero from arsetup ";
 	}
@@ -40,17 +34,13 @@ function getsetupnumber($pctable){
 		$lcsql = "select nadjno as numero from arsetup ";
 	}
 	// obteniendo INFORMACION
-	$lcresult = mysqli_query($oConn,$lcsql);
+	$lcresult = mysqli_query($poConn,$lcsql);
 	$ldata    = mysqli_fetch_assoc($lcresult);
-	// retornando el numero de la tabla que estamos analizando.
-	mysqli_close($oConn);
 	return $ldata["numero"];
 }
-
-function GetNewDoc($pctable){
-	$oConn  = get_coneccion("CIA");
+function GetNewDoc($poConn,$pctable){
 	$llcont = true;
-	$lnTmpDocno = getsetupnumber($pctable);
+	$lnTmpDocno = getsetupnumber($poConn,$pctable);
 	while ($llcont){
 		// haciendo el sql.	
 		if ($pctable == "ARINVC"){
@@ -65,7 +55,7 @@ function GetNewDoc($pctable){
 			$lcsql     = " select cadjno from aradjm where cadjno = '$lnTmpDocno'";
 			$lcsql_upd = " update arsetup set nadjno = $lnTmpDocno + 1 ";
 		}
-		$lcresult = mysqli_query($oConn,$lcsql);
+		$lcresult = mysqli_query($poConn,$lcsql);
 		// revisando si el dato del numero no existe
 		$lnexist  = mysqli_num_rows($lcresult);
 		if ($lnexist == 1){
@@ -76,16 +66,14 @@ function GetNewDoc($pctable){
 		}
 	}
 	// actualizando la tabla con el nuevo valor 
-	mysqli_query($oConn,$lcsql_upd);
+	mysqli_query($poConn,$lcsql_upd);
 	// retornando el numero nuevo de factura.
 	return $lnTmpDocno;
 }
-
 // obteniendo el tipo de cambio 
-function get_tc_rate($pdtrndate){
-	$oConn = get_coneccion("CIA");
+function get_tc_rate($poConn,$pdtrndate){
 	$lcsql = " select * from armone where dtrndate = '$pdtrndate' ";
-	$lcresult = mysqli_query($oConn,$lcsql); 
+	$lcresult = mysqli_query($poConn,$lcsql); 
 	// convirtiendo estos datos en un array asociativo
 	$ldata = mysqli_fetch_assoc($lcresult);
 	// convirtiendo este array en archivo jason.
@@ -93,17 +81,15 @@ function get_tc_rate($pdtrndate){
 	// retornando objeto json
 	echo $jsondata;
 }
-
 /* obteniendo monto de ventas en la fecha especificada.*/
-function get_sales_amount($pccustno){
-	$oConn    = get_coneccion("CIA");
+function get_sales_amount($poConn,$pccustno){
 	$lcsqlcmd = " select sum(nsalesamt - ndesamt + ntaxamt) as nsalestot ,
 	                     sum(nbalance) as nbalance
 				  from arinvc
 				  where ccustno = '$pccustno' and
 						cstatus = 'OP' ";
 
-	$lcResult =   mysqli_query($oConn,$lcsqlcmd); // $oConn->query($lcSqlCmd);
+	$lcResult =   mysqli_query($poConn,$lcsqlcmd); // $oConn->query($lcSqlCmd);
 	// convirtiendo estos datos en un array asociativo
 	$ldata = mysqli_fetch_assoc($lcResult);
 	// convirtiendo este array en archivo jason.
@@ -112,8 +98,7 @@ function get_sales_amount($pccustno){
 	echo $jsondata;
 }
 /* existencia de un articulo. */ 
-function get_inventory_onhand($pcservno){
-	$oConn    = get_coneccion("CIA");
+function get_inventory_onhand($poConn,$pcservno){
 	$lcsqlcmd = "SELECT aradjt.cservno,
 					     sum(aradjt.nqty) as nqty
 				 FROM aradjm
@@ -138,21 +123,10 @@ function get_inventory_onhand($pcservno){
 			";	
 	// determinando cuanto producto queda segun el caso 
 	$lnqty = 0;
-	$lcresult = mysqli_query($oConn,$lcsqlcmd);
+	$lcresult = mysqli_query($poConn,$lcsqlcmd);
 	while($lnrowqty = mysqli_fetch_assoc($lcresult)){
 		$lnqty += $lnrowqty["nqty"];	
 	}
 	echo $lnqty;
-	
-	/*	
-	$lcResult =   mysqli_query($oConn,$lcsqlcmd); // $oConn->query($lcSqlCmd);
-	// convirtiendo estos datos en un array asociativo
-	$ldata = mysqli_fetch_assoc($lcResult);
-	// convirtiendo este array en archivo jason.
-	$jsondata =json_encode($ldata,true);
-	// retornando objeto json
-	echo $jsondata;
-	*/
 }
-
 ?>

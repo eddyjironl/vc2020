@@ -1,10 +1,13 @@
 <?php
-include("coneccion.php");
+
+include("../modelo/vc_funciones.php");
+vc_funciones::Star_session();
+$oConn = vc_funciones::get_coneccion("CIA");
 
 // ------------------------------------------------------------------------------------------------
 // Desidiendo que hara si UPDATE o INSERT
 // ------------------------------------------------------------------------------------------------
-$oConn = get_coneccion("CIA");
+
 $lcsqlcmd  = " select * from arsetup ";
 $lresult_t = mysqli_query($oConn,$lcsqlcmd);
 $lnupd     = mysqli_num_rows($lresult_t);

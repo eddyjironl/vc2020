@@ -56,8 +56,7 @@
 		// verificando cadena de coneccion para la empresa si esta vacia no entra.
 		// ************************************************************************************************
 		$lcsqlcia  = " select compdesc, dbname, chost, ckeyid,cuser from syscomp 
-						where dbname != '' and chost != '' and ckeyid != '' and cuser != '' and 
-						ccompid = '" . $_POST["ccompid"] ."' ";
+						where ccompid = '" . $_POST["ccompid"] ."' ";
 		$lcrescia  = mysqli_query($oConn,$lcsqlcia);
 		if(mysqli_num_rows($lcrescia)!= 0 ){
 			$lcinfocia = mysqli_fetch_assoc($lcrescia);

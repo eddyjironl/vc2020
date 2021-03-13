@@ -8,7 +8,7 @@
 include("../modelo/armodule.php");
 include("../modelo/vc_funciones.php");
 vc_funciones::Star_session();
-$oConn = get_coneccion("CIA");
+$oConn = vc_funciones::get_coneccion("CIA");
 
 
 if(isset($_POST["accion"])){
@@ -36,7 +36,6 @@ if($lcaccion=="DELETE"){
 // -----------------------------------------------------------------------------------------------
 if($lcaccion=="NEW"){
 	// haciendo la coneccion.
-	//$oConn = get_coneccion("CIA");
 	if (isset($_POST["cpaycode"])){
 		$lcdesc     = $_POST["cdesc"];
 		$lndays     = $_POST["nday"];
@@ -70,9 +69,11 @@ if($lcaccion=="NEW"){
 		// ------------------------------------------------------------------------------------------------
 		// Generando coneccion y procesando el comando.
 		// ------------------------------------------------------------------------------------------------
+	
 		$lresultF = mysqli_query($oConn,$lcsqlcmd);	
 		//mysqli_query($oConn,$lcsqlcmd);
 		$lnRowsAfect = mysqli_affected_rows($oConn);
+	
 	}  	// if (isset($_POST["cpaycode"])){
 	header("location:../view/artcas.php");		
 }  		//if($lcaccion=="NEW")
@@ -157,7 +158,6 @@ if ($lcaccion == "PANTALLA_MENU"){
 
 // LISTA, Genera menu de lista de proveedores.
 if ($lcaccion == "LISTA"){
-		//$oConn = get_coneccion("CIA");
 	    $lcSqlCmd = " select * from artcas order by cdesc ";
 		$lcResult = mysqli_query($oConn,$lcSqlCmd);
 		echo '<select class="listas" name="cpaycode" id="cpaycode" required>';

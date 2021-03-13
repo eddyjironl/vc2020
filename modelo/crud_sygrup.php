@@ -5,10 +5,10 @@
 //	$lcaccion = isset($_POST["accion"])? $_POST["accion"],$_GET["accion"];
 // ------------------------------------------------------------------------------------------------
 include("../modelo/vc_funciones.php");
-include("../modelo/coneccion.php");
+//include("../modelo/coneccion.php");
 
 vc_funciones::Star_session();
-$oConn = get_coneccion("SYS");
+$oConn = vc_funciones::get_coneccion("SYS");
 
 if(isset($_POST["accion"])){
 	$lcaccion = $_POST["accion"]; 	

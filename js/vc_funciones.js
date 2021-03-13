@@ -130,7 +130,7 @@ function doform(pcmenuid){
 	oDatos.append("cmenuid",pcmenuid);
 	oRequest.open("POST","../modelo/symodule.php",false); 
 	oRequest.send(oDatos);
-	var llcont = (oRequest.response == "1")? true:false;
+	var llcont = (oRequest.response.trim() == "1")? true:false;
 	return llcont;	
 }
 function get_date_comp(){

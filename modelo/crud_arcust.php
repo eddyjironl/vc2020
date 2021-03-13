@@ -7,7 +7,7 @@
 include("../modelo/armodule.php");
 include("../modelo/vc_funciones.php");
 vc_funciones::Star_session();
-$oConn = get_coneccion("CIA");
+$oConn = vc_funciones::get_coneccion("CIA");
 	
 if(isset($_POST["accion"])){
 	$lcAccion=$_POST["accion"]; 	
@@ -43,7 +43,7 @@ if($lcAccion=="DELETE"){
 // ------------------------------------------------------------------------------------------------
 if($lcAccion=="NEW"){
 	// haciendo la coneccion.
-	$oConn = get_coneccion("CIA");
+//	$oConn = get_coneccion("CIA");
 	if (isset($_POST["ccustno"])){
 		$ldstar   = $_POST["dstar"];
 		$lcname   = $_POST["cname"];
@@ -98,8 +98,9 @@ if($lcAccion=="NEW"){
 		$lresultF = mysqli_query($oConn,$lcsqlcmd);	
 		//mysqli_query($oConn,$lcsqlcmd);
 		$lnRowsAfect = mysqli_affected_rows($oConn);
-		mysqli_close($oConn);
-		header("location:../view/arcust.php?msg='Estamos bien.!!'");		
+
+		//mysqli_close($oConn);
+		header("location:../view/arcust.php");		
 
 	}  // if (isset($_POST["ccustno"])){
 }  //if($lcAccion=="NEW"){

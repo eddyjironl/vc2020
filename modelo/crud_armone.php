@@ -8,7 +8,7 @@
 include("../modelo/armodule.php");
 include("../modelo/vc_funciones.php");
 vc_funciones::Star_session();
-$oConn = get_coneccion("CIA");
+$oConn = vc_funciones::get_coneccion("CIA");
 
 
 if(isset($_POST["accion"])){

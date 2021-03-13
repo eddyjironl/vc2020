@@ -53,7 +53,10 @@ vc_funciones::init_index();
 			</footer>
 			
 		</form>
-		
+		<script>
+			get_msg();
+
+		</script>
 	</body>
 
 </html>
