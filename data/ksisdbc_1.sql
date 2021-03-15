@@ -22,7 +22,7 @@ SET time_zone = "+00:00";
 -- Base de datos: `ksisdbc_1`
 --
 CREATE DATABASE IF NOT EXISTS `ksisdbc` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `ksisdbc_1`;
+USE `ksisdbc`;
 
 -- --------------------------------------------------------
 

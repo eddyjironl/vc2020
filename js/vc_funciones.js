@@ -422,6 +422,9 @@ function get_clear_view(){
 // habilita o desabilita el objeto key ID de cada catalogo master.
 function estado_key(pcaction){
 	// obteniendo el estado de 
+	if (gckeyid ==""){
+		return ;
+	}
 	var lcestado = document.getElementById(gckeyid).getAttribute("class");
 	// cambiando el estado segun este el objeto principal
 	if (pcaction == "A"){

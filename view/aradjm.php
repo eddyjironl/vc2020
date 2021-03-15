@@ -107,6 +107,7 @@ if ($lcStarSession == 1){
 			
 		</form>
 		<script>
+			get_xm_menu();
 			get_msg();
 		</script>
 	</body>

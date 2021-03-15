@@ -250,7 +250,7 @@ function guardar(){
 	// ---------------------------------------------------------------------
 	// C)- Cerrando proceso
 	// ---------------------------------------------------------------------
-	var odata = oRequest.responseText; 
+	var odata = oRequest.responseText.trim(); 
 	// mostrando el boton de imprimir factura
 	btVer.style.display    ="inline";
 	// mostrando el boton de nueva factura continua trabajando.
@@ -294,7 +294,6 @@ function cerrar_pantalla_pago(){
 	efectivo.value="";
 	ck_vuelto();
 }
-
 function clear_view(){
 	var oRequest = new XMLHttpRequest();
 	// Creando objeto para empaquetado de datos.
@@ -326,7 +325,6 @@ function clear_view(){
 	//poniendo foco en la barra de codigo para lectura del scanner.
 	cservno1.focus();
 }
-
 function isvalidentry(){
 	var lnqtyelement = tdetalles.rows.length - 1;
 	// Validando el numero de lineas en el detalle de factura.
@@ -372,7 +370,6 @@ function isvalidentry(){
 	
 	return true;
 }
-
 function cerrar_fupdt(){
 	document.getElementById("pantalla_actualiza_linea").style.display="none";
 }
@@ -401,7 +398,6 @@ function editarFila(pcuid){
 	document.getElementById("fndesc").value   = odata.ndesc;
 	document.getElementById("fmnotas").value  = odata.mnotas;
 }
-
 function save_upd(){
 	var oRequest = new XMLHttpRequest();
 	// Creando objeto para empaquetado de datos.
@@ -422,7 +418,6 @@ function save_upd(){
 	document.getElementById("articulos").innerHTML=oRequest.response;
 	cksum();
 }
-
 function eliminarFila(pcuid){
 	var oRequest = new XMLHttpRequest();
 	// Creando objeto para empaquetado de datos.

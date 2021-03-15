@@ -10,6 +10,105 @@ function init(){
 	document.getElementById("btsalir").addEventListener("click",cerrar_sub_pantalla,false);
 	document.getElementById("btnuevaf").addEventListener("click",clear_view,false);
 	document.getElementById("btVer").addEventListener("click",print_invoice,false);
+	// -----------------------------------------------------------------
+	// CODIGO PARA LOS MENUS INTERACTIVOS.
+	// CADA MENU
+	document.getElementById("btcservno11").addEventListener("click",show_menu_arserm,false);
+	//document.getElementById("bt_m_refresh").addEventListener("click",show_menu_arcust,false);
+	
+	// una funcion de ordenamiento segun el menu que se elija.
+	// Lista de ordenamiento
+	document.getElementById("mx_opc_order").addEventListener("click",get_mx_detalle,false);
+	// opcion de busqueda
+	document.getElementById("mx_cbuscar").addEventListener("input",get_mx_detalle,false);
+	// ------------------------------------------------------------------------
+	btVer.style.display    = "none";
+	btnuevaf.style.display = "none";
+	btsalvar.style.display = "inline";
+	btsalir.style.display  = "inline";
+}
+// ----------------------------------------------------------------------
+// MENU DE articulos
+// ----------------------------------------------------------------------
+function show_menu_arserm(){
+	document.getElementById("xm_area_menu").style.display="inline";
+	var o_mx_lista = "";
+	// armando el listado
+	o_mx_lista += '	<select class="listas" id="mx_opc_order"> ';
+	o_mx_lista += ' 	<option value = "cservno">Articulo Id</option> ';
+	o_mx_lista += '		<option value = "cdesc">Descripcion </option> ';
+	o_mx_lista += '		<option value = "nprice">Precio </option> ';
+	o_mx_lista += '		<option value = "nonhand">Existencia</option> ';
+	o_mx_lista += '	</select> ';
+	// armando el encabezado 
+	var o_mx_Header = "";
+	o_mx_Header += ' <table id="mx_head" class="table_det"> ';
+	o_mx_Header += '	<thead> ';
+	o_mx_Header += '		<tr> ';
+	o_mx_Header += '			<td width="70px">Articulo Id </td> ';
+	o_mx_Header += '			<td width="200px">Descripcion</td> ';
+	o_mx_Header += '			<td width="50px">Precio</td> ';
+	o_mx_Header += '			<td width="50px">Existencia</td> ';
+	o_mx_Header += '		</tr> ';
+	o_mx_Header += '	</thead> ';
+	o_mx_Header += '</table> ';
+	// armando detalle de contenidos.
+	// cambiando el encabezado .
+	document.getElementById("mx_head").innerHTML = o_mx_Header;
+	document.getElementById("mx_opc_order").innerHTML = o_mx_lista;
+	get_mx_detalle();
+}
+// obteniendo el detalle de menus.
+function get_mx_detalle(){
+	// A) filtrando y ordenando el detalle.
+	// ordenamiento por default
+	var lcorder = document.getElementById("mx_opc_order").value;
+	document.getElementById("mx_opc_order").value = lcorder;
+	// filtro de busqueda por defecto
+	var lcwhere = document.getElementById("mx_cbuscar").value;
+
+	// ejecutando la insercion del nuevo usuario.
+	var oRequest = new XMLHttpRequest();
+	// Creando objeto para empaquetado de datos.
+	var oDatos   = new FormData();
+	// adicionando datos en formato CLAVE/VALOR en el objeto datos para enviar como parametro a la consulta AJAX
+	oDatos.append("accion","MENU");
+	oDatos.append("orden", lcorder);
+	oDatos.append("filtro",lcwhere);
+	oRequest.open("POST","../modelo/crud_arserm.php",false); 
+	oRequest.send(oDatos);
+	var odata = JSON.parse(oRequest.response);
+	//cargando los valores de la pantalla.
+	if (odata != null){
+		var lnrows = odata.length;
+		var o_mx_detalles = '<table id="mx_detalle"> ';
+		o_mx_detalles += '<tbody>';
+		for (var i = 0; lnrows > i; ++i){
+			o_mx_detalles += '<tr class="xm_row_menu"> ';
+			o_mx_detalles += '	<td width="70px"> '+ odata[i]["cservno"] + '</td> ';
+			o_mx_detalles += '	<td width="200px">'+ odata[i]["cdesc"]   + '</td> ';
+			o_mx_detalles += '	<td width="50px"> '+ odata[i]["nprice"]  + '</td> ';
+			o_mx_detalles += '	<td width="50px"> '+ odata[i]["nonhand"] + '</td> ';
+			o_mx_detalles += '</tr> ';
+		}
+		o_mx_detalles += '</tbody> ';
+	}else{
+		o_mx_detalles = "<h1>No hay datos en el archivo</h1>";
+	}
+	document.getElementById("mx_detalle").innerHTML = o_mx_detalles;
+	// aplicando el llamado de la funcion de seleccion
+	var oRowDet = document.querySelectorAll("#mx_detalle tr");
+	lnRows = oRowDet.length;
+	for (var i=0; lnRows >i; ++i){
+		oRowDet[i].addEventListener("click",select_xkey,false);
+	}		
+}
+function select_xkey(e){
+var lckey  = e.currentTarget.cells[0].innerText;
+var lcdesc = e.currentTarget.cells[1].innerText;
+document.getElementById("cservno1").value = lckey;
+cerrar_mx_view();
+upddet();
 }
 function print_invoice(){
 	var lcadjno = document.getElementById("cadjno").value;
@@ -85,6 +184,15 @@ function guardar(){
 	oRequest.open("POST","../modelo/crud_aradjm.php",false); 
 	oRequest.send(oDatos);
 	document.getElementById("cadjno").value = oRequest.responseText.trim();
+	// cargando comportamiento de los botones
+	//*****************************************************************************
+	// mostrando el boton de imprimir factura
+	btVer.style.display    ="inline";
+	// mostrando el boton de nueva factura continua trabajando.
+	btnuevaf.style.display ="inline";
+	// ocultando boton de salir simple ocultar pantalla.
+	btsalvar.style.display ="none";
+	btsalir.style.display  ="none";
 }
 function refresh_window(){
 	if(cwhseno.value == ""){
@@ -105,12 +213,23 @@ function cerrar_pantalla_principal(){
 }
 function cerrar_sub_pantalla(){
 	//var lcfacturado = document.getElementById("cadjno").value;
+	/*
 	if (cadjno.value != ""){
 		document.getElementById("tdetalles").innerHTML = "";
 		get_clear_view();
 		cksum();
 	}
+	*/
 	document.getElementById("area_bloqueo").style.display="none";
+	// cargando comportamiento de los botones
+	//*****************************************************************************
+	// mostrando el boton de imprimir factura
+	btVer.style.display    ="none";
+	// mostrando el boton de nueva factura continua trabajando.
+	btnuevaf.style.display ="none";
+	// ocultando boton de salir simple ocultar pantalla.
+	btsalvar.style.display ="inline";
+	btsalir.style.display  ="inline";
 
 }
 

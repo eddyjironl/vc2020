@@ -159,9 +159,12 @@ if (isset($_POST["xtrnno"])){
 		$lcsql = " delete from arinvt_tmp where cinvno = '$lcinvno' ";
 		mysqli_query($oConn,$lcsql);	
 		echo $lcNewInvno;
-	}	// if($lcaccion == "SAVE"){
-}	// if (isset($_POST["xtrnno"])){								<input type="button" value="Eliminar" onclick="eliminarFila(' + $row["cuid"] + ')" >
-// muestra todos los contenidos de la tabla.
+	}	
+}else{
+	echo "Numero de transaccion Vacio <br> no se puede guarda la factura.";
+}
+
+	// muestra todos los contenidos de la tabla.
 function get_detalle($pctrnno,$oConn){
 	$lcsql     = " select * from arinvt_tmp where cinvno ='$pctrnno' ";	
 	$lcInsert  = "";
