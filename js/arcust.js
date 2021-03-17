@@ -254,6 +254,7 @@ function guardar(){
 		getmsgalert("No indico Limite de credito");
 		return ;
 	}
+	alert(oArSetup.descripcion);
 	oform.submit();
 }
 

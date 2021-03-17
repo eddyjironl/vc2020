@@ -22,6 +22,7 @@
 	// -----------------------------------------------------------------------------------------------------
 	// B) - Funciones especiales del modulo
 	// -----------------------------------------------------------------------------------------------------
+	
 // obteniendo el numero siguiente de la transaccion en las diferentes tablas.	
 function getsetupnumber($poConn, $pctable){
 	if ($pctable == "ARINVC"){

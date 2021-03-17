@@ -1,6 +1,16 @@
 <?PHP
 
 CLASS vc_funciones{
+	// inicializa la funcion del lado del servidor.
+	public static function arsetup_init(){
+		$oConn = vc_funciones::get_coneccion("CIA");		
+		$lcsqlcmd = "select * from arsetup ";
+		$lcresult = mysqli_query($oConn,$lcsqlcmd);
+		$oArSetup = mysqli_fetch_assoc($lcresult);
+		// convirtiendo este array en archivo jason.
+		return $oArSetup;
+	}
+
 	public static function Star_session(){
 		// iniciando session
 		session_start();

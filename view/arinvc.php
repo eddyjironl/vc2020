@@ -64,7 +64,6 @@ if ($lcStarSession == 1){
 					<textarea id="mnotas" name="mnotas"  class="mnotas" rows=3 cols=34></textarea>
 				</fieldset>
 			</section>
-			
 			<fieldset id="set3">
 				<label class="labelnormal">Codigo de Articulo </label>
 				<input type="text" class="textnormal" id="cservno1" name="cservno1" >
@@ -72,7 +71,6 @@ if ($lcStarSession == 1){
 				<br>
 				<br>
 			</fieldset>
-
 			<section id="pantalla_actualiza_linea">
 				<section id="fupdfield" class="form2">
 					<div id="div11">
@@ -111,7 +109,6 @@ if ($lcStarSession == 1){
 					<br>
 				</section>
 			</section>
-
 			<section id="adetalles">
 				<table id="tdetalles">
 					<thead>
@@ -129,7 +126,6 @@ if ($lcStarSession == 1){
 					<tbody id="articulos"></tbody>
 				</table>
 			</section>
-		
 			<fieldset id="set4">
 				<label class="labelnormal">Sub Total</label>
 				<input type="text" id="nsubamt" name="nsubamt" class="sayamt" readonly>
@@ -143,9 +139,12 @@ if ($lcStarSession == 1){
 				<label class="labelnormal">Total General</label>
 				<input type="text" name="ntotamt" id="ntotamt" class="sayamt" readonly >
 			</fieldset>
-
-
-			<section id="pantalla_pago">	
+		</form>
+		<script>
+			get_msg();
+			get_xm_menu();
+		</script>
+		<form id="pantalla_pago" target="_blank" name="pantalla_pago" method="post" action="../reports/rpt_arinvc_tiquete.php" >	
 				<section id="fpago" class="form2"  name="fpago">
 					<div id="div1">
 						<h1>Creacion de Factura</h1>
@@ -154,7 +153,7 @@ if ($lcStarSession == 1){
 
 					<fieldset id="set7">
 						<label class="labelnormal">Trans No</label>
-						<input type="text" class="saytext" id="ctrnno1" readonly>
+						<input type="text" class="saytext" id="ctrnno1" name="ctrnno1" readonly>
 						<br>
 						<label class="labelnormal">Fecha de recibo</label>
 						<input type="date" name="dpay" id="dpay" class="textdate">
@@ -200,11 +199,8 @@ if ($lcStarSession == 1){
 					</div>
 					<br>
 				</section>
-			</section>	
-		</form>
-		<script>
-			get_msg();
-			get_xm_menu();
-		</script>
+		</form>	
+
+
 	</body>
 </html>

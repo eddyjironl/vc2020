@@ -19,9 +19,22 @@ var oBtCerrar = "";
 var gckeyid   = "";
 var gckeydesc = "";
 var gcbtkeyid = "";
+var oArSetup = {};
+arsetup_init()
 //-------------------------------------------------------
 // A)- listados de catalogos.
 //-------------------------------------------------------
+// Esta funcion carga los valores del arsetup para efectos de javascript.
+function arsetup_init(){
+	var oRequest = new XMLHttpRequest();
+	// Creando objeto para empaquetado de datos.
+	var oDatos   = new FormData();
+	oDatos.append("accion","JSON")
+	oRequest.open("POST","../menu/menu_arsetup.php",false); 
+	oRequest.send(oDatos);
+	// desplegando pantalla de menu con su informacion.
+	oArSetup = JSON.parse(oRequest.response);
+}
 function get_lista_artran(){
 	var oRequest = new XMLHttpRequest();
 	oRequest.open("GET","../menu/menu_artran.php",false); // Genera una lista de clientes.
@@ -86,8 +99,6 @@ function get_lista_arcust(){
 	oRequest.send();
 	document.write(oRequest.responseText);
 }
-
-
 //-------------------------------------------------------
 // B)- funciones numericas y de modulos
 //-------------------------------------------------------
@@ -217,13 +228,10 @@ function get_real_mont(pcmont){
 	}
 	return lcreturn;
 }
-
-
 //-------------------------------------------------------
 // Dibuja pantallas base 
 // mensajes instantaneos "MESSAGE()"
 //-------------------------------------------------------
-
 function get_msg(){
 	var window_msg = "";
 		window_msg  = '<section class="getmsgalert" id="getmsgalert">';
@@ -309,11 +317,6 @@ function get_xm_menu(){
 function cerrar_mx_view(){
 	document.getElementById("xm_area_menu").style.display="none";
 }
-
-
-
-
-
 // BOTONES.
 function set_url(pcobj,pcurl){
 	document.getElementById(pcobj).setAttribute("href",pcurl);
@@ -564,9 +567,6 @@ function get_boton(pcboton_name,pcpicture,pcDescShort){
   	// mostrando el boton 
 	document.write(lcbt);
 }
-
-
-
 //-------------------------------------------------------------------------------------
 /* BARRAS DE NAVEGACION */
 //-------------------------------------------------------------------------------------
@@ -604,7 +604,6 @@ function get_barraprinc_x(pcWindowTitle,pcHelpDesc,pnAncho){
 	
 	document.write(oBarPrinc);	
 }
-
 // B)- Barra de Transacciones.
 function get_barraprinc_trn(pcWindowTitle,pcHelpDesc,pnAncho){
 	lcHelpDesc = pcHelpDesc; //"Click para ver documentacion del Sistema" ;
@@ -637,7 +636,6 @@ function get_barraprinc_trn_x(pcWindowTitle,pcHelpDesc,pnAncho){
 
 	document.write(oBarPrinc);	
 }
-
 // C)- Barra de Impresion
 function get_barraprint(pcWindowTitle,pcHelpDesc,pnAncho,pcurl){
 	lcHelpDesc = pcHelpDesc; //"Click para ver documentacion del Sistema" ;

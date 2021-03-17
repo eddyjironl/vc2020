@@ -7,23 +7,15 @@ function init(){
 	otbinfo1.addEventListener("click",tabshow,false);
 	otbinfo2.addEventListener("click",tabshow,false);
 	obtsave.addEventListener("click",guardar,false);
-	
 	// poniendo visible el objeto tab del info 
 	document.getElementById("finfo1").style.display = "block";
 	document.getElementById("tbinfo1").setAttribute("class","active");
-	
 	// refrescando la pantalla con todo sus contenidos.
 	update_window();
 }
 function salir(){
 	//var pantalla = document.defaultView;
-	var pantalla = document.getElementsByTagName("html");
-	pantalla[0].style.display="none";
-	
-	var pantalla2 = document;
-	pantalla2.style.display="none";
-	
-	
+	document.getElementById("arsetup").style.display="none";	
 }
 function guardar(){
 	var oform = document.getElementById("arsetup");
@@ -37,8 +29,9 @@ function update_window(){
 	var oRequest = new XMLHttpRequest();
 	// Creando objeto para empaquetado de datos.
 	var oDatos   = new FormData();
+	oDatos.append("accion","JSON")
 	oRequest.open("POST","../menu/menu_arsetup.php",false); 
-	oRequest.send();
+	oRequest.send(oDatos);
 	// desplegando pantalla de menu con su informacion.
 	var odata = JSON.parse(oRequest.response);
 	//cargando los valores de la pantalla.
@@ -104,18 +97,3 @@ function tabshow(e){
 
 }
 window.onload=init;
-/*
-function tabshow_old(evt, cityName){
-var i, tabcontent, tablinks;
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
-  document.getElementById(cityName).style.display = "block";
-  evt.currentTarget.className += " active";
-}
-*/

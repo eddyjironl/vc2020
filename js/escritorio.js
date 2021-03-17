@@ -1,3 +1,4 @@
+
 function init(){
 	document.getElementById("cmodule_select").addEventListener("change",change_module,false);
 	// ------------------------------------------------------------------------
@@ -13,12 +14,7 @@ function init(){
 	// opcion de busqueda
 	document.getElementById("mx_cbuscar").addEventListener("input",get_mx_detalle,false);
 	// ------------------------------------------------------------------------
-}
-
-function close_introduccion(){
-	document.getElementById("form_introduccion").style.display="none";
-}		
-		
+}	
 // ----------------------------------------------------------------------
 // MENU DE COMPAÑIAS PARA EL CAMBIO .
 // ----------------------------------------------------------------------
@@ -113,8 +109,6 @@ function select_xkey(e){
 	}	
 }
 // -----------------------------------------------------------------------
-
-
 // ------------------------------------------------------------------------
 // Configuracion de Menus. 
 // poniendo a la escucha a los diferentes objetos del menu correspondiente.		
@@ -266,7 +260,6 @@ function upd_inmenu(){
 
 	document.getElementById("mod001").addEventListener("click",mod001,false);
 }
-
 //------------------------------------------------------------------------
 // transacciones 
 //------------------------------------------------------------------------
@@ -309,7 +302,6 @@ function rp002(){
 		getmsgalert("Usuario no tiene derecho de acceso");
 	}
 }
-
 function rp003(){
 	var llcont = doform("rp003");
 	if (llcont){
@@ -363,7 +355,6 @@ function mod001(){
 function mod002(){
 	document.getElementById("ventana").setAttribute("src","../view/admin_artran.php");
 }
-
 function sy001(){
 	document.getElementById("ventana").setAttribute("src","../view/sycomp.php");
 }
@@ -376,6 +367,4 @@ function sy003(){
 function sy004(){
 	document.getElementById("ventana").setAttribute("src","../view/syperm.php");
 }
-
-
 window.onload=init;

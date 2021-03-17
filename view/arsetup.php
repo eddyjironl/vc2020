@@ -18,7 +18,7 @@ if (vc_funciones::Star_session() == 1){
 	</head>
 	
 	<body >
-		<form method="post" action="../modelo/arsetup_crud.php" name="arsetup" id= "arsetup" class="form">
+		<form method="post" action="../modelo/arsetup_crud.php?accion=SAVE" name="arsetup" id= "arsetup" class="form">
 
 			<div class="tab">
 				<button  class="tablinks" id="tbinfo1" >Informacion General</button>

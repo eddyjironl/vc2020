@@ -36,8 +36,6 @@ function init(){
 	// CODIGO PARA LOS MENUS INTERACTIVOS.
 	// CADA MENU
 	document.getElementById("btcservno").addEventListener("click",show_menu_arserm,false);
-	//document.getElementById("bt_m_refresh").addEventListener("click",show_menu_arcust,false);
-	
 	// una funcion de ordenamiento segun el menu que se elija.
 	// Lista de ordenamiento
 	document.getElementById("mx_opc_order").addEventListener("click",get_mx_detalle,false);
@@ -189,7 +187,7 @@ function ck_vuelto(){
 }
 // imprime una factura 
 function print_invoice(){
-	alert("Imprimiendo factura....");
+	document.getElementById("pantalla_pago").submit()
 }
 // nueva factura despues de que se guardo la que se estaba haciendo.
 function nueva_factura(){
