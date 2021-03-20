@@ -128,6 +128,9 @@ function change_module(){
 					'			<li><a id="tr001"> Facturacion y Notas de Debito</a></li>'+
 					'			<li><a id="tr002"> Recibos de Dinero </a></li>'+
 					'			<li><a id="tr003"> Cotizaciones </a></li>'+
+					'			<li><a id="tr006"> Administracion de Pedidos </a></li>'+
+					'			<li><a id="tr007" href="arpodvm.php">Preventa a Clientes</a></li>'+
+					'			<li><a id="tr008"> Facturacion de Pedidos </a></li>'+
 					'			<li><a id="sy004" href="../index.php">Salir</a></li>'+
 					'		</ul>'+
 					'	</li>'+
@@ -161,14 +164,19 @@ function change_module(){
 		omenu_in =  '<ul id="menu"> '+
 					'	<li><a>Transacciones</a>'+
 					'		<ul>'+
-					'			<li><a id="tr003"> Cotizaciones </a></li>'+
 					'			<li><a id="tr004"> Entradas y Salidas de Inventario </a></li>'+
+					'			<li><a id="tr006"> Administracion de Pedidos </a></li>'+
+					'			<li><a id="tr003"> Cotizaciones </a></li>'+
 					'			<li><a id="sy004" href="../index.php">Salir</a></li>'+
 					'		</ul>'+
 					'	</li>'+
 					'	<li><a>Reportes</a>'+
 					'		<ul>'+
-					'			<li><a id="rp005"> Resumen de inventario</a></li>'+
+					'			<li><a id="rp005"> Lista de Precios</a></li>'+
+					'			<li><a id="rp006"> Saldos de Inventario Valorizados</a></li>'+
+					'			<li><a id="rp007"> Formato de Requisas</a></li>'+
+					'			<li><a id="rp008"> Reporte de Movimiento de Inventario (Entradas y Salidas)</a></li>'+
+					'			<li><a id="rp009"> Saldos Minimos de existencias.</a></li>'+
 					'		</ul>'+
 					'	</li>'+
 					'	<li><a>Catalogos</a>'+

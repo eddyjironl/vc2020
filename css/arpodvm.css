@@ -1,0 +1,149 @@
+*{
+	font-family:arial;
+	font-size:12px;	
+}
+#btsalir{
+ background: rgb(240,240,240);
+    border: 1px solid;
+    text-decoration: none;
+    text-align: center;
+    border-block-color: black;
+    display: inline-block;
+    color: #141313;
+    width: 90;
+    height: 18;
+    border-radius: 2px;
+}
+h2{
+	font-size:25px;
+	font-decoration:none;
+	text-shadow:black 10px 10px 5px;
+	color:white;
+	text-aline:center;
+	display:inline;
+	padding:10px;
+	margin:auto;
+}
+
+form{	
+	/*centrado de izquierda a derecha.*/
+	margin:auto;
+	/* centrado vertical aproximado.*/
+	margin-top:15%;	background:rgb(192,192,192);
+	border:solid 1px black;
+	border-radius:15px 15px 15px 15px;
+	box-shadow:#171616 10px 10px 14px;
+	height:200px;
+	min-height:320px;
+	width:500px;
+}	
+
+div{
+	max-width:500px;
+	margin-top:2px;
+	margin:auto;
+}
+
+.labelminscreen{
+	display:inline-block;
+	color:white;
+	background:#FF9800;
+	padding:2px;
+	width:100px;
+	max-width:100px;
+}
+body{
+	/*background-:url("Aqua_blue.jpg");*/
+	background:blue;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+#ntotal{
+	color:red;
+}
+
+@media screen and (max-width: 515px) {
+	*{	font-size:11;}	
+
+	.botones{
+		width:40px;
+		box-shadow:azure 0px 5px 11px;
+		background:rgb(20,200,200);
+		border-radius:10px;
+		margin:0px;
+	}
+	label{width:70px;}
+	form {
+		padding:5px;
+		height:500px;
+		width:290px;
+        margin-top:2%;
+  	}
+	h2{font-size:16px; color:red;}
+	#ccustno, #crutno,#cpaycode, #cservno1{
+		width:130;
+	}
+	#labeltitle{
+		width: 205px;
+		max-width:300px;
+		background:gray;
+	}
+	#footer{
+		background:rgb(240,240,240);
+		border-radius:10px;
+		margin-top:2px;
+		text-align:right;
+		border: solid #b2b2b2;
+		border-right-color: white;
+		border-left-color: white;
+	}
+
+	#thcservno{
+		width: 128px;
+	}
+	#mx_cbuscar{width: 150px}
+	.input_min{
+		width: 60px;
+		text-align:right;
+	}
+	#form_menu label{
+		min-width:0px;
+		width:70px;
+	}
+	.table_det,#tdetalles{	
+		background-color:#dcdcdc;
+		color:#000000;
+		font-family:arial;
+		font-size:11px;
+	}
+	#aencabezado{
+		margin-left:0px;
+		padding:0px;
+
+	}
+	#adetalles{
+		height:260px;	
+		overflow: auto;
+		margin-left:0px;
+		padding:0px;
+	}
+	.botones_row{
+		width:20px;
+		box-shadow:azure 0px 5px 11px;
+		background:rgb(20,200,200);
+		border-radius:10px;
+		margin-left:2px;
+	}
+	#nprice{
+		color:blue;
+	}
+	#ntotamt{
+		color:blue;
+		text-align:right;
+		width:90px;
+		margin:0 10px;
+		border-radius:5px;
+	}
+}
+
