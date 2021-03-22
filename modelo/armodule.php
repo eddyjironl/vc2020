@@ -34,6 +34,9 @@ function getsetupnumber($poConn, $pctable){
 	if ($pctable == "ARADJM"){
 		$lcsql = "select nadjno as numero from arsetup ";
 	}
+	if ($pctable == "ARPEDM"){
+		$lcsql = "select npedno as numero from arsetup ";
+	}
 	// obteniendo INFORMACION
 	$lcresult = mysqli_query($poConn,$lcsql);
 	$ldata    = mysqli_fetch_assoc($lcresult);
@@ -56,6 +59,10 @@ function GetNewDoc($poConn,$pctable){
 			$lcsql     = " select cadjno from aradjm where cadjno = '$lnTmpDocno'";
 			$lcsql_upd = " update arsetup set nadjno = $lnTmpDocno + 1 ";
 		}
+		if ($pctable == "ARPEDM"){
+			$lcsql     = " select cpedno from arpedm where cpedno = '$lnTmpDocno'";
+			$lcsql_upd = " update arsetup set npedno = $lnTmpDocno + 1 ";
+		}
 		$lcresult = mysqli_query($poConn,$lcsql);
 		// revisando si el dato del numero no existe
 		$lnexist  = mysqli_num_rows($lcresult);
@@ -75,12 +82,24 @@ function GetNewDoc($poConn,$pctable){
 function get_tc_rate($poConn,$pdtrndate){
 	$lcsql = " select * from armone where dtrndate = '$pdtrndate' ";
 	$lcresult = mysqli_query($poConn,$lcsql); 
-	// convirtiendo estos datos en un array asociativo
-	$ldata = mysqli_fetch_assoc($lcresult);
-	// convirtiendo este array en archivo jason.
-	$jsondata = json_encode($ldata,true);
-	// retornando objeto json
-	echo $jsondata;
+	// verificando si tiene algo 
+	
+	if(mysqli_num_rows($lcresult)>0){
+		// convirtiendo estos datos en un array asociativo
+		$ldata = mysqli_fetch_assoc($lcresult);
+		//convirtiendo este array en archivo jason.
+		$jsondata = json_encode($ldata,true);
+		// retornando objeto json
+		echo $jsondata;
+	}
+	else{
+		// convirtiendo estos datos en un array asociativo
+		$ldata = array("ntc"=>1);
+		//convirtiendo este array en archivo jason.
+		$jsondata = json_encode($ldata,true);
+		// retornando objeto json
+		echo $jsondata;
+	}
 }
 /* obteniendo monto de ventas en la fecha especificada.*/
 function get_sales_amount($poConn,$pccustno){

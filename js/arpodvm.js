@@ -9,6 +9,13 @@ function init(){
 	document.getElementById("mx_opc_order").addEventListener("click",get_mx_detalle,false);
 	// opcion de busqueda
 	document.getElementById("mx_cbuscar").addEventListener("input",get_mx_detalle,false);
+	document.getElementById("dmnotas").style.display="none"
+	document.getElementById("guardar_mnotas").addEventListener("click",guardar_comentario,false);
+	document.getElementById("salir_mnotas").addEventListener("click",noguardar_comentario,false);
+	document.getElementById("btmnotas").addEventListener("click",abrir_comentario,false);
+	document.getElementById("guardar").addEventListener("click",guardar,false);
+	document.getElementById("salir").addEventListener("click",get_master_screen,false);
+	document.getElementById("cubino").addEventListener("change",upd_ccustno_list,false);
 	// ------------------------------------------------------------------------
 	// CODIGO PARA LOS MENUS INTERACTIVOS.
 	// CADA MENU
@@ -20,7 +27,115 @@ function init(){
 	document.getElementById("mx_cbuscar").addEventListener("input",get_mx_detalle,false);
 	// ------------------------------------------------------------------------
 }
+function upd_ccustno_list(){
+	// ruta que esta seleccionada
+	let lccustno = document.getElementById("cubino").value;
+	xlmhtt = new XMLHttpRequest();
+	oData  = new FormData();
+	oData.append("accion","list");
+	oData.append("ccustno",lccustno);
+	xlmhtt.open("POST","../modelo/esp_arpodvm.php",false);
+	xlmhtt.send(oData);
+	document.getElementById("dlcliente").innerHTML=xlmhtt.response;
 
+}
+function get_master_screen(){
+	arpodvm.submit();
+}
+
+function clear_view(){
+	document.getElementById("tdetalles").innerHTML = "";
+	get_clear_view();
+	cksum();
+}
+function isvalidentry(){
+	if(ccustno.value==""){
+		getmsgalert("coloque un cliente");
+		return true;
+	}
+	if(cpaycode.value==""){
+		getmsgalert("indique las condiciones del pedido");
+		return true;
+	}
+	return false;
+}
+function guardar(){
+	var lcservno = "",odata="", lnqty=0 ,lnveces=1, lncost = 0;
+	// ---------------------------------------------------------------------
+	// A)- verificando integridad de datos antes de guardar definitivamente.
+	// ---------------------------------------------------------------------
+	if (isvalidentry()){
+		return ;
+	}
+
+	// b)- Validando que hayan detalles a procesar.
+	var otabla = document.getElementById("tdetalles");
+	var lnrows = otabla.rows.length ;
+	if(lnrows == 0){
+		getmsgalert("No hay detalle de facturas cliente no tiene cuentas pendientes");
+		return ;
+	}
+	// verificando que no haya campos NaN En cantidad o Costo.
+	var lnvalue = parseFloat(document.getElementById("ntotamt").value).toFixed(2);
+	if (isNaN(lnvalue)){
+		llcont = false;
+		getmsgalert("revise las cantidades o el total existe un dato no permitido");
+		return ;
+	}		
+
+	// b)- armando JSON.
+	// b.1)- Armando el encabezado.
+	odata += '{"ccustno":"'  + document.getElementById("ccustno").value  + '",';
+	odata += ' "cpaycode":"' + document.getElementById("cpaycode").value + '",';
+	odata += ' "crutno":"'  + document.getElementById("cubino").value  + '",';
+	odata += ' "mnotas":"'   + document.getElementById("mnotas").value   + '",';
+	// b.2)- Armando el detalle
+	odata += ' "articulos":[' ;
+	// recorriendo la tabla en busca de abono y factura.
+	for (var i = 0; i<lnrows; ++i){
+		// obteniendo valor de celdas en cada fila
+		lncost   = parseFloat(otabla.rows[i].cells[3].children["nprice"].value);
+		lnqty    = parseFloat(otabla.rows[i].cells[2].children["nqty"].value);
+		lcservno = otabla.rows[i].cells[0].innerText;
+    	// si hay algo en el monto a aplicar en cualquier fila, procesara el pago y continua.
+		if (!isNaN(lnvalue)){
+			// si es la primera vez
+			if (lnveces == 1){
+				odata += '{"cservno":"' + lcservno + '","nprice":' + lncost + ',"nqty":' + lnqty + '}' ;
+				lnveces = 2;
+			}else{
+				odata += ',{"cservno":"' + lcservno + '","nprice":' + lncost + ',"nqty":' + lnqty + '}' ;
+			} // if (lnveces == 1){
+		} // if (!isNaN(lnvalue)){		
+	} // for (var i = 1; i<lnrows; ++i){
+	odata += ']}' ;
+	
+	// codigo request para enviar al crud de php
+	var oRequest = new XMLHttpRequest();
+	// Creando objeto para empaquetado de datos.
+	var oDatos   = new FormData();
+	// adicionando datos en formato CLAVE/VALOR en el objeto datos para enviar como parametro a la consulta AJAX
+	oDatos.append("json",odata);
+	oDatos.append("accion","NEW");
+	oRequest.open("POST","../modelo/crud_arpodvm.php",false); 
+	oRequest.send(oDatos);
+	// enviando mensaje de configuracion.
+	getmsgalert(oRequest.responseText.trim());
+	clear_view();
+}
+function guardar_comentario(){
+	document.getElementById("dmnotas").style.display="none";
+	document.getElementById("arpodvm").style.display="block";
+}
+function noguardar_comentario(){
+	document.getElementById("dmnotas").style.display="none";
+	document.getElementById("arpodvm").style.display="block";
+	document.getElementById("mnotas").value="";
+}
+function abrir_comentario(){
+	document.getElementById("dmnotas").style.display="block";
+	document.getElementById("arpodvm").style.display="none";
+}
 function show_menu_arserm(){
 	document.getElementById("xm_area_menu").style.display="inline";
 	var o_mx_lista = "";
@@ -132,10 +247,10 @@ function upddet(){
 	var otabla = document.getElementById("tdetalles");
 	//otabla.insertRow(1);
 	var oRow = "<tr>";
-	//oRow += "<td class= 'saytextd' width='90px'>"  + odata.cservno + "</td>";
+	oRow += "<td class= 'tdcservno' width='20px'>"  + odata.cservno + "</td>";
 	oRow += "<td class= 'saytextd' width='150px'>" + odata.cdesc   + "</td>";
-	oRow += "<td  class='input_min'  width='60px'><input type='number' class='input_min'  id='nqty' name='nqty' class='textkey' value=1></td>";
-	oRow += "<td  class='input_min' ><input type='text'  class='input_min' id='nprice' name='nprice' value=" + odata.nprice + "></td>";
+	oRow += "<td class='input_min'  width='60px'><input type='number' class='input_min'  id='nqty' name='nqty' class='textkey' value=1></td>";
+	oRow += "<td class='input_min' ><input type='text'  class='input_min' id='nprice' name='nprice' value=" + odata.nprice + "></td>";
 	//oRow += "<td  class='input_min' ><input type='button'  class='input_min'  onclick='deleteRow(this)' value='Eliminar'></td>";
 	oRow += "<td  id='rbtclear' ><img src='../photos/escoba.ico'  class='botones_row'  onclick='deleteRow(this)' title='Eliminar'/></td>";
 	oRow += "</tr>";
@@ -165,7 +280,7 @@ function cksum(){
 	var lnveces = otabla.rows.length ;
 	
 	for (var i = 0; i < lnveces; ++i){
-		lnsalesamt += parseFloat(otabla.rows[i].cells[1].children["nqty"].value) * parseFloat(otabla.rows[i].cells[2].children["nprice"].value);
+		lnsalesamt += parseFloat(otabla.rows[i].cells[2].children["nqty"].value) * parseFloat(otabla.rows[i].cells[3].children["nprice"].value);
 	}
 	// cargando los valores del total.
 	ntotamt.value  = parseFloat(lnsalesamt).toFixed(2);

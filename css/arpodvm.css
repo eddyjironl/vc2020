@@ -145,5 +145,34 @@ body{
 		margin:0 10px;
 		border-radius:5px;
 	}
+	#mnotas{
+		height: 410px;
+		width: 290px;
+		border-radius:10px;
+		margin-top:5px;
+	}
+	#dmnotas{
+		/*centrado de izquierda a derecha.*/
+		margin:auto;
+		/* centrado vertical aproximado.*/
+		background:rgb(192,192,192);
+		border:solid 1px black;
+		border-radius:15px 15px 15px 15px;
+		box-shadow:#171616 10px 10px 14px;
+		min-height:320px;
+		padding:5px;
+		height:500px;
+		width:290px;
+		margin-top:2%;
+	}
+	.tdcservno{
+		display: none;
+		width:70px;
+	}
+	
+	#dlcliente{
+		display:inline-block;
+		width: 130px;
+	}
 }
 

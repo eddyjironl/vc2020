@@ -59,15 +59,7 @@ function get_lista_artser(){
 	oRequest.send(oDatos);
 	document.write(oRequest.responseText);
 }
-function get_lista_arserv(){
-	var oRequest = new XMLHttpRequest();
-	oRequest.open("POST","../menu/menu_arresp.php",false); // Genera una lista de clientes.
-	var oDatos = new FormData();
-	// adicionando datos en formato CLAVE/VALOR en el objeto datos para enviar como parametro a la consulta AJAX
-	oDatos.append("accion","lista");
-	oRequest.send(oDatos);
-	document.write(oRequest.responseText);
-}
+
 function get_lista_arwhse(){
 	var oRequest = new XMLHttpRequest();
 	oRequest.open("GET","../menu/menu_arwhse.php",false); // Genera una lista de clientes.
