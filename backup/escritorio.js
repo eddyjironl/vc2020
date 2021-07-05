@@ -1,6 +1,6 @@
+
 function init(){
 	document.getElementById("cmodule_select").addEventListener("change",change_module,false);
-	document.getElementById("btok").addEventListener("click",close_introduccion,false);
 	// ------------------------------------------------------------------------
 	// CODIGO PARA LOS MENUS INTERACTIVOS.
 	// CADA MENU
@@ -14,12 +14,7 @@ function init(){
 	// opcion de busqueda
 	document.getElementById("mx_cbuscar").addEventListener("input",get_mx_detalle,false);
 	// ------------------------------------------------------------------------
-}
-
-function close_introduccion(){
-	document.getElementById("form_introduccion").style.display="none";
-}		
-		
+}	
 // ----------------------------------------------------------------------
 // MENU DE COMPAÑIAS PARA EL CAMBIO .
 // ----------------------------------------------------------------------
@@ -106,14 +101,14 @@ function select_xkey(e){
 	var oCia = JSON.parse(oRequest.response);
 	if (oCia != null){
 		document.getElementById("cia_desc").value = oCia.compdesc;
-		if (oCia.compdesc == ""){getmsgalert("Compañia Invalida");}
+		// cerrando las pantallas que puedan existir
+		document.getElementById("ventana").setAttribute('src', '');
+		if (oCia.compdesc == ""){getmsgalert("No Compañias Definidas ");}
 	}else{
 		getmsgalert("Compañia Invalida");
 	}	
 }
 // -----------------------------------------------------------------------
-
-
 // ------------------------------------------------------------------------
 // Configuracion de Menus. 
 // poniendo a la escucha a los diferentes objetos del menu correspondiente.		
@@ -133,6 +128,9 @@ function change_module(){
 					'			<li><a id="tr001"> Facturacion y Notas de Debito</a></li>'+
 					'			<li><a id="tr002"> Recibos de Dinero </a></li>'+
 					'			<li><a id="tr003"> Cotizaciones </a></li>'+
+					'			<li><a id="tr006"> Administracion de Pedidos </a></li>'+
+					'			<li><a id="tr007" href="arpodvm.php">Preventa a Clientes</a></li>'+
+					'			<li><a id="tr008"> Facturacion de Pedidos </a></li>'+
 					'			<li><a id="sy004" href="../index.php">Salir</a></li>'+
 					'		</ul>'+
 					'	</li>'+
@@ -166,14 +164,19 @@ function change_module(){
 		omenu_in =  '<ul id="menu"> '+
 					'	<li><a>Transacciones</a>'+
 					'		<ul>'+
-					'			<li><a id="tr003"> Cotizaciones </a></li>'+
 					'			<li><a id="tr004"> Entradas y Salidas de Inventario </a></li>'+
+					'			<li><a id="tr006"> Administracion de Pedidos </a></li>'+
+					'			<li><a id="tr003"> Cotizaciones </a></li>'+
 					'			<li><a id="sy004" href="../index.php">Salir</a></li>'+
 					'		</ul>'+
 					'	</li>'+
 					'	<li><a>Reportes</a>'+
 					'		<ul>'+
-					'			<li><a id="rp005"> Resumen de inventario</a></li>'+
+					'			<li><a id="rp005"> Lista de Precios</a></li>'+
+					'			<li><a id="rp006"> Saldos de Inventario Valorizados</a></li>'+
+					'			<li><a id="rp007"> Formato de Requisas</a></li>'+
+					'			<li><a id="rp008"> Reporte de Movimiento de Inventario (Entradas y Salidas)</a></li>'+
+					'			<li><a id="rp009"> Saldos Minimos de existencias.</a></li>'+
 					'		</ul>'+
 					'	</li>'+
 					'	<li><a>Catalogos</a>'+
@@ -222,13 +225,80 @@ function change_module(){
 		upd_symenu();
 	}
 }
+
+function change_module_small(pcmenuid){
+	var omenu_ar = "",omenu_in = "",omenu_ct = "",omenu_sy = "";
+	
+	if (document.getElementById("cia_desc").value == ""){
+		getmsgalert("Seleccione Compañia")	;
+	 	return;
+	}
+	var omenu = document.getElementById("area_menu2");
+		// Definiendo modulo de Cuentas por cobrar.
+	    
+		omenu_ar_trn =  '<ul id="menu"> '+
+					'	<li><a>Transacciones</a>'+
+					'		<ul>'+
+					'			<li><a id="tr001"> Facturacion y Notas de Debito</a></li>'+
+					'			<li><a id="tr002"> Recibos de Dinero </a></li>'+
+					'			<li><a id="tr003"> Cotizaciones </a></li>'+
+					'			<li><a id="tr006"> Administracion de Pedidos </a></li>'+
+					'			<li><a id="tr007" href="arpodvm.php">Preventa a Clientes</a></li>'+
+					'			<li><a id="tr008"> Facturacion de Pedidos </a></li>'+
+					'			<li><a id="sy004" href="../index.php">Salir</a></li>'+
+					'		</ul>'+
+					'	</li>'	+
+					' </ul>'
+
+		omenu_ar_rpt =  '<ul id="menu"> '+
+					'	<li><a>Reportes</a>'+
+					'		<ul>'+
+					'			<li><a id="rp001"> Resumen de Ventas</a></li>'+
+					'			<li><a id="rp002"> Cuentas por Cobrar</a></li>'+
+					'			<li><a id="rp003"> Estado de Cuentas</a></li>'+
+					'			<li><a id="rp004"> Resumen de Cobros</a></li>'+
+					'		</ul>'+
+					'	</li>'+
+					' </ul>'
+
+		omenu_ar_mnt =  '<ul id="menu"> '+
+					'	<li><a>Catalogos</a>'+
+					'		<ul>'+
+					'			<li><a id="ca001">Catalogo de Clientes</a></li>'+
+					'			<li><a id="ca002">Condiciones de Pago</a></li>'+
+					'			<li><a id="ca003">Maestro de Inventarios</a></li>'+
+					'			<li><a id="ca004">Tipos de Inventarios</a></li>'+
+					'			<li><a id="ca005">Proveedores</a></li>'+
+					'			<li><a id="ca006">Tipos de Requisas / Entradas y Salidas</a></li>'+
+					'			<li><a id="ca007">Bodegas</a></li>'+
+					'			<li><a id="ca008">Tipos de Cambio</a></li>'+
+					'		</ul>'+
+					'	</li>'+
+					' </ul>'
+
+	var omodule = document.getElementById("cmodule_select").value;
+	omenu.innerHTML = "";
+
+	if (pcmenuid == "ARTRN"){
+		omenu.innerHTML = omenu_ar_trn;
+	}
+
+	if (omodule == "AR"){
+		omenu.innerHTML = omenu_ar;
+		upd_armenu();
+	}
+}
+
+
+
+
 function upd_ctmenu(){
 	
 }
 function upd_symenu(){
 	document.getElementById("sy001").addEventListener("click",sy001,false);
 	document.getElementById("sy002").addEventListener("click",sy002,false);
-	document.getElementById("sy003").addEventListener("click",sy003,false);
+	//document.getElementById("sy003").addEventListener("click",sy003,false);
 	document.getElementById("sy004").addEventListener("click",sy004,false);
 }
 function upd_armenu(){
@@ -265,7 +335,6 @@ function upd_inmenu(){
 
 	document.getElementById("mod001").addEventListener("click",mod001,false);
 }
-
 //------------------------------------------------------------------------
 // transacciones 
 //------------------------------------------------------------------------
@@ -308,7 +377,6 @@ function rp002(){
 		getmsgalert("Usuario no tiene derecho de acceso");
 	}
 }
-
 function rp003(){
 	var llcont = doform("rp003");
 	if (llcont){
@@ -362,7 +430,6 @@ function mod001(){
 function mod002(){
 	document.getElementById("ventana").setAttribute("src","../view/admin_artran.php");
 }
-
 function sy001(){
 	document.getElementById("ventana").setAttribute("src","../view/sycomp.php");
 }
@@ -375,6 +442,4 @@ function sy003(){
 function sy004(){
 	document.getElementById("ventana").setAttribute("src","../view/syperm.php");
 }
-
-
 window.onload=init;

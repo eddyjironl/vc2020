@@ -307,6 +307,11 @@ function clear_view(){
 	document.getElementById("dstardate").value = get_date_comp();
 	document.getElementById("denddate").value  = get_date_comp();
 	get_tc_rate();
+
+	// limpiando otros campos para que no quede ningun datos.
+	crefno.value = "";
+	cdesc.value = "";
+	mnotas.value = "";
 	// detalle de la factura poniendolo en blanco
 	articulos.innerHTML= "";	
 	// cargando numero de transsaccion para esta factura temporal

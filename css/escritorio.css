@@ -7,9 +7,10 @@
 #espacio{
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
-	background-color:blue;
+	
+	/*background-color:black;
 	background-size: cover;
-    /*background-repeat: no-repeat;
+    background-repeat: no-repeat;
     background-image: url(../photos/fondo3.png);
 	background-color:blue;*/
 }
@@ -32,7 +33,11 @@
 	display:inline-block;
 	float: left;
 }
-#barra1-a, #cmodule_select{
+#cmodule_select{
+	padding-left:10px;
+	width:auto;
+}
+#barra1-a{
 	padding-left:10px;
 }
 
@@ -52,12 +57,6 @@ footer{
 	position: absolute;
   	bottom: 0;
 }
-
-
-
-
-
-
 .fieldset_scren{
 	padding:0px;
 	display:inline-block;
@@ -91,17 +90,24 @@ footer{
 }
 #labels{
 	position:fixed;
-	//background:blue;
 	margin-left:5px;
 }
 #ventana{
+	/*background-color: #eaeaea;*/
 	width: 90%;
 	height: 79%; 
 	border:none;
 	top:105px;
 	left:40px;
 	position:fixed;
-
+/*
+	width: 90%;
+	height: 79%; 
+	border:none;
+	top:105px;
+	left:40px;
+	position:fixed;
+*/
 }
 #fondo{
    width:48%;
@@ -163,4 +169,85 @@ ul{
 #menu li:hover ul {
 	display:block;
 }
-			
+	
+#barra_small{
+	display:none;
+}
+
+.form_change {
+	padding:5px;
+	margin-top:5%;
+	background:rgb(192,192,192);
+	border:solid 1px black;
+	border-radius:15px 15px 15px 15px;
+	box-shadow:aqua 5px 5px 19px;
+	position:relative;
+}
+
+#info_small h1{
+	color:white;
+	font-size: 20px;
+	margin:10px 150px;
+}
+#info_small strong{
+	font-size:15px;
+	padding: 10px;
+
+}
+#info_small p{
+	color:#ffc107;
+	font-size: 15px;
+	padding-left:5px;
+}
+#close_info{
+	padding: 5px;
+	margin: auto 30%;
+}
+
+
+@media screen and (max-width: 515px) {
+	/* Configurando ambiente pantalla pequeña */
+	#ventana{
+		width: 99%;
+		height: 90%; 
+		border:none;
+		top:40px;
+		left:2px;
+		position:fixed;
+		/*background-color:black;*/
+	}
+	/* Ocultando elementos */
+	#barra1,footer{ display: none;}
+	#cia_desc_small,#cfullname_small{
+		width: 170px;
+		color:white;
+		background-color:green
+		}
+
+	#barra_small{
+		background-color: grey;
+		box-shadow: #FFEB3B 5px 5px 15px;
+		position:relative;
+		height: 30px;
+		display: block;
+	}
+	#logo_min{
+		width:20px;
+		margin:5px;
+	}
+	.botones{
+		width:20px;
+		box-shadow:azure 0px 5px 11px;
+		background:rgb(20,200,200);
+		border-radius:10px;
+		margin-left:25px;
+		margin-bottom:5px;
+		display:inline-block;
+	}
+	#area_menu_small{
+		display: inline-block;
+		position: relative;
+	}
+
+
+}	

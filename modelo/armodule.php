@@ -16,7 +16,7 @@
 			get_tc_rate($oConn,$_POST["dtrndate"]);
 		}
 		if ($_POST["program"]== "get_inventory_onhand"){
-			get_inventory_onhand($oConn,$_POST["cservno"]);
+			get_inventory_onhand($oConn,$_POST["cservno"],$_POST["respuesta"]);
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------
@@ -118,7 +118,7 @@ function get_sales_amount($poConn,$pccustno){
 	echo $jsondata;
 }
 /* existencia de un articulo. */ 
-function get_inventory_onhand($poConn,$pcservno){
+function get_inventory_onhand($poConn,$pcservno,$prespt){
 	$lcsqlcmd = "SELECT aradjt.cservno,
 					     sum(aradjt.nqty) as nqty
 				 FROM aradjm
@@ -147,6 +147,14 @@ function get_inventory_onhand($poConn,$pcservno){
 	while($lnrowqty = mysqli_fetch_assoc($lcresult)){
 		$lnqty += $lnrowqty["nqty"];	
 	}
-	echo $lnqty;
+	// desidiendo como sera la respuesta.
+	if ($prespt == "R"){
+		return $lnqty;
+	}else{
+		echo $lnqty;
+	}
+	
+	
+
 }
 ?>

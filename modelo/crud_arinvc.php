@@ -2,11 +2,11 @@
 include("../modelo/armodule.php");
 include("../modelo/vc_funciones.php");
 $oConn = vc_funciones::get_coneccion("CIA");
+$lcaccion = $_POST["accion"];
 if (isset($_POST["xtrnno"])){
 	// CAMPOS 
 	$lcinvno  = $_POST["xtrnno"];
-	//$lcaccion = isset($_POST["accion"])?$_POST["accion"]:$_GET["accion"];
-	$lcaccion = $_POST["accion"];
+	
 	// a)- Retorna Precio, Costo y Descripcion. en forma JSON.
 	// ------------------------------------------------------------------------------
 	if($lcaccion == "LIST"){
@@ -159,11 +159,45 @@ if (isset($_POST["xtrnno"])){
 		$lcsql = " delete from arinvt_tmp where cinvno = '$lcinvno' ";
 		mysqli_query($oConn,$lcsql);	
 		echo $lcNewInvno;
-	}	
-}else{
-	echo "Numero de transaccion Vacio <br> no se puede guarda la factura.";
+	}
+	
+	/*else{
+		echo "Numero de transaccion Vacio <br> no se puede guarda la factura.";
+	}*/
 }
 
+if($lcaccion=="MENU"){
+	// el where no siempre viene incluido
+	$lcwhere  = "";
+	if (!empty($_POST["filtro"])){
+		$lcwhere  = " where ". $_POST["orden"]. " like '%". $_POST["filtro"] ."%' ";
+	}
+	// ordenamiento del reporte siempre debe estar lleno.	
+	$lcorder  = " order by ". $_POST["orden"];
+	// sentencia sql filtrada.
+	$lcsql    = " select arinvc.* ,
+				  arcust.cname as cfullname,
+				  artcas.cdesc as cdescpay
+				  from arinvc
+				  join arcust on arcust.ccustno  = arinvc.ccustno 
+				  join artcas on artcas.cpaycode = arinvc.cpaycode ". $lcwhere . $lcorder;
+		
+	$lcresult = mysqli_query($oConn,$lcsql);
+	$ojson    = '[';
+	$lnveces  = 1;
+	$lcSpace  = "";
+	while ($ldata = mysqli_fetch_assoc($lcresult)){
+		if ($lnveces == 1){
+			$lnveces = 2;
+		}else{
+			$lcSpace = ",";			
+		}
+		$ojson = $ojson . $lcSpace .'{"cinvno":"' .$ldata["cinvno"] .'","cfullname":"'. $ldata["cfullname"] .'","cdescpay":"'. $ldata["cdescpay"] .'","crefno":"'. $ldata["crefno"] .'"}';	
+	}
+	$ojson = $ojson . ']';
+	// enviando variable json.
+	echo $ojson;		
+}
 	// muestra todos los contenidos de la tabla.
 function get_detalle($pctrnno,$oConn){
 	$lcsql     = " select * from arinvt_tmp where cinvno ='$pctrnno' ";	
@@ -178,10 +212,10 @@ function get_detalle($pctrnno,$oConn){
 		echo '<td  width="75px">'.  $row["nqty"]    .'</td>';
 		echo '<td  width="50px">'.  $row["ndesc"]   .'</td>';
 		echo '<td  width="50px">'.  $row["ntax"]    .'</td>';
-		echo '<td  width="75px">'. ($row["nqty"] * $row["nprice"]) .'</td>';
+		echo '<td  width="75px">'. round($row["nqty"] * $row["nprice"],2) .'</td>';
 		echo '<td>';
-		echo '	<input type="button" id="btquitar"  value="Eliminar" onclick="eliminarFila('.$row["cuid"].')" >';
-		echo '	<input type="button" id="btupdfild" value="Editar"   onclick="editarFila('.$row["cuid"].')" >';
+		echo '	<img src="../photos/escoba.ico" id="btquitar"  class="botones_row" value="Eliminar" title= "Eliminar Registro" onclick="eliminarFila('.$row["cuid"].')" />';
+		echo '	<img src="../photos/editar.ico" id="btupdfild" class="botones_row" value="Editar"   title= "Editar Precio ,Cantidad y Descuento" onclick="editarFila('.$row["cuid"].')" />';
 		echo '</td>';
 		echo '</tr>';
 	}

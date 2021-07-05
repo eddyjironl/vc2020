@@ -13,8 +13,14 @@ function init(){
 	document.getElementById("guardar_mnotas").addEventListener("click",guardar_comentario,false);
 	document.getElementById("salir_mnotas").addEventListener("click",noguardar_comentario,false);
 	document.getElementById("btmnotas").addEventListener("click",abrir_comentario,false);
+	
 	document.getElementById("guardar").addEventListener("click",guardar,false);
-	document.getElementById("salir").addEventListener("click",get_master_screen,false);
+	document.getElementById("btguardar").addEventListener("click",guardar,false);
+
+	document.getElementById("salir").addEventListener("click",cerrar_pantalla,false);
+	document.getElementById("btquit").addEventListener("click",cerrar_pantalla,false);
+
+	document.getElementById("btnueva").addEventListener("click",clear_view,false);
 	document.getElementById("cubino").addEventListener("change",upd_ccustno_list,false);
 	// ------------------------------------------------------------------------
 	// CODIGO PARA LOS MENUS INTERACTIVOS.
@@ -26,6 +32,11 @@ function init(){
 	// opcion de busqueda
 	document.getElementById("mx_cbuscar").addEventListener("input",get_mx_detalle,false);
 	// ------------------------------------------------------------------------
+}
+
+
+function cerrar_pantalla(){
+	document.getElementById("arpodvm").style.display="none";
 }
 function upd_ccustno_list(){
 	// ruta que esta seleccionada
@@ -87,15 +98,16 @@ function guardar(){
 	// b.1)- Armando el encabezado.
 	odata += '{"ccustno":"'  + document.getElementById("ccustno").value  + '",';
 	odata += ' "cpaycode":"' + document.getElementById("cpaycode").value + '",';
-	odata += ' "crutno":"'  + document.getElementById("cubino").value  + '",';
+	odata += ' "crutno":"'   + document.getElementById("cubino").value   + '",';
 	odata += ' "mnotas":"'   + document.getElementById("mnotas").value   + '",';
-	// b.2)- Armando el detalle
+	odata += ' "mnotash":"'  + document.getElementById("mnotash").value  + '",';
+		// b.2)- Armando el detalle
 	odata += ' "articulos":[' ;
 	// recorriendo la tabla en busca de abono y factura.
 	for (var i = 0; i<lnrows; ++i){
 		// obteniendo valor de celdas en cada fila
-		lncost   = parseFloat(otabla.rows[i].cells[3].children["nprice"].value);
-		lnqty    = parseFloat(otabla.rows[i].cells[2].children["nqty"].value);
+		lncost   = parseFloat(otabla.rows[i].cells[2].children["nprice"].value);
+		lnqty    = parseFloat(otabla.rows[i].cells[1].children["nqty"].value);
 		lcservno = otabla.rows[i].cells[0].innerText;
     	// si hay algo en el monto a aplicar en cualquier fila, procesara el pago y continua.
 		if (!isNaN(lnvalue)){
@@ -246,11 +258,12 @@ function upddet(){
 	// ---------------------------------------------------------------------------------------------------------
 	var otabla = document.getElementById("tdetalles");
 	//otabla.insertRow(1);
+	//oRow += "<td class= 'tdcservno' width='20px'>"  + odata.cservno + "</td>";
+	
 	var oRow = "<tr>";
-	oRow += "<td class= 'tdcservno' width='20px'>"  + odata.cservno + "</td>";
-	oRow += "<td class= 'saytextd' width='150px'>" + odata.cdesc   + "</td>";
-	oRow += "<td class='input_min'  width='60px'><input type='number' class='input_min'  id='nqty' name='nqty' class='textkey' value=1></td>";
-	oRow += "<td class='input_min' ><input type='text'  class='input_min' id='nprice' name='nprice' value=" + odata.nprice + "></td>";
+	oRow += "<td class= 'saytextd' id='tdcdesc'>" + odata.cdesc   + "</td>";
+	oRow += "<td><input type='number'  id='nqty'   name='nqty'   value=1></td>";
+	oRow += "<td><input type='text'    id='nprice' name='nprice' value=" + odata.nprice + "></td>";
 	//oRow += "<td  class='input_min' ><input type='button'  class='input_min'  onclick='deleteRow(this)' value='Eliminar'></td>";
 	oRow += "<td  id='rbtclear' ><img src='../photos/escoba.ico'  class='botones_row'  onclick='deleteRow(this)' title='Eliminar'/></td>";
 	oRow += "</tr>";
@@ -280,7 +293,7 @@ function cksum(){
 	var lnveces = otabla.rows.length ;
 	
 	for (var i = 0; i < lnveces; ++i){
-		lnsalesamt += parseFloat(otabla.rows[i].cells[2].children["nqty"].value) * parseFloat(otabla.rows[i].cells[3].children["nprice"].value);
+		lnsalesamt += parseFloat(otabla.rows[i].cells[1].children["nqty"].value) * parseFloat(otabla.rows[i].cells[2].children["nprice"].value);
 	}
 	// cargando los valores del total.
 	ntotamt.value  = parseFloat(lnsalesamt).toFixed(2);

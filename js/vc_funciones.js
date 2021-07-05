@@ -20,7 +20,7 @@ var gckeyid   = "";
 var gckeydesc = "";
 var gcbtkeyid = "";
 var oArSetup = {};
-arsetup_init()
+arsetup_init();
 //-------------------------------------------------------
 // A)- listados de catalogos.
 //-------------------------------------------------------
@@ -118,6 +118,7 @@ function get_inventory_onhand(pcservno){
 	// adicionando datos en formato CLAVE/VALOR en el objeto datos para enviar como parametro a la consulta AJAX
 	oDatos.append("program","get_inventory_onhand");
 	oDatos.append("cservno",pcservno);
+	oDatos.append("respuesta","E");
 	// obteniendo el menu
 	oRequest.open("POST","../modelo/armodule.php",false); 
 	oRequest.send(oDatos);

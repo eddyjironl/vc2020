@@ -39,6 +39,7 @@ vc_funciones::init_index();
 				</div>
 				
 				<div>
+					<label>Compañia</label>
 					<?php
 						vc_funciones::getcialist();
 					?>

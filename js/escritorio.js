@@ -1,10 +1,13 @@
-
 function init(){
 	document.getElementById("cmodule_select").addEventListener("change",change_module,false);
-	// ------------------------------------------------------------------------
+	document.getElementById("cmodule_select_small").addEventListener("change",change_module_small,false);
+	
+// ------------------------------------------------------------------------
 	// CODIGO PARA LOS MENUS INTERACTIVOS.
 	// CADA MENU
 	document.getElementById("btcias").addEventListener("click",show_menu_sycomp,false);
+	document.getElementById("btcias_samall").addEventListener("click",show_menu_sycomp,false);
+	
 	//document.getElementById("bt_m_refresh").addEventListener("click",show_menu_arcust,false);
 	document.getElementById("xm_area_menu").style.display="none";
 
@@ -13,8 +16,39 @@ function init(){
 	document.getElementById("mx_opc_order").addEventListener("click",get_mx_detalle,false);
 	// opcion de busqueda
 	document.getElementById("mx_cbuscar").addEventListener("input",get_mx_detalle,false);
+	
+	
+// CONFIGURACION SMALL
 	// ------------------------------------------------------------------------
+	// opciones del menu SMALL
+	document.getElementById("transacciones").addEventListener("click",change_module_small,false);
+	document.getElementById("transacciones").addEventListener("mouseover",change_module_small,false);
+	document.getElementById("reportes").addEventListener("click",change_module_small,false);
+	document.getElementById("reportes").addEventListener("mouseover",change_module_small,false);
+	document.getElementById("catalogos").addEventListener("click",change_module_small,false);
+	document.getElementById("catalogos").addEventListener("mouseover",change_module_small,false);
+	document.getElementById("Modulos").addEventListener("click",change_module_small,false);
+	document.getElementById("Modulos").addEventListener("mouseover",change_module_small,false);
+	document.getElementById("close_info").addEventListener("click",extends_barra_small,false);
+	document.getElementById("logo_min").addEventListener("click",extends_barra_small,false);
+	document.getElementById("info_small").style.display = "none";
+	extends_barra_small();
 }	
+function extends_barra_small(){
+	var ancho = document.getElementById("barra_small").clientHeight;
+	var new_ancho = "30px";
+	var lcdisplay = "none";
+	if (ancho == 30){
+		new_ancho = "450px";
+		lcdisplay = "block";
+	}
+	document.getElementById("barra_small").style.height = new_ancho;
+	document.getElementById("info_small").style.display = lcdisplay;
+}
+function close_menu(e){
+	//alert(e.target.id);
+	document.getElementById("area_menu_small").innerHTML = "";
+}
 // ----------------------------------------------------------------------
 // MENU DE COMPAÑIAS PARA EL CAMBIO .
 // ----------------------------------------------------------------------
@@ -101,6 +135,7 @@ function select_xkey(e){
 	var oCia = JSON.parse(oRequest.response);
 	if (oCia != null){
 		document.getElementById("cia_desc").value = oCia.compdesc;
+		document.getElementById("cia_desc_small").value = oCia.compdesc;
 		// cerrando las pantallas que puedan existir
 		document.getElementById("ventana").setAttribute('src', '');
 		if (oCia.compdesc == ""){getmsgalert("No Compañias Definidas ");}
@@ -127,18 +162,17 @@ function change_module(){
 					'		<ul>'+
 					'			<li><a id="tr001"> Facturacion y Notas de Debito</a></li>'+
 					'			<li><a id="tr002"> Recibos de Dinero </a></li>'+
-					'			<li><a id="tr003"> Cotizaciones </a></li>'+
-					'			<li><a id="tr006"> Administracion de Pedidos </a></li>'+
-					'			<li><a id="tr007" href="arpodvm.php">Preventa a Clientes</a></li>'+
-					'			<li><a id="tr008"> Facturacion de Pedidos </a></li>'+
+					'			<li><a id="tr007"> Preventa a Clientes</a></li>'+
 					'			<li><a id="sy004" href="../index.php">Salir</a></li>'+
 					'		</ul>'+
 					'	</li>'+
 					'	<li><a>Reportes</a>'+
 					'		<ul>'+
 					'			<li><a id="rp001"> Resumen de Ventas</a></li>'+
+					'			<li><a id="rp006"> Resumen de Utilidades </a></li>'+
 					'			<li><a id="rp002"> Cuentas por Cobrar</a></li>'+
 					'			<li><a id="rp003"> Estado de Cuentas</a></li>'+
+					'			<li><a id="rp009"> Vencimiento de Cartera </a></li>'+
 					'			<li><a id="rp004"> Resumen de Cobros</a></li>'+
 					'		</ul>'+
 					'	</li>'+
@@ -160,23 +194,20 @@ function change_module(){
 					'		</ul>'+
 					'	</li>'+
 					' </ul>'
-	
 		omenu_in =  '<ul id="menu"> '+
 					'	<li><a>Transacciones</a>'+
 					'		<ul>'+
 					'			<li><a id="tr004"> Entradas y Salidas de Inventario </a></li>'+
-					'			<li><a id="tr006"> Administracion de Pedidos </a></li>'+
-					'			<li><a id="tr003"> Cotizaciones </a></li>'+
 					'			<li><a id="sy004" href="../index.php">Salir</a></li>'+
 					'		</ul>'+
 					'	</li>'+
 					'	<li><a>Reportes</a>'+
 					'		<ul>'+
 					'			<li><a id="rp005"> Lista de Precios</a></li>'+
-					'			<li><a id="rp006"> Saldos de Inventario Valorizados</a></li>'+
 					'			<li><a id="rp007"> Formato de Requisas</a></li>'+
-					'			<li><a id="rp008"> Reporte de Movimiento de Inventario (Entradas y Salidas)</a></li>'+
-					'			<li><a id="rp009"> Saldos Minimos de existencias.</a></li>'+
+					'			<li><a id="rp008"> Entradas y Salidas</a></li>'+
+					'			<li><a id="rp010"> Movimientos de Inventario Valorisados AD</a></li>'+
+					'			<li><a id="rp011"> Maximos y Minimos </a></li>'+
 					'		</ul>'+
 					'	</li>'+
 					'	<li><a>Catalogos</a>'+
@@ -195,6 +226,7 @@ function change_module(){
 					'		</ul>'+
 					'	</li>'+
 					' </ul>'
+
 	// menu de administracion 
 	omenu_sy =   '<ul id="menu"> '+
 					'	<li><a>Transacciones</a>'+
@@ -225,6 +257,180 @@ function change_module(){
 		upd_symenu();
 	}
 }
+
+function change_module_small(pcmenuid){
+	var omenu_ar = "",omenu_in = "",omenu_ct = "",omenu_sy = "";
+	
+	if (document.getElementById("cia_desc_small").value == ""){
+		getmsgalert("Seleccione Compañia")	;
+	 	return;
+	}
+	var omenu = document.getElementById("area_menu_small");
+	var omodule = document.getElementById("cmodule_select_small").value;
+
+	omenu.innerHTML = "";
+	if (omodule == "AR"){
+		if (pcmenuid.target.id == "transacciones"){
+			omenu_ar_trn =  '<ul id="menu"> '+
+			'	<li><a>Transacciones</a>'+
+			'		<ul>'+
+			'			<li><a id="tr001"> Facturacion y Notas de Debito</a></li>'+
+			'			<li><a id="tr002"> Recibos de Dinero </a></li>'+
+			'			<li><a id="tr007"> Preventa a Clientes</a></li>'+
+			'			<li><a id="sy004" href="../index.php">Salir</a></li>'+
+			'		</ul>'+
+			'	</li>'	+
+			' </ul>'
+
+		/*
+			'			<li><a id="tr003"> Cotizaciones </a></li>'+
+			'			<li><a id="tr006"> Administracion de Pedidos </a></li>'+
+			'			<li><a id="tr008"> Facturacion de Pedidos </a></li>'+
+		*/	
+			omenu.innerHTML = omenu_ar_trn;
+			document.getElementById("tr001").addEventListener("click",tr001,false);
+			document.getElementById("tr002").addEventListener("click",tr002,false);
+		//	document.getElementById("tr003").addEventListener("click",tr003,false);
+			document.getElementById("tr007").addEventListener("click",tr007,false);
+		}
+
+		if (pcmenuid.target.id == "reportes"){
+			omenu_ar_rpt =  '<ul id="menu"> '+
+			'	<li><a>Reportes</a>'+
+			'		<ul>'+
+			'			<li><a id="rp001"> Resumen de Ventas</a></li>'+
+			'			<li><a id="rp002"> Cuentas por Cobrar</a></li>'+
+			'			<li><a id="rp003"> Estado de Cuentas</a></li>'+
+			'			<li><a id="rp009"> Vencimiento de Cartera</a></li>'+
+			'			<li><a id="rp004"> Resumen de Cobros</a></li>'+
+			'			<li><a id="rp006"> Resumen de Utilidades </a></li>'+
+			'		</ul>'+
+			'	</li>'+
+			' </ul>'
+			omenu.innerHTML = omenu_ar_rpt;
+			document.getElementById("rp001").addEventListener("click",rp001,false);
+			document.getElementById("rp002").addEventListener("click",rp002,false);
+			document.getElementById("rp003").addEventListener("click",rp003,false);
+			document.getElementById("rp004").addEventListener("clicrk",rp004,false);
+			document.getElementById("rp006").addEventListener("clicrk",rp006,false);
+			document.getElementById("rp009").addEventListener("clicrk",rp009,false);
+		}
+
+		if (pcmenuid.target.id == "catalogos"){
+			omenu_ar_mnt =  '<ul id="menu"> '+
+			'	<li><a>Catalogos</a>'+
+			'		<ul>'+
+			'			<li><a id="ca001">Catalogo de Clientes</a></li>'+
+			'			<li><a id="ca002">Condiciones de Pago</a></li>'+
+			'			<li><a id="ca003">Maestro de Inventarios</a></li>'+
+			'			<li><a id="ca004">Tipos de Inventarios</a></li>'+
+			'			<li><a id="ca005">Proveedores</a></li>'+
+			'			<li><a id="ca006">Tipos de Requisas / Entradas y Salidas</a></li>'+
+			'			<li><a id="ca007">Bodegas</a></li>'+
+			'			<li><a id="ca008">Tipos de Cambio</a></li>'+
+			'		</ul>'+
+			'	</li>'+
+			' </ul>'
+			omenu.innerHTML = omenu_ar_mnt;
+			document.getElementById("ca001").addEventListener("click",ca001,false);
+			document.getElementById("ca002").addEventListener("click",ca002,false);
+			document.getElementById("ca003").addEventListener("click",ca003,false);
+			document.getElementById("ca004").addEventListener("click",ca004,false);
+			document.getElementById("ca005").addEventListener("click",ca005,false);
+			document.getElementById("ca006").addEventListener("click",ca006,false);
+			document.getElementById("ca007").addEventListener("click",ca007,false);
+			document.getElementById("ca008").addEventListener("click",ca008,false);
+		}
+
+		if(pcmenuid.target.id == "Modulos"){
+			// Definiendo modulo de Cuentas por cobrar.
+			omenu_in_conf = '<ul id="menu"> '+
+							'	<li><a>Configuraciones</a>'+
+							'		<ul>'+
+							'			<li><a id="mod001">Configuracion VC-2020 WEB</a></li>'+
+							'		</ul>'+
+							'	</li>'+
+							' </ul>'
+			omenu.innerHTML = omenu_in_conf;
+			document.getElementById("mod001").addEventListener("click",mod001,false);
+		}
+	}	//if (omodule == "AR"){
+
+	if (omodule == "IN"){
+		if (pcmenuid.target.id == "transacciones"){
+			omenu_in_trn =  '<ul id="menu"> '+
+				'	<li><a>Transacciones</a>'+
+				'		<ul>'+
+				'			<li><a id="tr004"> Entradas y Salidas de Inventario </a></li>'+
+				'			<li><a id="sy004" href="../index.php">Salir</a></li>'+
+				'		</ul>'+
+				'	</li>'+
+				' </ul>'
+
+				omenu.innerHTML = omenu_in_trn;
+			document.getElementById("tr004").addEventListener("click",tr004,false);
+			//document.getElementById("tr003").addEventListener("click",tr003,false);
+		}
+	
+		if (pcmenuid.target.id == "reportes"){
+				omenu_in_rpt = '<ul id="menu"> '+
+				'	<li><a>Reportes</a>'+
+				'		<ul>'+
+				'			<li><a id="rp005"> Lista de Precios</a></li>'+
+				'			<li><a id="rp007"> Formato de Requisas</a></li>'+
+				'			<li><a id="rp008"> Entradas y Salidas</a></li>'+
+				'			<li><a id="rp010"> Movimientos de Inventario Valorisados AD</a></li>'+
+				'			<li><a id="rp011"> Maximos y Minimos </a></li>'+
+				'		</ul>'+
+				'	</li>'+
+				' </ul>'
+				omenu.innerHTML = omenu_in_rpt;
+				document.getElementById("rp005").addEventListener("click",rp005,false);
+				document.getElementById("rp007").addEventListener("click",rp007,false);
+				document.getElementById("rp008").addEventListener("click",rp008,false);
+				document.getElementById("rp010").addEventListener("click",rp010,false);
+				document.getElementById("rp011").addEventListener("click",rp011,false);
+				
+		}
+	
+		if (pcmenuid.target.id == "catalogos"){
+				omenu_in_mnt =  '<ul id="menu"> '+
+				'	<li><a>Catalogos</a>'+
+				'		<ul>'+
+				'			<li><a id="ca003">Maestro de Inventarios</a></li>'+
+				'			<li><a id="ca004">Tipos de Inventarios</a></li>'+
+				'			<li><a id="ca005">Proveedores</a></li>'+
+				'			<li><a id="ca006">Entradas y Salidas</a></li>'+
+				'			<li><a id="ca007">Bodegas</a></li>'+
+				'			<li><a id="ca008">Tipos de Cambio</a></li>'+
+				'		</ul>'+
+				'	</li>'+
+				' </ul>'
+				omenu.innerHTML = omenu_in_mnt;
+				document.getElementById("ca003").addEventListener("click",ca003,false);
+				document.getElementById("ca004").addEventListener("click",ca004,false);
+				document.getElementById("ca005").addEventListener("click",ca005,false);
+				document.getElementById("ca006").addEventListener("click",ca006,false);
+				document.getElementById("ca007").addEventListener("click",ca007,false);
+				document.getElementById("ca008").addEventListener("click",ca008,false);
+			
+		}
+		if(pcmenuid.target.id == "Modulos"){
+			// Definiendo modulo de Cuentas por cobrar.
+			omenu_in_conf = '<ul id="menu"> '+
+							'	<li><a>Configuraciones</a>'+
+							'		<ul>'+
+							'			<li><a id="mod001">Configuracion VC-2020 WEB</a></li>'+
+							'		</ul>'+
+							'	</li>'+
+							' </ul>'
+			omenu.innerHTML = omenu_in_conf;
+			document.getElementById("mod001").addEventListener("click",mod001,false);
+		}
+
+	}	//if (omodule == "AR"){
+	
+}	//function change_module_small(pcmenuid){
 function upd_ctmenu(){
 	
 }
@@ -237,12 +443,15 @@ function upd_symenu(){
 function upd_armenu(){
 	document.getElementById("tr001").addEventListener("click",tr001,false);
 	document.getElementById("tr002").addEventListener("click",tr002,false);
-	document.getElementById("tr003").addEventListener("click",tr003,false);
+//	document.getElementById("tr003").addEventListener("click",tr003,false);
+	document.getElementById("tr007").addEventListener("click",tr007,false);
 	
 	document.getElementById("rp001").addEventListener("click",rp001,false);
 	document.getElementById("rp002").addEventListener("click",rp002,false);
 	document.getElementById("rp003").addEventListener("click",rp003,false);
 	document.getElementById("rp004").addEventListener("click",rp004,false);
+	document.getElementById("rp006").addEventListener("click",rp006,false);
+	document.getElementById("rp009").addEventListener("click",rp009,false);
 
 	document.getElementById("ca001").addEventListener("click",ca001,false);
 	document.getElementById("ca002").addEventListener("click",ca002,false);
@@ -265,6 +474,12 @@ function upd_inmenu(){
 	document.getElementById("ca006").addEventListener("click",ca006,false);
 	document.getElementById("ca007").addEventListener("click",ca007,false);
 	document.getElementById("ca008").addEventListener("click",ca008,false);
+
+	document.getElementById("rp005").addEventListener("click",rp005,false);
+	document.getElementById("rp007").addEventListener("click",rp007,false);
+	document.getElementById("rp008").addEventListener("click",rp008,false);
+	document.getElementById("rp010").addEventListener("click",rp010,false);
+	document.getElementById("rp011").addEventListener("click",rp011,false);
 
 	document.getElementById("mod001").addEventListener("click",mod001,false);
 }
@@ -289,6 +504,10 @@ function tr003(){
 function tr004(){
 	document.getElementById("ventana").setAttribute("src","../view/aradjm.php");
 }
+function tr007(){
+	document.getElementById("ventana").setAttribute("src","../view/arpodvm.php");
+}
+
 //------------------------------------------------------------------------
 // Reportes
 //------------------------------------------------------------------------
@@ -327,6 +546,69 @@ function rp004(){
 		getmsgalert("Usuario no tiene derecho de acceso");
 	}
 }
+function rp005(){
+	var llcont = doform("rp005");
+	if (llcont){
+		document.getElementById("ventana").setAttribute("src","../view/arserm_r.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+}
+function rp006(){
+	// reporte de utilidades.
+	var llcont = doform("rp006");
+	if (llcont){
+		document.getElementById("ventana").setAttribute("src","../view/arinvt1_r.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+}
+function rp007(){
+	var llcont = doform("rp007");
+	if (llcont){
+		document.getElementById("ventana").setAttribute("src","../view/aradjm_r.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+}
+function rp008(){
+	var llcont = doform("rp008");
+	if (llcont){
+		document.getElementById("ventana").setAttribute("src","../view/aradjt_r.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+}
+function rp009(){
+	var llcont = doform("rp009");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/arcash2_r.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+}
+function rp010(){
+	// Movimientos Valorizados al dia de hoy
+	var llcont = doform("rp010");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/arserm1_r.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+}
+function rp011(){
+	// Maximos y Minimos
+	var llcont = doform("rp011");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/arserm2_r.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+}
+
 //------------------------------------------------------------------------
 // catalogos
 //------------------------------------------------------------------------

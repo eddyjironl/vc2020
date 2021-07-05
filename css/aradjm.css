@@ -1,3 +1,11 @@
+
+.botones_row{
+	width:20px;
+	box-shadow:azure 0px 5px 11px;
+	background:rgb(20,200,200);
+	border-radius:10px;
+	margin-left:2px;
+}
 .sayamtd{
 	padding:1px;
 	border:solid 1px rgb(240,240,240);

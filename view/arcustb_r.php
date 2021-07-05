@@ -28,13 +28,13 @@
 
 				<br>
 				<label class="labelnormal" id="ldstar1">Rango de fechas del </label>
-				<input type="date" id="dstar_1" name="dstar_1">
+				<input type="date" class="textdate" id="dstar_1" name="dstar_1">
 				<label id="ldstar11"> al </label>
-				<input type="date" id="dstar_2" name="dstar_2" >
+				<input type="date" class="textdate" id="dstar_2" name="dstar_2" >
 
 				<br>
 				<label class="labelnormal" id="ldstar2" >Fecha de Corte </label>
-				<input type="date" id="dstar_3" name="dstar_3">
+				<input type="date" class="textdate" id="dstar_3" name="dstar_3">
 					
 			<!--		
 				<br>

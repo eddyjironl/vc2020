@@ -27,14 +27,15 @@ if (vc_funciones::Star_session() == 1){
 				<input type="text" id="cdesc" name="cdesc" class="textcdesc" autocomplete="off" >
 				<br><br>
 				<div class="tab">
-					<button  class="tablinks" id="tbinfo1" >Informacion General</button>
-					<button  class="tablinks" id="tbinfo2" >Configuracion de Componentes</button>
+					<button  class="tablinks" id="tbinfo1" >Generales</button>
+					<button  class="tablinks" id="tbinfo2" >Componentes</button>
+					<button  class="tablinks" id="tbinfo3" >Bodegas</button>
 				</div>	
 
 			</fieldset>	
 			<div id="finfo1" class="tabcontent">
 				<fieldset class= "fieldset">
-					<label class="labelnormal">Descripcion Secundaria </label>
+					<label class="labelnormal">Desc / Secundaria </label>
 					<input type="text" id="cdesc2" name="cdesc2" class="textcdesc" autocomplete="off" >
 					<br>
 					<label class="labelnormal" >Estado </label>
@@ -44,7 +45,7 @@ if (vc_funciones::Star_session() == 1){
 							<option value="CL">Anulado</option>
 						</select>
 					<br>	
-					<label class="labelnormal">Categoria de Articulo</label>
+					<label class="labelnormal">Categoria Art</label>
 					<select class="listas" id="citemtype" name="citemtype">
 						<option value="">Elija un Tipo articulo</option>
 						<option value="SV">Servicios</option>
@@ -63,7 +64,7 @@ if (vc_funciones::Star_session() == 1){
 					<input type="number" id="nlastcost" name="nlastcost" class="sayamt" readonly>
 					<br>
 					<label class="labelnormal">Costo </label>
-					<input type="number" id="ncost" name="ncost" class="textqty" readonly>
+					<input type="number" id="ncost" name="ncost" class="sayamt" readonly>
 					<br>
 					<label class="labelnormal">Impuesto % </label>
 					<input type="number" id="ntax" name="ntax" class="textqty">
@@ -84,7 +85,7 @@ if (vc_funciones::Star_session() == 1){
 					<br>
 					<label>Configuracion Contable</label>
 					<br>
-					<label class="labelnormal">Cuenta de Inventario </label>
+					<label class="labelnormal">Cuenta de Inv</label>
 					<input type="text" id="cctaid" name="cctaid" class="textnormal">
 					<br>
 					<label class="labelnormal">Cuenta de Costo </label>
@@ -128,7 +129,6 @@ if (vc_funciones::Star_session() == 1){
 								<th width="75px">Cantidad</th>
 								<th width="50px">Costo</th>
 								<th width="50px">Total Costo</th>
-								<th width="75px">Acciones</th>
 							</tr>
 						</thead>
 						<tbody id="articulos" class="table_det"></tbody>
@@ -136,9 +136,30 @@ if (vc_funciones::Star_session() == 1){
 				</fieldset>
 				
 			</div>
-			</form>
+			<br>
+			<div id="finfo3" class="tabcontent">
+				<script> get_btdtrn("btwqty","Configurar ubicacion en cada bodega.");</script>&nbsp&nbsp&nbsp
+				<label>Configuracion dentro de cada bodega</label>
+				<br>
+				<fieldset class= "fieldset" id="adetalles3">
+					<table id="tdetalles3">
+						<thead>
+							<tr class="table_det">
+								<th width="40px">Id</th>
+								<th width="200px">Descripcion</th>
+								<th width="20px">Minimo</th>
+								<th width="20px">Maximo</th>
+								<th width="80px">Estante</th>
+								<th width="80px">Bin</th>
+							</tr>
+						</thead>
+						<tbody id="articulos3" class="table_det"></tbody>
+					</table>
+				</fieldset>
+			</div>
+		</form>
 		
-			<section id="pantalla_actualiza_linea">
+		<section id="pantalla_actualiza_linea">
 				<section id="fupdfield" class="form2">
 					<div id="div11">
 						<h1>Actualizacion de Linea</h1>

@@ -65,7 +65,7 @@ if($lcaccion=="NEW"){
 	$json = $_POST["json"];
 	$oPay = json_decode($json,true);
 	//obteniendo el numero de factura.
-	$lccashno = GetNewDoc("ARCASM");
+	$lccashno = GetNewDoc($oConn,"ARCASM");
 	$lccustno = $oPay['ccustno'];
 	$lcdesc   = $oPay['cdesc'];
 	$lcrefno  = $oPay['crefno'];

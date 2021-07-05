@@ -6,7 +6,6 @@ if (vc_funciones::Star_session() == 1){
 	return;
 }
 ?>
-<!DOCTYPEHTML>
 <html>
 	<head>
 		<title>Sistema Visual Control v2020</title>
@@ -18,10 +17,58 @@ if (vc_funciones::Star_session() == 1){
 		<link rel="shortcut icon" type="image/x-icon" href="../photos/vc2009.ico" />
 	</head>
 	
-	<body id="espacio" background="../photos/fondo3.png">
+	<!-- background="../photos/fondo3.png" -->
+
+	<body id="espacio"  background="fondo3.png">
+		<iframe id="ventana"> </iframe>	
+
+		<div id="barra_small">
+			<img src="../photos/vc2009.ico" id="logo_min">
+			<img src="../photos/transacciones.ico" id="transacciones" class="botones" title="Transacciones">
+			<img src="../photos/reportes.ico" id="reportes" class="botones" title="Reportes del modulo">
+			<img src="../photos/catalogo.ico" id="catalogos" class="botones" title="Catalogos del sistema">
+			<img src="../photos/herramientas.ico" id="Modulos" class="botones" title="Configuraciones del modulo">
+			<img src="../photos/ayuda.ico" id="ayuda" class="botones" title="Ayuda">
+			<br>
+			
+			<div id="info_small">
+				<br>
+				<label class="labelnormal">Compañia</label>
+				<!-- <label class="labeltitle">Compañia de pruebas</label> -->
+				<input type="text" id="cia_desc_small"  readonly value=" <?php ECHO  $_SESSION["compdesc"] ?>">
+				<script>get_btmenu("btcias_samall","Listado de Compañias");</script>
+				<br>
+				<label class="labelnormal">Usuario</label>
+				<!-- <label class="labeltitle">Compañia de pruebas</label> -->
+				<input type="text" id="cfullname_small"  readonly value=" <?php ECHO  $_SESSION["cfullname"] ?>">
+				<br>
+				<label class="labelnormal">Modulos</label>
+				<select class="listas" id="cmodule_select_small">
+						<option value=""> Elija un Modulo de trabajo</option>
+						<option value="SY"> Administracion</option>
+						<option value="AR"> Facturacion y Cuentas por cobrar</option>
+						<option value="IN"> Control de inventario y Cuentas por pagar</option>
+						<option value="CT"> Contabilidad General</option>
+				</select>
+				<br>
+				<H1>    ATENCION.....!!!</H1>
+				
+				<P><strong>1)- PARA INICIAR SELECCIONE EL MODULO</strong><br><BR>
+				No podra realizar ninguna operacion si no elige el modulo, despues de seleccionar modulo puede dar click en boton Aceptar <br><br>
+				
+				2)- Tambien puede cambiar de compañia si desea cambiar dar click en boton de la lupa amarilla.<br><br>
+
+				3)- Si desea cerrar este mensaje dar click en Boton Aceptar.<br><br>
+
+				3)- Si desea ver este mensaje de nuevo dar click en primer boton rueda amarilla dentada.
+				</P>
+				<br>
+				<input type="button" value="Aceptar" title="Click para ocultar" id="close_info">
+			</div>
+			
+			<div id="area_menu_small"></div>
+		</div>
 		
-		<iframe id="ventana"> </iframe>
-	
 		<div id="barra1"> 
 			<div id="divlogo">
 				<img id="logovc" src="../photos/LOGITO11.jpg" id="icono">

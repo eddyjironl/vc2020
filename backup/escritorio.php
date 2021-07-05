@@ -15,46 +15,45 @@ if (vc_funciones::Star_session() == 1){
 		<link   rel="stylesheet" href="../css/vc_estilos.css?v1">
 		<script src="../js/vc_funciones.js?v1"></script>
 		<script src="../js/escritorio.js?v1" ></script>
+		<link rel="shortcut icon" type="image/x-icon" href="../photos/vc2009.ico" />
 	</head>
-	<body id="espacio" background="../photos/fondo3.png">
 	
-		<iframe id="ventana"></iframe>
+	<body id="espacio" background="../photos/fondo3.png">
 		
-		<section id="barra_screen">
-			<fieldset class="fieldset_scren">
-				<img src="../photos/logito1.jpg" id="logo">
-			</fieldset>
-			<fieldset class="fieldset_scren" id="labels">
-				<p id="system_name">Sistema Visual Control Web 2020</p>
-			</fieldset>
-			
-			<fieldset class="fieldset_scren" id="area_menu">
-				<label class="labelnormal">Compañia</label>
-				<!-- <label class="labeltitle">Compañia de pruebas</label> -->
-				<input type="text" id="cia_desc"  readonly value=" <?php ECHO  $_SESSION["compdesc"] ?>">
-				<script>get_btmenu("btcias","Listado de Compañias");</script>
-				<br>
-				<label class="labelnormal">Sistema</label>
-				<select class="listas" id="cmodule_select">
+		<iframe id="ventana"> </iframe>
+	
+		<div id="barra1"> 
+			<div id="divlogo">
+				<img id="logovc" src="../photos/LOGITO11.jpg" id="icono">
+			</div>
+			<div id="barra1-a">
+				Autorizado a: <strong>Modulo de Evaluacion</strong>
+			</div>
+			<br>
+			<div id="area_menu">
+				<nav id="bmenu"></nav>
+			</div>
+		</div>
+		
+		<footer> 
+			<label class="labelnormal">Compañia</label>
+			<!-- <label class="labeltitle">Compañia de pruebas</label> -->
+			<input type="text" id="cia_desc"  readonly value=" <?php ECHO  $_SESSION["compdesc"] ?>">
+			<script>get_btmenu("btcias","Listado de Compañias");</script>
+			<br>
+			<label class="labelnormal">Usuario</label>
+			<!-- <label class="labeltitle">Compañia de pruebas</label> -->
+			<input type="text" id="cfullname"  readonly value=" <?php ECHO  $_SESSION["cfullname"] ?>">
+			<br>
+			<label class="labelnormal">Modulos del Sistema</label>
+			<select class="listas" id="cmodule_select">
 					<option value=""> Elija un Modulo de trabajo</option>
 					<option value="SY"> Administracion</option>
 					<option value="AR"> Facturacion y Cuentas por cobrar</option>
 					<option value="IN"> Control de inventario y Cuentas por pagar</option>
 					<option value="CT"> Contabilidad General</option>
 				</select>
-				<nav id="bmenu"></nav>
-			</fieldset>
-		</section>
-		
-		
-		
-		
-		
-		
-		<?php
-			include("introduccion.php");
-			// <img src="../photos/VC2009-AUM.gif" id="fondo"> 
-		?>
+		</footer>
 		<script>
 			get_xm_menu();
 			get_msg();

@@ -52,7 +52,7 @@ if($lcaccion=="NEW"){
 	// -------------------------------------------------------------------------------
 	$lcsql = "insert into arpedm(cpedno,ccustno,cpaycode, dtrndate,mnotas, ntc, cuserid,fecha,hora)
 			  values('$lcpedno','" . $oAjt['ccustno'] ."','" .$oAjt['cpaycode']."','".$ldtrndate.
-					"','".$oAjt['mnotas']."',". $lntc .",'" 
+					"','".$oAjt['mnotas'].$oAjt['mnotash']."',". $lntc .",'" 
 					.$_SESSION["cuserid"]."','".$ldtrndate."','". date("h:i:s a")."')";
 	// -------------------------------------------------------------------------------
     // B)- insertando los detalles

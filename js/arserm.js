@@ -2,12 +2,13 @@ function init(){
 	// TAB - poniendo los botones a la escucha.
 	document.getElementById("tbinfo1").addEventListener("click",tabshow,false);
 	document.getElementById("tbinfo2").addEventListener("click",tabshow,false);
+	document.getElementById("tbinfo3").addEventListener("click",tabshow,false);
 	// Botones barra navegacion.
 	document.getElementById("btquit").addEventListener("click",cerrar_pantalla_arserm,false);	
 	document.getElementById("btnueva").addEventListener("click",clear_view,false);
 	document.getElementById("btdelete").addEventListener("click",borrar,false);
 	document.getElementById("btguardar").addEventListener("click",guardar,false);
-	
+	document.getElementById("btwqty").addEventListener("click",upd_arwqty_config,false);
 	// poniendo visible el objeto tab del info 
 	document.getElementById("finfo1").style.display = "block";
 	document.getElementById("tbinfo1").setAttribute("class","active");
@@ -46,7 +47,18 @@ function init(){
 	cerrar_pantalla_kardex();
 	
 }
-
+function upd_arwqty_config(){
+	// ejecutando configuracion de la tabla de cantidades.
+	var oRequest = new XMLHttpRequest();
+	// Creando objeto para empaquetado de datos.
+	var oDatos   = new FormData();
+	// adicionando datos en formato CLAVE/VALOR en el objeto datos para enviar como parametro a la consulta AJAX
+	oDatos.append("accion","UPD_ARWQTY");
+	oDatos.append("cservno", document.getElementById("cservno").value);
+	oRequest.open("POST","../modelo/crud_arserm.php",false); 
+	oRequest.send(oDatos);
+	document.getElementById("articulos3").innerHTML = oRequest.response;
+}
 // ----------------------------------------------------------------------
 // MENU DE articulos
 // ----------------------------------------------------------------------
@@ -218,6 +230,7 @@ function clear_view(){
 		oTexta[i].value = "";
 	}
 	document.getElementById("articulos").innerHTML= "";
+	document.getElementById("articulos3").innerHTML= "";
 	document.getElementById("cfoto1").setAttribute("src","") 
 	document.getElementById("cservno").focus();
 	estado_key("A")
@@ -358,6 +371,7 @@ function update_window(pckeyid){
 		var ocant = get_inventory_onhand(odata.cservno);
 		document.getElementById("nbuyamt").value = ocant;
 	    refresh_det();
+		refresh_arwqty();
 		estado_key("I");
 	}else{
 		ck_new_key();
@@ -376,11 +390,19 @@ function tabshow(e){
 	if(oTabFormBoton == "tbinfo1"){
 		document.getElementById("finfo1").style.display = "block";
 		document.getElementById("tbinfo2").setAttribute("class","")
+		document.getElementById("tbinfo3").setAttribute("class","")
 	}
 	
 	if(oTabFormBoton == "tbinfo2"){
 		document.getElementById("finfo2").style.display = "block";
 		document.getElementById("tbinfo1").setAttribute("class","")
+		document.getElementById("tbinfo3").setAttribute("class","")
+		refresh_det();
+	}
+	if(oTabFormBoton == "tbinfo3"){
+		document.getElementById("finfo3").style.display = "block";
+		document.getElementById("tbinfo1").setAttribute("class","")
+		document.getElementById("tbinfo2").setAttribute("class","")
 		refresh_det();
 	}
 	document.getElementById(oTabFormBoton).setAttribute("class","active");
@@ -408,6 +430,25 @@ function upddet(){
 	document.getElementById("cservno1").value="";
 	document.getElementById("articulos").innerHTML = oRequest.response;
 	cservno1.focus();
+}
+// ectualizando configuracion por bodega.
+function refresh_arwqty(){
+	var llcont = document.getElementById("cservno").value;
+    if (llcont == ""){
+		return ;
+	}
+	var oRequest = new XMLHttpRequest();
+	// Creando objeto para empaquetado de datos.
+	var oDatos   = new FormData();
+	// adicionando datos en formato CLAVE/VALOR en el objeto datos para enviar como parametro a la consulta AJAX
+	oDatos.append("accion","REFRESH2");
+	oDatos.append("cservno",document.getElementById("cservno").value);
+	// obteniendo el menu
+	oRequest.open("POST","../modelo/crud_arserm.php",false); 
+	oRequest.send(oDatos);
+	// cargando el detalle.
+	document.getElementById("articulos3").innerHTML = oRequest.response;
+
 }
 // refresca el detalle de la pantalla.
 function refresh_det(){
@@ -442,7 +483,6 @@ function eliminarFila(pcuid){
 	document.getElementById("articulos").innerHTML=oRequest.response;
 	//cksum();
 }
-
 function editarFila(pcuid){
 	// haciendo request que devuelva el contenido de la fila en formato JSON.
 	var oRequest = new XMLHttpRequest();
@@ -464,5 +504,44 @@ function editarFila(pcuid){
 	document.getElementById("fnqty").value    = odata.nqty;
 	document.getElementById("fmnotas").value  = odata.mnotas;
 }
+function eliminarFila2(pcuid){
+	var oRequest = new XMLHttpRequest();
+	// Creando objeto para empaquetado de datos.
+	var oDatos   = new FormData();
+	// adicionando datos en formato CLAVE/VALOR en el objeto datos para enviar como parametro a la consulta AJAX
+	oDatos.append("cuid",pcuid);
+	oDatos.append("accion","DELETE_CUID2");
+	oDatos.append("cservno",document.getElementById("cservno").value);
+	// obteniendo el menu
+	oRequest.open("POST","../modelo/crud_arserm.php",false); 
+	oRequest.send(oDatos);
+	document.getElementById("articulos3").innerHTML=oRequest.response;
+	//cksum();
+}
+function editarFila2(pcuid){
+	// haciendo request que devuelva el contenido de la fila en formato JSON.
+	var oRequest = new XMLHttpRequest();
+	// Creando objeto para empaquetado de datos.
+	var oDatos   = new FormData();
+	//obteniendo el id del registro que tocamos
+	var fila = document.getElementById(pcuid);
+	// adicionando datos en formato CLAVE/VALOR en el objeto datos para enviar como parametro a la consulta AJAX
+	oDatos.append("cuid",pcuid);
+	oDatos.append("cservno",document.getElementById("cservno").value);
+	//oDatos.append("cbinno",tabla.rows[]);oDatos.append("cestante",fila.cells[4].children[0].value);
+	oDatos.append("cbinno",fila.cells[5].children[0].value);
+	oDatos.append("cestante",fila.cells[4].children[0].value);
+	oDatos.append("nqtymin",fila.cells[2].children[0].value);
+	oDatos.append("nqtymax",fila.cells[3].children[0].value);
+	oDatos.append("mnotas",fila.cells[1].children[0].value);
+	oDatos.append("accion","UPD_CUID2");
+	// enviando el request.
+	oRequest.open("POST","../modelo/crud_arserm.php",false); 
+	oRequest.send(oDatos);
+	// recibiendo el json.
+	var odata = JSON.parse(oRequest.response); 
+	document.getElementById("articulos3").innerHTML = oRequest.response;
+}
+
 // actualiza los cambios en la linea de detalle.
 window.onload=init;

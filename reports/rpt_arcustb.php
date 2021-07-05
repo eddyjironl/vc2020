@@ -11,6 +11,9 @@
 	// B- Recibiendo parametros de filtros.
 	// ------------------------------------------------------------------------------------------------------------------	
 	// solo facturas activas por defecto.
+	$lcrptname  = "rpt_arcustb";
+    $lctitle    = "";
+
 	$lcwhere       = " arinvc.lvoid = 0 ";
 	$lcXsortBy     = "";
 	$lcDescBy      = "";
@@ -143,11 +146,11 @@
 						arcasm.cstatus  = 'OP' AND
 						arcash.cinvno = " . $row["cinvno"] . " GROUP BY 1";
 		
-			// obteniendo cursor de pagos.			
+			// obteniendo cursor de pagos.		
 			$lcpays = mysqli_query($oConn,$lcsql);				
 			if (mysqli_num_rows($lcpays)<> 0){
 				$lcurpago = mysqli_fetch_assoc($lcpays);
-				$lnpagado = $lcurpago{"npayamt"};
+				$lnpagado = $lcurpago["npayamt"];
 			}
 		}
 		// cargando datos informacion de la factura 

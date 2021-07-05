@@ -120,7 +120,6 @@ if ($lcStarSession == 1){
 							<th width="50px">Desc %</th>
 							<th width="50px">IVA %</th>
 							<th width="75px">Monto</th>
-							<th width="75px">Acciones</th>
 						</tr>
 					</thead>
 					<tbody id="articulos"></tbody>

@@ -1,3 +1,12 @@
+/*Estilos para las opciones miniatura*/
+.botones_row{
+	width:20px;
+	box-shadow:azure 0px 5px 11px;
+	background:rgb(20,200,200);
+	border-radius:10px;
+	margin-left:2px;
+}
+
 
 
 /*
@@ -11,7 +20,7 @@ Estilos del View Menu
 	right: 0;
 	bottom: 0;
 	left: 0;
-	//transition: opacity 400ms ease-in;
+	/*transition: opacity 400ms ease-in;*/
 }
 #form_menu{
 	margin:5% 10%;
@@ -22,10 +31,11 @@ Estilos del View Menu
 	color:yellow;
 	box-shadow:white 0px 10px 10px;
     
-    /* formato en blanco.*/
-	//background:rgb(240,240,240);
-	//color:black;
-	//box-shadow:black 0px 10px 10px;
+    /* formato en blanco.
+		background:rgb(240,240,240);
+		color:black;
+		box-shadow:black 0px 10px 10px;
+	*/
 
 	top:0px;
 	left:0px;
@@ -50,16 +60,13 @@ Estilos del View Menu
 }
 .mx_area_encabezado{
 	color:blue;
-	//overflow: auto;
 	margin:auto 10px;
-	//text-align:center;
 }
 .mx_area_detalles{
 	height:300px;	
 	color:blue;
 	overflow: auto;
 	margin:auto 10px;
-	//text-align:center;
 }
 
 /* definida como clase para hacer que los otros menus funcionen igual */
@@ -126,6 +133,7 @@ input, select{
 .listas{
 	border:solid 1px rgb(240,240,240);
 	font-size:12px;
+	width:180px;
 }
 .listas:hover{
 	background-color:cyan;
@@ -149,7 +157,7 @@ input, select{
 	border:solid 1px rgb(240,240,240);
 	width:100px;
 	display:inline-block;	
-	placeholder:"10 letras Maximo";
+	/*placeholder:"10 letras Maximo";*/
 }
 .textkey_inactivo{
 	padding:1px;
@@ -173,19 +181,18 @@ input, select{
 .textnormal{
 	padding:1px;
 	border:solid 1px rgb(240,240,240);
-	width:200px;
+	width:150px;
 	display:inline-block;			
 }
 .textdate{
 	border:solid 1px rgb(240,240,240);
-	width:130px;
+	width:110px;
 	display:inline-block;			
 }
 .textqty{
 	padding:1px;
 	border:solid 1px rgb(240,240,240);
-	width:fit-content;
-	min-width:100px;
+	width:70px;
 	display:inline-block;
 	text-align:right;
 }
@@ -213,7 +220,7 @@ input, select{
  	width:auto;
 	color:black;
  	display: inline-block;	
-	min-width:150px;  
+	min-width:110px;  
 }
 .labelsencilla{
 	padding:1px;
@@ -222,7 +229,7 @@ input, select{
 	width:auto;
 	color:blue;
  	display: inline-block;	
-	min-width:150px;  
+	min-width:110px;  
 }
 .labelfiltro{
 	text-align:right;
@@ -238,7 +245,7 @@ input, select{
 	padding:1px;
 	margin-bottom:3px;
 	border:solid 1px rgb(240,240,240);
-	width:200px;
+	width:150px;
 	display: inline-block;						
 	color:blue;
 	background-color:rgb(240,240,240);
@@ -273,9 +280,7 @@ input, select{
 
 .fieldset{
 	display:inline-block;
-	border:none;
-	//float:left;
-}
+	border:none;}
 .form{
 	background-color:rgba(202,202,202,1);
 	box-shadow:black 7px 7px 10px;
@@ -308,7 +313,6 @@ MENU DESPLEGABLE.
 	background-color:green;
 }
 #vlista{
-	//border:solid 1px red;
 	height:336px;
 	width:99%;
 	position:relative;
@@ -318,10 +322,8 @@ MENU DESPLEGABLE.
 }
 #vcolumnas{
 	color:orange;
-	//background-color:orange;
 	width:99%;
 	margin:auto;
-	//border:solid 1px black;
 	height:40px;
 }
 #th_menu{
@@ -343,7 +345,6 @@ Estilo de botones pequeños para la busqueda del menu
 	height:15px;
 }
 .btmenu:hover{
-//	box-shadow:yellow 5px 0px 10px;
 	box-shadow:yellow 5px 5px 10px;
 	border-right:solid 2px yellow;
 }

@@ -13,6 +13,9 @@
 	// ------------------------------------------------------------------------------------------------------------------	
 	// solo facturas activas por defecto.
 
+	$lcrptname  = "rpt_arinvc";
+	$lctitle    = "";
+	
 	$lcwhere   = " arinvc.cstatus = 'OP' ";
 	$lcXsortBy = "";
 	$lcDescBy  = "";
@@ -209,16 +212,20 @@
 		
 		// d)- IMPRIMIENDO LINEA DE INFORMACION DEBAJO DE CADA GRUPO.
 		$ofpdf->setfont("arial","B",10);
+		$ofpdf->SetFillColor(20,40,100);
+		$ofpdf->SetTextColor(255,255,255);
 		//$ofpdf->cell(20,5,"",0,0,"");   
-		$ofpdf->cell(15,5,"Trn No",1,0,"");   // cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-		$ofpdf->cell(20,5,"Ref No",1,0,"");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-		$ofpdf->cell(20,5,"Estado",1,0,"");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-		$ofpdf->cell(50,5,"Nombre Cliente",1,0,"");	// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-		$ofpdf->cell(20,5,"Subtotal",1,0,"R");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-		$ofpdf->cell(20,5,"Descuento",1,0,"R");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-		$ofpdf->cell(20,5,"Impuesto",1,0,"R");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-		$ofpdf->cell(20,5,"Total",1,1,"R");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-		//$ofpdf->cell(15,5,"",0,1,"");   // cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+		$ofpdf->cell(15,5,"Trn No",1,0,"",true);   // cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+		$ofpdf->cell(20,5,"Ref No",1,0,"",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+		$ofpdf->cell(20,5,"Estado",1,0,"",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+		$ofpdf->cell(50,5,"Nombre Cliente",1,0,"",true);	// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+		$ofpdf->cell(20,5,"Subtotal",1,0,"R",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+		$ofpdf->cell(20,5,"Descuento",1,0,"R",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+		$ofpdf->cell(20,5,"Impuesto",1,0,"R",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+		$ofpdf->cell(20,5,"Total",1,1,"R",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+		
+		$ofpdf->SetFillColor(0,0,0);
+		$ofpdf->SetTextColor(0,0,0);	
 
 		// cargando el resto de los datos del reporte.
 		while($row = mysqli_fetch_assoc($lcresult)){
@@ -232,15 +239,20 @@
 				
 				// d)- IMPRIMIENDO LINEA DE INFORMACION DEBAJO DE CADA GRUPO.
 				$ofpdf->setfont("arial","B",10);
-				//$ofpdf->cell(20,5,"",0,0,"");   
-				$ofpdf->cell(15,5,"Trn No",1,0,"");   // cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-				$ofpdf->cell(20,5,"Ref No",1,0,"");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-				$ofpdf->cell(20,5,"Estado",1,0,"");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-				$ofpdf->cell(50,5,"Nombre Cliente",1,0,"");	// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-				$ofpdf->cell(20,5,"Subtotal",1,0,"R");   //125					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-				$ofpdf->cell(20,5,"Descuento",1,0,"R");  //145 					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-				$ofpdf->cell(20,5,"Impuesto",1,0,"R");   //165					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-				$ofpdf->cell(20,5,"Total",1,1,"R");   	 //185				// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+				$ofpdf->SetFillColor(20,40,100);
+    			$ofpdf->SetTextColor(255,255,255);
+				
+				$ofpdf->cell(15,5,"Trn No",1,0,"",true);   // cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+				$ofpdf->cell(20,5,"Ref No",1,0,"",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+				$ofpdf->cell(20,5,"Estado",1,0,"",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+				$ofpdf->cell(50,5,"Nombre Cliente",1,0,"",true);	// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+				$ofpdf->cell(20,5,"Subtotal",1,0,"R",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+				$ofpdf->cell(20,5,"Descuento",1,0,"R",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+				$ofpdf->cell(20,5,"Impuesto",1,0,"R",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+				$ofpdf->cell(20,5,"Total",1,1,"R",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+						
+				$ofpdf->SetFillColor(0,0,0);
+				$ofpdf->SetTextColor(0,0,0);
 			}				
 
 			$ofpdf->Cell(15,5, $row["cinvno"],0,0,"");   	
@@ -288,16 +300,20 @@ function cabecera($ofpdf){
 	// c-2 Dibujando el cuerpo de la pagina
 	//----------------------------------------------------------
 	$ofpdf->setfont("arial","B",10);
-	//$ofpdf->cell(20,5,"",0,0,"");   
-	$ofpdf->cell(15,5,"Trn No",1,0,"");   // cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-	$ofpdf->cell(20,5,"Ref No",1,0,"");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-	$ofpdf->cell(20,5,"Estado",1,0,"");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-	$ofpdf->cell(50,5,"Nombre Cliente",1,0,"");	// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-	$ofpdf->cell(20,5,"Subtotal",1,0,"R");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-	$ofpdf->cell(20,5,"Descuento",1,0,"R");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-	$ofpdf->cell(20,5,"Impuesto",1,0,"R");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-	$ofpdf->cell(20,5,"Total",1,1,"R");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-	//$ofpdf->cell(15,5,"",0,1,"");   // cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+	$ofpdf->SetFillColor(20,40,100);
+    $ofpdf->SetTextColor(255,255,255);
+
+	$ofpdf->cell(15,5,"Trn No",1,0,"",true);   // cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+	$ofpdf->cell(20,5,"Ref No",1,0,"",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+	$ofpdf->cell(20,5,"Estado",1,0,"",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+	$ofpdf->cell(50,5,"Nombre Cliente",1,0,"",true);	// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+	$ofpdf->cell(20,5,"Subtotal",1,0,"R",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+	$ofpdf->cell(20,5,"Descuento",1,0,"R",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+	$ofpdf->cell(20,5,"Impuesto",1,0,"R",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+	$ofpdf->cell(20,5,"Total",1,1,"R",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+	
+	$ofpdf->SetFillColor(0,0,0);
+    $ofpdf->SetTextColor(0,0,0);
 	$ofpdf->setfont("arial","",10);
 }	// function cabecera($ofpdf,$ldstar,$lpname){
 

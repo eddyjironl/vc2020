@@ -101,9 +101,6 @@ function select_xkey(e){
 }
 
 // -----------------------------------------------------------------------
-
-
-
 // cerrar pantalla principal
 function cerrar_pantalla_principal(){
 	document.getElementById("artser").style.display="none";
@@ -199,6 +196,4 @@ function update_window(pckeyid){
 		ck_new_key();
 	}
 }
-		
-
 window.onload=init;

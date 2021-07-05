@@ -2,48 +2,9 @@
 	font-family:arial;
 	font-size:12px;	
 }
-#btsalir{
- background: rgb(240,240,240);
-    border: 1px solid;
-    text-decoration: none;
-    text-align: center;
-    border-block-color: black;
-    display: inline-block;
-    color: #141313;
-    width: 90;
-    height: 18;
-    border-radius: 2px;
-}
-h2{
-	font-size:25px;
-	font-decoration:none;
-	text-shadow:black 10px 10px 5px;
-	color:white;
-	text-aline:center;
-	display:inline;
-	padding:10px;
-	margin:auto;
-}
-
-form{	
-	/*centrado de izquierda a derecha.*/
-	margin:auto;
-	/* centrado vertical aproximado.*/
-	margin-top:15%;	background:rgb(192,192,192);
-	border:solid 1px black;
-	border-radius:15px 15px 15px 15px;
-	box-shadow:#171616 10px 10px 14px;
-	height:200px;
-	min-height:320px;
-	width:500px;
-}	
-
-div{
-	max-width:500px;
-	margin-top:2px;
-	margin:auto;
-}
-
+/* 
+FUNCIONES COMUNES 
+*/
 .labelminscreen{
 	display:inline-block;
 	color:white;
@@ -52,38 +13,138 @@ div{
 	width:100px;
 	max-width:100px;
 }
-body{
-	/*background-:url("Aqua_blue.jpg");*/
-	background:blue;
-	background-repeat: no-repeat;
-	background-size: 100% 100%;
+
+#dlcliente{
+	display:inline-block;
+	width: 130px;
 }
+#ccustno, #crutno,#cpaycode, #cservno1{
+	width:130;
+}
+#nprice, #ntotamt{
+	color:blue;
+}
+.table_det,#tdetalles{	
+	background-color:#dcdcdc;
+	color:#000000;
+	font-family:arial;
+	font-size:11px;
+}
+#aencabezado{
+	margin-left:20px;
+	padding:0px;
+}
+
+#adetalles{
+	height:260px;	
+	width: 500px;
+	overflow: auto;
+	margin-left:20px;
+	padding:0px;
+}
+.botones_row{
+	width:20px;
+	box-shadow:azure 0px 5px 11px;
+	background:rgb(20,200,200);
+	border-radius:10px;
+	margin-left:2px;
+}
+
+/* ---------------------------------------------    */
+h2{
+	display: none;
+}
+.botones{
+	display: none;
+}
+.barra_princ{
+	display: block;
+}
+.form_change{	
+	background-color:rgba(202,202,202,1);
+	box-shadow:black 7px 7px 10px;
+	padding:2px;
+	border-radius:10px 10px 0px 0px;
+	width:fit-content;
+	height:fit-content;
+	font-family:arial;
+	font-size:12px;	
+	display:inline-block;
+}	
+
+
+#thcservno{
+	width: 290px;
+}
+#tdcdesc{
+	width:290px;
+	color:blue;
+}
+#nqty, #nprice, #thnqty, #thnprice{
+	width:60px;
+}
+#mnotash{
+	height: 103px;
+	width: 518px;
+	display:inline-block;
+	/*border-radius:10px;
+	margin-top:5px;*/
+}
+#dmnotash{
+	display:inline-block;
+	margin-top:5px;
+}
+#dmnotash label {
+	color:red;
+}
+
 
 #ntotal{
 	color:red;
 }
 
+
+
+
+
+
+
+
+
 @media screen and (max-width: 515px) {
 	*{	font-size:11;}	
-
+	.barra_princ{
+		display: none;
+	}
 	.botones{
 		width:40px;
 		box-shadow:azure 0px 5px 11px;
 		background:rgb(20,200,200);
 		border-radius:10px;
 		margin:0px;
+		display:inline-block;
 	}
 	label{width:70px;}
-	form {
+	.form_change {
 		padding:5px;
 		height:500px;
 		width:290px;
         margin-top:2%;
-  	}
-	h2{font-size:16px; color:red;}
-	#ccustno, #crutno,#cpaycode, #cservno1{
-		width:130;
+		background:rgb(192,192,192);
+		border:solid 1px black;
+		border-radius:15px 15px 15px 15px;
+		box-shadow:#171616 10px 10px 14px;
 	}
+	h2{
+		font-size:16px; 
+		color:red;
+		text-shadow:black 10px 10px 5px;
+		display:inline;
+		padding:10px;
+		margin:auto;
+		display: inline-block;
+	}
+	
 	#labeltitle{
 		width: 205px;
 		max-width:300px;
@@ -98,45 +159,30 @@ body{
 		border-right-color: white;
 		border-left-color: white;
 	}
-
 	#thcservno{
-		width: 128px;
+		width: 130px;
 	}
 	#mx_cbuscar{width: 150px}
-	.input_min{
-		width: 60px;
-		text-align:right;
-	}
+	
+	#nqty, #nprice, #thnqty, #thnprice{
+    	width:60px;
+    }
+    #tdcdesc{
+    	width:130px;
+		color:blue;
+    }
 	#form_menu label{
 		min-width:0px;
 		width:70px;
 	}
-	.table_det,#tdetalles{	
-		background-color:#dcdcdc;
-		color:#000000;
-		font-family:arial;
-		font-size:11px;
-	}
 	#aencabezado{
 		margin-left:0px;
-		padding:0px;
-
 	}
+
 	#adetalles{
-		height:260px;	
-		overflow: auto;
 		margin-left:0px;
 		padding:0px;
-	}
-	.botones_row{
-		width:20px;
-		box-shadow:azure 0px 5px 11px;
-		background:rgb(20,200,200);
-		border-radius:10px;
-		margin-left:2px;
-	}
-	#nprice{
-		color:blue;
+		width: 290px;
 	}
 	#ntotamt{
 		color:blue;
@@ -165,14 +211,11 @@ body{
 		width:290px;
 		margin-top:2%;
 	}
-	.tdcservno{
-		display: none;
-		width:70px;
+	#dmnotash{
+		display:none;
 	}
-	
-	#dlcliente{
-		display:inline-block;
-		width: 130px;
+	#separa{
+		display: none;
 	}
 }
 

@@ -1,7 +1,6 @@
 fieldset2{
-	display:inline-block;
+	/*display:inline-block;*/
 	float:left;
-	//border:none;
 }
 
 /*---------------------------------------------------------------------------------------------*/
@@ -86,7 +85,6 @@ fieldset2{
 	right: 0;
 	bottom: 0;
 	left: 0;
-	//transition: opacity 400ms ease-in;
 }
 
 #fupdfield{

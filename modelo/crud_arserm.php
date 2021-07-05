@@ -9,18 +9,15 @@ include("../modelo/armodule.php");
 include("../modelo/vc_funciones.php");
 $oConn = vc_funciones::get_coneccion("CIA");
 
-
 if(isset($_POST["accion"])){
 	$lcaccion = $_POST["accion"]; 	
-}else{
+	}else{
 	$lcaccion = $_GET["accion"]; 	
-}
-
+	}
 if (isset($_POST["cservno"])){
 	$lcservno = $_POST["cservno"];
-}
+	}
 $lnRowsAfect = 0;
-
 // ------------------------------------------------------------------------------------------------
 // DELETE, Borrando los datos.
 // ------------------------------------------------------------------------------------------------
@@ -53,13 +50,17 @@ if($lcaccion=="DELETE"){
 		$lresultF = mysqli_multi_query($oConn,$lcsqlcmd);	
 		
 	}
-}
-
+	}
 if($lcaccion=="DELETE_CUID"){
 	$lcsqlcmd = " delete from arskit where cuid = '" . $_POST["cuid"] . "' ";
 	$lresultF = mysqli_query($oConn,$lcsqlcmd);	
 	get_detalle($lcservno,$oConn);
-}
+	}
+if($lcaccion=="DELETE_CUID2"){
+	$lcsqlcmd = " delete from arwqty where cuid = '" . $_POST["cuid"] . "' ";
+	$lresultF = mysqli_query($oConn,$lcsqlcmd);	
+	get_detalle_arwqty($lcservno,$oConn);
+	}
 
 // ------------------------------------------------------------------------------------------------
 // INSERT / UPDATE, guardando datos existentes o nuevos.
@@ -122,7 +123,7 @@ if($lcaccion=="NEW"){
 		$lnRowsAfect = mysqli_affected_rows($oConn);
 	}  	// if (isset($_POST["cservno"])){
 	header("location:../view/arserm.php");		
-}  		//if($lcaccion=="NEW")
+	}  		//if($lcaccion=="NEW")
 // ------------------------------------------------------------------------------------------------
 // JSON, - Informacion detallada de un solo registro.
 // ------------------------------------------------------------------------------------------------
@@ -139,7 +140,7 @@ if ($lcaccion == "JSON"){
 		// retornando objeto json
 		echo $jsondata;
 	}	
-}
+	}
 
 if($lcaccion=="MENU"){
 	// el where no siempre viene incluido
@@ -167,7 +168,6 @@ if($lcaccion=="MENU"){
 	// enviando variable json.
 	echo $ojson;		
 }
-
 // LISTA, Genera menu de lista de proveedores.
 if ($lcaccion == "LISTA"){
 		//$oConn = get_coneccion("CIA");
@@ -208,7 +208,22 @@ if($lcaccion == "UPD_CUID"){
 	// Refrescando el detalle de la factura.
 	get_detalle($lcservno,$oConn);
 }
-
+// actualizando linea de Arwqty
+if($lcaccion == "UPD_CUID2"){
+	$lcuid     = $_POST["cuid"];
+	$lcbinno   = $_POST["cbinno"];
+	$lcestante = $_POST["cestante"];
+	$lnqtymin  = $_POST["nqtymin"];
+	$lnqtymax  = $_POST["nqtymax"];
+	$lmnotas   = $_POST["mnotas"];
+	$lcservno  = $_POST["cservno"];
+	$lcsql     = "update arwqty set nqtymin  = $lnqtymin,    mnotas = '$lmnotas', nqtymax = $lnqtymax, 
+	                                cestante = '$lcestante' ,cbinno = '$lcbinno'  where cuid = '$lcuid' 
+				 ";
+	$lcresult = mysqli_query($oConn,$lcsql);
+	// Refrescando el detalle de la factura.
+	get_detalle_arwqty($lcservno,$oConn);
+}
 if($lcaccion == "LIST_CUID"){
 	if (isset($_POST["cuid"])){
  		// Consulta unitaria
@@ -226,11 +241,26 @@ if($lcaccion == "LIST_CUID"){
 		echo $jsondata;
 	}		
 }
-
+if($lcaccion == "UPD_ARWQTY"){
+	$lcsql = "select cwhseno from arwhse where cstatus = 'OP'";
+	$lcresult = mysqli_query($oConn,$lcsql);
+	// leyendo bodega por bodega
+	while($row = mysqli_fetch_assoc($lcresult)){
+		$lcsqlqwhse = "select cuid from arwqty where cservno = '$lcservno' and cwhseno = '". $row["cwhseno"]."' ";
+		$lcreswqty  = mysqli_query($oConn,$lcsqlqwhse);
+		if ($lcreswqty->num_rows == 0 ){
+			$lcinsert_wqty = "insert into arwqty(cservno,cwhseno) values('". $lcservno ."','". $row["cwhseno"] . "')";	
+			mysqli_query($oConn,$lcinsert_wqty);
+		}
+	}
+	get_detalle_arwqty($lcservno,$oConn);
+  }
 if($lcaccion == "REFRESH"){
 	get_detalle($lcservno,$oConn);
 }
-
+if ($lcaccion == "REFRESH2"){
+	get_detalle_arwqty($lcservno,$oConn);
+}
 if($lcaccion == "KARDEX"){
 	$lcservno = $_POST["cservno"];
 
@@ -295,8 +325,6 @@ if($lcaccion == "KARDEX"){
 	}
 	echo '</tbody>';
 }
-
-
 if($lcaccion == "KARDEX_WHSENO"){
 	$lcservno = $_POST["cservno"];
 	// procesando todas las bodegas al mismo tiempo
@@ -346,8 +374,6 @@ if($lcaccion == "KARDEX_WHSENO"){
 	}	
 	echo '</tbody>';
 }
-
-
 function get_detalle($pctrnno,$oConn){
 	$lcsql     = " select arskit.cuid, arskit.cservno1,arserm.cdesc, arskit.nqty, arskit.ncost
 					from arskit 
@@ -364,13 +390,40 @@ function get_detalle($pctrnno,$oConn){
 		echo '<td width="52px">'. $row["ncost"]     .'</td>';
 		echo '<td width="77px">'. ($row["nqty"] * $row["ncost"]) .'</td>';
 		echo '<td>';
-		echo '	<input type="button" id="btquitar"  value="Eliminar" onclick="eliminarFila('.$row["cuid"].')" >';
-		echo '	<input type="button" id="btupdfild" value="Editar"   onclick="editarFila('.$row["cuid"].')" >';
+		echo '	<img src="../photos/escoba.ico" class="botones_row" id="btquitar"  value="Eliminar" onclick="eliminarFila('.$row["cuid"].')" >';
+		echo '	<img src="../photos/editar.ico" class="botones_row" id="btupdfild" value="Editar"   onclick="editarFila('.$row["cuid"].')" >';
 		echo '</td>';
 		echo '</tr>';
 	}
 	echo '</tbody>';
 }
+// funcion que llena los datos del arwqty
+function get_detalle_arwqty($pctrnno,$oConn){
+	$lcsql     = " select arwqty.*, arwhse.cdesc
+					from arwqty
+					left outer join arwhse on arwqty.cwhseno = arwhse.cwhseno
+					where arwqty.cservno ='$pctrnno' ";	
+					
+	$lcresult  = mysqli_query($oConn,$lcsql);
+	echo '<tbody>';
+	while($row = mysqli_fetch_assoc($lcresult)){
+		echo '<tr  class= "listados" id="'. $row["cuid"] .'">';
+		echo '<td width="40px">'. $row["cuid"]  .'</td>';
+		echo '<td width="200px">'. $row["cdesc"].'<textarea rows=3 cols=25>'. $row["mnotas"]   .'</textarea></td>';
+		echo '<td width="20px"><input type="number" class="textqty"  value='. $row["nqtymin"]   .' ></input></td>';
+		echo '<td width="20px"><input type="number" class="textqty"  value='. $row["nqtymax"]   .'></input></td>';
+		echo '<td width="80px"><input type="text"  class="textkey"  value=' . $row["cestante"] .'></input></td>';
+		echo '<td width="80px"><input type="text"  class="textkey" value='  . $row["cbinno"]   .'></input></td>';
+		//echo '<td width="100px"><textarea rows=3 cols=25>'. $row["mnotas"]   .'</textarea></td>';
+		echo '<td width="20px">';
+		echo '	<img src="../photos/escoba.ico" class="botones_row" id="btquitar"  value="Eliminar" onclick="eliminarFila2('.$row["cuid"].')" >';
+		echo '	<img src="../photos/editar.ico" class="botones_row" id="btupdfild" value="Editar"   onclick="editarFila2('.$row["cuid"].')" />';
+		echo '</td>';
+		echo '</tr>';
+	}
+	echo '</tbody>';
+}
+
 //Cerrando la coneccion.
 mysqli_close($oConn);
 

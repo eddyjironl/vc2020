@@ -13,6 +13,8 @@
 	// B- Recibiendo parametros de filtros.
 	// ------------------------------------------------------------------------------------------------------------------	
 	// solo facturas activas por defecto.
+    $lcrptname  = "rpt_arcash";
+    $lctitle    = "";
 
 	$lcwhere   = " arcasm.cstatus = 'OP' ";
 	$lcXsortBy = "";
@@ -213,16 +215,23 @@ function cabecera($ofpdf,$pcgrpdesc,$lladdpage){
 	$ofpdf->cell(100,5,$pcgrpdesc,0,1,"");
 	// c-2 Dibujando el cuerpo de la pagina
 	//----------------------------------------------------------
+
 	$ofpdf->setfont("arial","B",10);
+//	$ofpdf->setfont("arial","",9);
+    $ofpdf->SetFillColor(20,40,100);
+    $ofpdf->SetTextColor(255,255,255);
+
 	//$ofpdf->cell(20,5,"",0,0,"");   
-				$ofpdf->cell(25,5,"Trn No",1,0,"");   		// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-				$ofpdf->cell(25,5,"Ref No",1,0,"");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-				$ofpdf->cell(25,5,"Factura #",1,0,"");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-				$ofpdf->cell(15,5,"Estado",1,0,"");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-				$ofpdf->cell(20,5,"F/Pago",1,0,"");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-				$ofpdf->cell(60,5,"Nombre Cliente",1,0,"");	// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
-				$ofpdf->cell(25,5,"Pagado",1,1,"R");   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+				$ofpdf->cell(25,5,"Trn No",1,0,"",true);   		// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+				$ofpdf->cell(25,5,"Ref No",1,0,"",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+				$ofpdf->cell(25,5,"Factura #",1,0,"",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+				$ofpdf->cell(15,5,"Estado",1,0,"",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+				$ofpdf->cell(20,5,"F/Pago",1,0,"",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+				$ofpdf->cell(60,5,"Nombre Cliente",1,0,"",true);	// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+				$ofpdf->cell(25,5,"Pagado",1,1,"R",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
 	//$ofpdf->cell(15,5,"",0,1,"");   // cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+	$ofpdf->SetFillColor(0,0,0);
+	$ofpdf->SetTextColor(0,0,0);
 	$ofpdf->setfont("arial","",10);
 }	// function cabecera($ofpdf,$ldstar,$lpname){
 

@@ -20,19 +20,17 @@ if ($lcStarSession == 1){
 		<link rel="shortcut icon" type="image/x-icon" href="../photos/vc2009.ico" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
-    <form id="arpodvm" name="arpodvm" taget="blank" >
+    <form id="arpodvm" name="arpodvm" class="form_change" >
+    <script>get_barraprinc_trn_x("Formulario de pedidos de clientes","Ayuda formulario de pedidos");</script> 	
+
         <h2 id="tscreen">Modulo Preventa</h2>
-        <br>
-        <br>
         <div>
             <img class="botones" src="../photos/save.ico" id="guardar" name="guardar" title="guardar el pedido" placeholder="guardar el pedido">
             <img class="botones"  src="../photos/Write.ico" id="btmnotas" name="btmnotas" title="Ingresar un comentario al pedido" placeholder="Ingresar un comentario al pedido">
-    
-            <a href="https://www.google.com">
+           <!-- <a href="https://www.google.com"> </a>-->
                 <img class="botones"  src="../photos/salir.ico" id="salir" name="salir"  title="Salir del Modulo" placeholder="Salir del Modulo">    
-            </a>
+            
         </div>
-        
         <label class="labelminscreen">Ruta</label>
          <?php get_list_arubim(); ?>
         <br>
@@ -42,6 +40,13 @@ if ($lcStarSession == 1){
         <label class="labelminscreen">Condicion</label>
         <script> get_lista_artcas();</script>
         <br>
+        <div id="dmnotash">
+            <label>Comentarios del Pedido</label>
+            <br>
+            <textarea id="mnotash" name="mnotash" ></textarea>
+        </div>
+        <br id="separa">
+
         <label class="labelminscreen">Articulo</label>
         <input type="text" class="textnormal" id="cservno1" name="cservno1" >
 	    <script>get_btmenu("btcservno","Listado de articulos");</script>
@@ -51,8 +56,8 @@ if ($lcStarSession == 1){
 					<thead>
 						<tr class="table_det">
                             <th id="thcservno">Producto</th>
-				            <th class="input_min" id="thnqty">Und</th>
-				            <th class="input_min" id="thnprice">Precio</th>
+				            <th id="thnqty">Und</th>
+				            <th id="thnprice">Precio</th>
 						</tr>
 					</thead>
 				</table>

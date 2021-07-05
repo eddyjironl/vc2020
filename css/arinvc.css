@@ -1,3 +1,11 @@
+.botones_row{
+	width:20px;
+	box-shadow:azure 0px 5px 11px;
+	background:rgb(20,200,200);
+	border-radius:10px;
+	margin-left:2px;
+}
+
 #arinvc{
 	width:fit-content;
 	height:fit-content;
@@ -11,7 +19,7 @@
 	right: 0;
 	bottom: 0;
 	left: 0;
-	//transition: opacity 400ms ease-in;
+	/*transition: opacity 400ms ease-in;*/
 }
 
 #fpago, #fupdfield{
@@ -108,7 +116,7 @@ thead, tbody{
 fieldset{
 	display:inline-block;
 	border:none;
-	//float:left;
+	/*float:left;*/
 }
 #set1{
 	float:left;
@@ -119,9 +127,9 @@ fieldset{
 }
 
 #adetalles{
-	//float:left;	
+	/*float:left;	*/
 	margin:auto 22px;
-	//border:solid 1px;
+	/*border:solid 1px;*/
 	height:200px;	
 	overflow: auto;
 }

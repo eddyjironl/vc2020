@@ -12,6 +12,8 @@
 	// B- Recibiendo parametros de filtros.
 	// ------------------------------------------------------------------------------------------------------------------	
 	// solo facturas activas por defecto.
+    $lcrptname  = "rpt_arcash1";
+    $lctitle    = "";
 
 	$lcwhere   = " arinvc.cstatus = 'OP' and arinvc.nbalance <> 0 ";
 	$lcXsortBy = "";
@@ -210,16 +212,7 @@
 				$lnVeces = 1;
 				cabecera($ofpdf,$lcgrp["cdesc"],true);
 			}				
-			/*
-				$ofpdf->cell(50,5,"Nombre Cliente",1,0,"");
-				$ofpdf->cell(15,5,"Fact No",1,0,"");
-				$ofpdf->cell(20,5,"Ref No",1,0,""); 
-				$ofpdf->cell(50,5,"Forma de pago",1,0,"");	
-				$ofpdf->cell(20,5,"Emision",1,0,"");	
-				$ofpdf->cell(20,5,"Vence",1,0,"");	
-				$ofpdf->cell(20,5,"Dias Mora",1,0,"");	
-				$ofpdf->cell(20,5,"Total",1,1,"R");
-			*/
+			
 
 			$ofpdf->cell(25,5, "",0,0,"");   
 			$ofpdf->cell(50,5, $row["cname"],0,0,"");   
@@ -270,17 +263,21 @@ function cabecera($ofpdf,$pcgrpdesc,$lladdpage){
 	
 	//----------------------------------------------------------
 	$ofpdf->setfont("arial","B",10);
+	$ofpdf->SetFillColor(20,40,100);
+    $ofpdf->SetTextColor(255,255,255);
 	//$ofpdf->cell(20,5,"",0,0,"");   
 	$ofpdf->cell(25,5, "",0,0,"");   
-	$ofpdf->cell(50,5,"Nombre Cliente",1,0,"");
-	$ofpdf->cell(15,5,"Fact No",1,0,"");
-	$ofpdf->cell(20,5,"Ref No",1,0,""); 
-	$ofpdf->cell(50,5,"Forma de pago",1,0,"");	
-	$ofpdf->cell(20,5,"Emision",1,0,"");	
-	$ofpdf->cell(20,5,"Vence",1,0,"");	
-	$ofpdf->cell(20,5,"Dias Mora",1,0,"");	
-	$ofpdf->cell(20,5,"Total",1,1,"R");
-	
+	$ofpdf->cell(50,5,"Nombre Cliente",1,0,"",true);
+	$ofpdf->cell(15,5,"Fact No",1,0,"",true);
+	$ofpdf->cell(20,5,"Ref No",1,0,"",true); 
+	$ofpdf->cell(50,5,"Forma de pago",1,0,"",true);	
+	$ofpdf->cell(20,5,"Emision",1,0,"",true);	
+	$ofpdf->cell(20,5,"Vence",1,0,"",true);	
+	$ofpdf->cell(20,5,"Dias Mora",1,0,"",true);	
+	$ofpdf->cell(20,5,"Total",1,1,"R",true);
+
+	$ofpdf->SetFillColor(0,0,0);
+	$ofpdf->SetTextColor(0,0,0);
 	$ofpdf->setfont("arial","",10);
 }	// function cabecera($ofpdf,$ldstar,$lpname){
 

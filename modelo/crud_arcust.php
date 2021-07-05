@@ -43,7 +43,7 @@ if($lcAccion=="DELETE"){
 // ------------------------------------------------------------------------------------------------
 if($lcAccion=="NEW"){
 	// haciendo la coneccion.
-//	$oConn = get_coneccion("CIA");
+	//	$oConn = get_coneccion("CIA");
 	if (isset($_POST["ccustno"])){
 		$ldstar   = $_POST["dstar"];
 		$lcname   = $_POST["cname"];

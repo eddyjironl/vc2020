@@ -33,6 +33,10 @@ $lcsqlcmd = "select arinvc.cinvno,
 // CONFIGURACIÓN PREVIA
 include("../modelo/vc_funciones.php");
 include("../modelo/pdf.php");
+
+$lcrptname  = "rpt_arinvc_tiquete";
+$lctitle    = "";
+
 $oConn    = vc_funciones::get_coneccion("CIA");
 $oArSetup = vc_funciones::arsetup_init();
 $lcresult = mysqli_query($oConn,$lcsqlcmd);
@@ -54,6 +58,7 @@ $pdf->Cell(60,4,'Telefono: '.$_SESSION["ctel"],0,1,'C');
 // DATOS FACTURA        
 $pdf->Ln(5);
 $pdf->Cell(60,4,'Factura: '.$oInvoice["cinvno"]. " - ".$oInvoice["cdescpay"] ,0,1,'');
+$pdf->Cell(60,4,'Cliente: '.$oInvoice["cdesccustno"] ,0,1,'');
 $pdf->Cell(60,4,'Fecha: ' .$oInvoice["dstar"] ,0,1,'');
 $pdf->Cell(60,4,'Vendedor: '  .$oInvoice["cfullname"],0,1,'');
  

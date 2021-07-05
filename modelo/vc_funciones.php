@@ -59,7 +59,8 @@ CLASS vc_funciones{
 		}else{
 			$oConn = mysqli_connect($_SESSION["chost"],$_SESSION["cuser"],$_SESSION["ckeyid"],$_SESSION["dbname"]);
 		}
-		if(!mysqli_connect_errno($oConn)){
+		//if(!mysqli_connect_errno($oConn)){
+		if(!mysqli_connect_errno()){
 			mysqli_set_charset($oConn,"utf8");
 		}else{
 			echo "Coneccion NO Establecida.";

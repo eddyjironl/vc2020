@@ -43,7 +43,7 @@ if ($lcStarSession == 1){
 				<input type="number" class="sayamt" id="ntc" name="ntc" readonly  >
 				<br>
 				<label class="labelsencilla">Comentarios generales</label><br>
-				<textarea id="mnotas" name="mnotas" class="mnotas" rows=3 cols=34></textarea>
+				<textarea id="mnotas" name="mnotas" class="mnotas" rows=3 cols=30></textarea>
 			</fieldset>
 			<br>
 			<fieldset class="fieldset">
@@ -62,7 +62,6 @@ if ($lcStarSession == 1){
 							<th width="223px">Descripcion de Producto</th>
 							<th width="100px">Costo</th>
 							<th width="100px">Cantidad</th>
-							<th width="70px">Acciones</th>
 						</tr>
 					</thead>
 				</table>
@@ -78,9 +77,10 @@ if ($lcStarSession == 1){
 				<label class="labelnormal">Total General</label>
 				<input type="text" name="ntotamt" id="ntotamt" class="sayamt" readonly >
 			</fieldset>
-
-			<section id="area_bloqueo">	
-				<section id="pantalla" class="form2"  name="pantalla">
+		</form>
+		
+		<section id="area_bloqueo"> 
+			<form class="form2"  id="pantalla" target="_blank" name="pantalla" method="post" action="../reports/rpt_aradjm.php" >	
 					<div id="barra_sencilla">
 						<h1>Guardar Requisa</h1>
 					</div>
@@ -101,11 +101,11 @@ if ($lcStarSession == 1){
 							get_boton("btnuevaf","nueva.ico","Nueva");
 						</script>
 					</div>
-					<br>
-				</section>
-			</section>	
+			</form>
+		</section>
 			
-		</form>
+			
+			
 		<script>
 			get_xm_menu();
 			get_msg();

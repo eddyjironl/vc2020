@@ -111,12 +111,7 @@ cerrar_mx_view();
 upddet();
 }
 function print_invoice(){
-	var lcadjno = document.getElementById("cadjno").value;
-	if (lcadjno == ""){
-		getmsgalert("No ha guardado la requisa.");
-		return ;
-	}
-	alert("imprimiendo....");
+	document.getElementById("pantalla").submit();
 }
 function show_sub_screen(){
 	document.getElementById("area_bloqueo").style.display="inline-block";
@@ -144,6 +139,8 @@ function guardar(){
 		getmsgalert("revise las cantidades o el total existe un dato no permitido");
 		return ;
 	}		
+
+	var lmnotas = document.getElementById("mnotas").value;
 	// b)- armando JSON.
 	// b.1)- Armando el encabezado.
 	odata += '{"cwhseno":"'  + document.getElementById("cwhseno").value  + '",';
@@ -152,7 +149,7 @@ function guardar(){
 	odata += ' "crespno":"'  + document.getElementById("crespno").value  + '",';
 	odata += ' "crefno":"'   + document.getElementById("crefno").value   + '",';
 	odata += ' "ntc":'       + document.getElementById("ntc").value   	 + ',';
-	odata += ' "mnotas":"'   + document.getElementById("mnotas").value   + '",';
+	//odata += ' "mnotas":"'   + document.getElementById("mnotas").value   + '",';
 	// b.2)- Armando el detalle
 	odata += ' "articulos":[' ;
 	// recorriendo la tabla en busca de abono y factura.
@@ -180,6 +177,7 @@ function guardar(){
 	var oDatos   = new FormData();
 	// adicionando datos en formato CLAVE/VALOR en el objeto datos para enviar como parametro a la consulta AJAX
 	oDatos.append("json",odata);
+	oDatos.append("mnotas",lmnotas);
 	oDatos.append("accion","NEW");
 	oRequest.open("POST","../modelo/crud_aradjm.php",false); 
 	oRequest.send(oDatos);
@@ -314,7 +312,7 @@ function upddet(){
 	oRow += "<td class= 'saytextd' width='220px'>" + odata.cdesc   + "</td>";
 	oRow += "<td width='70px'><input type='number' id='ncost' name='ncost' class='textkey' value=" + odata.ncost + "></td>";
 	oRow += "<td class= 'sayamtd' width='70px'><input type='number' id='nqty' name='nqty' class='textkey' value=1></td>";
-	oRow += "<td width='75px'><input type='button' onclick='deleteRow(this)' value='Eliminar'></td>";
+	oRow += "<td width='20px'><img src='../photos/escoba.ico' class='botones_row' onclick='deleteRow(this)' title='Eliminar Linea'/></td>";
 	oRow += "</tr>";
  	otabla.insertRow(-1).innerHTML = oRow;
 	cservno1.value = "";
