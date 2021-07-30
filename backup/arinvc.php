@@ -71,6 +71,44 @@ if ($lcStarSession == 1){
 				<br>
 				<br>
 			</fieldset>
+			<section id="pantalla_actualiza_linea">
+				<section id="fupdfield" class="form2">
+					<div id="div11">
+						<h1>Actualizacion de Linea</h1>
+					</div>
+					<br>
+					<fieldset>
+						<label class="labelnormal">Id Linea</label>
+						<input type="text" readonly id="idline" name="idline" class="saytext">
+						<br>
+						<label class="labelnormal">Articulo</label>
+						<input type="text" readonly id="fcservno" name="fcservno" class="saytext">
+						<br>
+						<label class="labelnormal">Precio</label>
+						<input type="number" id="fnprice" name="fnprice" class="textqty">
+						<br>
+						<label class="labelnormal">% Impuesto</label>
+						<input type="number" id="fntax" name="fntax" class="textqty">
+						<br>
+						<label class="labelnormal">Descuento</label>
+						<input type="number" id="fndesc" name="fndesc" class="textqty">
+						<br>
+						<label class="labelnormal">Cantidad</label>
+						<input type="number" id="fnqty" name="fnqty" class="textqty">
+						<br><br>
+						<label>Comentarios en linea de producto</label><br>
+						<textarea rows=3 cols=49 id="fmnotas" class="mnotas"></textarea>
+					</fieldset>
+					<br>
+					<div id="fbotones">
+						<script>
+							get_boton("bt_fupd","save.ico","Guardar");
+							get_boton("bt_fsalir","salir.ico","Salir");
+						</script>
+					</div>
+					<br>
+				</section>
+			</section>
 			<section id="adetalles">
 				<table id="tdetalles">
 					<thead>

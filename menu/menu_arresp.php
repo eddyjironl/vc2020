@@ -58,7 +58,7 @@ if ($lcaccion == "menu"){
 		}
 		echo '</table>';
 	}
-}S
+}
 
 // Genera un JSON
 if ($lcaccion == "json"){

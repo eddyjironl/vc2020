@@ -208,13 +208,14 @@ function get_detalle($pctrnno,$oConn){
 		echo '<tr class="listados">';
 		echo '<td  width="90px">'.  $row["cservno"] .' </td>';
 		echo '<td  width="220px">'. $row["cdesc"]   .'</td>';
-		echo '<td  width="75px"><input type="number" name="nprice" id="nprice" value=$row["nprice"] > </td>';
+		echo '<td  width="75px">'.  $row["nprice"]  .' </td>';
 		echo '<td  width="75px">'.  $row["nqty"]    .'</td>';
 		echo '<td  width="50px">'.  $row["ndesc"]   .'</td>';
 		echo '<td  width="50px">'.  $row["ntax"]    .'</td>';
 		echo '<td  width="75px">'. round($row["nqty"] * $row["nprice"],2) .'</td>';
 		echo '<td>';
 		echo '	<img src="../photos/escoba.ico" id="btquitar"  class="botones_row" value="Eliminar" title= "Eliminar Registro" onclick="eliminarFila('.$row["cuid"].')" />';
+		echo '	<img src="../photos/editar.ico" id="btupdfild" class="botones_row" value="Editar"   title= "Editar Precio ,Cantidad y Descuento" onclick="editarFila('.$row["cuid"].')" />';
 		echo '</td>';
 		echo '</tr>';
 	}

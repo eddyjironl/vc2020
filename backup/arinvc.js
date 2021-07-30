@@ -4,6 +4,7 @@ function init(){
 	document.getElementById("xtrnno").value = get_trnno();
 	// identificando algunos elementos.
 	document.getElementById("ccustno").addEventListener("change",upd_config_invoice,false);
+	document.getElementById("bt_fsalir").addEventListener("click",cerrar_fupdt,false);
 	document.getElementById("bt_fupd").addEventListener("click",save_upd,false)
 	// poniendo el text de articulo a la escucha.
 	document.getElementById("cservno1").addEventListener("change",upddet,false);
@@ -185,7 +186,7 @@ function ck_vuelto(){
 	}
 }
 // imprime una factura 
-function print_invoice(){arguments
+function print_invoice(){
 	document.getElementById("pantalla_pago").submit()
 }
 // nueva factura despues de que se guardo la que se estaba haciendo.
@@ -372,9 +373,34 @@ function isvalidentry(){
 	
 	return true;
 }
-
+function cerrar_fupdt(){
+	document.getElementById("pantalla_actualiza_linea").style.display="none";
+}
 // funcion de la cuadricula detalle productos
-
+function editarFila(pcuid){
+	// haciendo request que devuelva el contenido de la fila en formato JSON.
+	var oRequest = new XMLHttpRequest();
+	// Creando objeto para empaquetado de datos.
+	var oDatos   = new FormData();
+	// adicionando datos en formato CLAVE/VALOR en el objeto datos para enviar como parametro a la consulta AJAX
+	oDatos.append("cuid",pcuid);
+	oDatos.append("accion","LIST");
+	oDatos.append("xtrnno",document.getElementById("xtrnno").value);
+	// enviando el request.
+	oRequest.open("POST","../modelo/crud_arinvc.php",false); 
+	oRequest.send(oDatos);
+	// recibiendo el json.
+	var odata = JSON.parse(oRequest.response); 
+	// mostrando pantalla de edicion de archivo
+	document.getElementById("pantalla_actualiza_linea").style.display="block";
+	document.getElementById("idline").value   = pcuid;
+	document.getElementById("fcservno").value = odata.cdesc;
+	document.getElementById("fnqty").value    = odata.nqty;
+	document.getElementById("fnprice").value  = odata.nprice;
+	document.getElementById("fntax").value    = odata.ntax;
+	document.getElementById("fndesc").value   = odata.ndesc;
+	document.getElementById("fmnotas").value  = odata.mnotas;
+}
 function save_upd(){
 	var oRequest = new XMLHttpRequest();
 	// Creando objeto para empaquetado de datos.
