@@ -48,9 +48,6 @@ if ($lcStarSession == 1){
 				</fieldset>
 				<br>
 				<fieldset id="set2">
-					<label class="labelnormal">Referencia No. </label> 
-					<input type="text" class="sayamt" id="xtrnno" name="xtrnno" readonly  >
-					<br>
 					<label class="labelnormal">Tipo Cambio </label> 
 					<input type="number" class="sayamt" id="ntc" name="ntc" readonly  >
 					<br>
@@ -79,7 +76,7 @@ if ($lcStarSession == 1){
 							<th width="220px">Descripcion de Producto</th>
 							<th width="75px">Precio</th>
 							<th width="75px">Cantidad</th>
-							<th width="50px">Desc %</th>
+							<th width="50px">Descuento</th>
 							<th width="50px">IVA %</th>
 							<th width="75px">Monto</th>
 						</tr>

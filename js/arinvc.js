@@ -1,15 +1,13 @@
 var ninvlinmax = 0;
 function init(){
 	// cargando numero de transsaccion para esta factura temporal
-	document.getElementById("xtrnno").value = get_trnno();
+	//document.getElementById("xtrnno").value = get_trnno();
 	// identificando algunos elementos.
 	document.getElementById("ccustno").addEventListener("change",upd_config_invoice,false);
-	document.getElementById("bt_fupd").addEventListener("click",save_upd,false)
 	// poniendo el text de articulo a la escucha.
 	document.getElementById("cservno1").addEventListener("change",upddet,false);
 	// pantalla de actualizacion de regisrto de venta.
-	document.getElementById("pantalla_actualiza_linea").style.display="none";
-	var obtguardar = document.getElementById("btguardar");
+	//var obtguardar = document.getElementById("btguardar");
 	// pone la pantalla lista para la proxima con los defaults de la pantalla de facturacion.
 	document.getElementById("btnueva").addEventListener("click",clear_view,false);
 	btguardar.addEventListener("click",call_pantalla_pago,false);
@@ -202,63 +200,6 @@ function nueva_factura(){
 	// recetea a default la pantalla principal de facturacion
 	clear_view();
 }
-// guarda la factura finalmente
-function guardar(){
-	// ---------------------------------------------------------------------
-	// A)- verificando integridad de datos antes de guardar definitivamente.
-	// ---------------------------------------------------------------------
-	var llcont = isvalidentry();
-	if (!llcont){
-		return ;
-	}
-
-	// ---------------------------------------------------------------------
-	// B)- Guardando factura
-	// ---------------------------------------------------------------------
-	// haciendo request que devuelva el contenido de la fila en formato JSON.
-	var oRequest = new XMLHttpRequest();
-	// Creando objeto para empaquetado de datos.
-	var oDatos = new FormData();
-	var lntc = 1;
-	
-	if (ntc.value != ""){
-		lntc = ntc.value;
-	}
-	// adicionando datos en formato CLAVE/VALOR en el objeto datos para enviar como parametro a la consulta AJAX
-	oDatos.append("accion","SAVE");
-	oDatos.append("xtrnno",document.getElementById("xtrnno").value);
-	oDatos.append("ccustno",ccustno.value);
-	oDatos.append("cwhseno",cwhseno.value);
-	oDatos.append("cpaycode",cpaycode.value);
-	oDatos.append("crespno",crespno.value);
-	oDatos.append("dstardate",dstardate.value);
-	oDatos.append("denddate",denddate.value);
-	oDatos.append("mnotas",mnotas.value);
-	oDatos.append("efectivo",efectivo.value);
-	oDatos.append("dpay",dpay.value);
-	oDatos.append("mnotasr",mnotasr.value);
-	oDatos.append("cdesc",cdesc.value);
-	oDatos.append("crefno",crefno.value);
-	oDatos.append("ntc",lntc);
-	// enviando el request.
-	oRequest.open("POST","../modelo/crud_arinvc.php",false); 
-	oRequest.send(oDatos);
-
-	// ---------------------------------------------------------------------
-	// C)- Cerrando proceso
-	// ---------------------------------------------------------------------
-	var odata = oRequest.responseText.trim(); 
-	// mostrando el boton de imprimir factura
-	btVer.style.display    ="inline";
-	// mostrando el boton de nueva factura continua trabajando.
-	btnuevaf.style.display ="inline";
-	// ocultando boton de salir simple ocultar pantalla.
-	btsalvar.style.display ="none";
-	btsalir.style.display  ="none";
-
-	// mostrando el nuevo numero de factura.
-	ctrnno1.value = odata;
-}
 // actualiza el valor de la descripcion en el pago segun el tipo.
 function upd_desctype(){
 	if(ctype.value == "EF"){
@@ -279,13 +220,12 @@ function call_pantalla_pago(){
 		return false;
 	}
 	pantalla_pago.style.display="inline";
-	ctrnno1.value  = xtrnno.value ;
+	//ctrnno1.value  = xtrnno.value ;
 	topay.value    = ntotamt.value;
 	dpay.value     = dstardate.value;
 	cdescpay.value = "Pago en efectivo";
 	efectivo.focus();
 }
-
 function cerrar_pantalla_pago(){
 	pantalla_pago.style.display="none";
 	efectivo.value="";
@@ -313,9 +253,6 @@ function clear_view(){
 	mnotas.value = "";
 	// detalle de la factura poniendolo en blanco
 	articulos.innerHTML= "";	
-	// cargando numero de transsaccion para esta factura temporal
-	document.getElementById("xtrnno").value = get_trnno();
-	// cargando valor de variables usadas en el proceso 
 	ninvlinmax = odata.ninvlinmax;
 	// poniendo en cero el pago recibido
 	efectivo.value = "";
@@ -372,88 +309,227 @@ function isvalidentry(){
 	
 	return true;
 }
-
 // funcion de la cuadricula detalle productos
-
-function save_upd(){
-	var oRequest = new XMLHttpRequest();
-	// Creando objeto para empaquetado de datos.
-	var oDatos   = new FormData();
-	// adicionando datos en formato CLAVE/VALOR en el objeto datos para enviar como parametro a la consulta AJAX
-	oDatos.append("cuid",document.getElementById("idline").value);
-	oDatos.append("accion","UPDATE");
-	oDatos.append("xtrnno",document.getElementById("xtrnno").value);
-	oDatos.append("nqty",document.getElementById("fnqty").value);
-	oDatos.append("nprice",document.getElementById("fnprice").value);
-	oDatos.append("ntax",document.getElementById("fntax").value);
-	oDatos.append("ndesc",document.getElementById("fndesc").value);
-	oDatos.append("mnotas",document.getElementById("fmnotas").value);
-	// obteniendo el menu
-	oRequest.open("POST","../modelo/crud_arinvc.php",false); 
-	oRequest.send(oDatos);
-	cerrar_fupdt();
-	document.getElementById("articulos").innerHTML=oRequest.response;
-	cksum();
+function set_validation_table(){
+	var oinput1 = document.querySelectorAll("#nqty");
+	var oinput2 = document.querySelectorAll("#nprice");
+	var oinput3 = document.querySelectorAll("#ntax");
+	var oinput4 = document.querySelectorAll("#ndesc");
+	for (var i=0; i<oinput1.length; i++){
+		// poniendo a la escucha del evento ONCHANGE cada objeto
+		oinput1[i].onchange = cksum;
+		oinput2[i].onchange = cksum;
+		oinput3[i].onchange = cksum;
+		oinput4[i].onchange = cksum;
+        //oinput2[i].setAttribute("readonly",true);
+	}
 }
-function eliminarFila(pcuid){
-	var oRequest = new XMLHttpRequest();
-	// Creando objeto para empaquetado de datos.
-	var oDatos   = new FormData();
-	// adicionando datos en formato CLAVE/VALOR en el objeto datos para enviar como parametro a la consulta AJAX
-	oDatos.append("cuid",pcuid);
-	oDatos.append("accion","DELETE");
-	oDatos.append("xtrnno",document.getElementById("xtrnno").value);
-	// obteniendo el menu
-	oRequest.open("POST","../modelo/crud_arinvc.php",false); 
-	oRequest.send(oDatos);
-	document.getElementById("articulos").innerHTML=oRequest.response;
-	cksum();
-}
-// inserta en el detalle este articulo
 function upddet(){
-	
+	// validaciones standar previas.
 	var llcont = isvalidentry();
 	if (!llcont){
 		document.getElementById("cservno1").value="";
 		return ;
 	}
-	
+	// ---------------------------------------------------------------------------------------------------------
+	// a)- Verificando que el articulo exista.
+	// ---------------------------------------------------------------------------------------------------------
+	// haciendo request que devuelva el contenido de la fila en formato JSON.
 	var oRequest = new XMLHttpRequest();
 	// Creando objeto para empaquetado de datos.
 	var oDatos   = new FormData();
 	// adicionando datos en formato CLAVE/VALOR en el objeto datos para enviar como parametro a la consulta AJAX
-	oDatos.append("cservno1",document.getElementById("cservno1").value);
-	oDatos.append("accion","INSERT");
-	oDatos.append("xtrnno",document.getElementById("xtrnno").value);
-	// obteniendo el menu
-	oRequest.open("POST","../modelo/crud_arinvc.php",false); 
+	oDatos.append("accion","JSON");
+	oDatos.append("cservno",document.getElementById("cservno1").value);
+	// enviando el request.
+	oRequest.open("POST","../modelo/crud_arserm.php",false); 
 	oRequest.send(oDatos);
-	// cargando el detalle.
-	document.getElementById("cservno1").value="";
-	document.getElementById("articulos").innerHTML=oRequest.response;
+	// recibiendo el json.
+	var odata = JSON.parse(oRequest.response); 
+	// mostrando pantalla de edicion de archivo
+	if (odata == null){
+		getmsgalert("Codigo de Articulo No registrado");
+		return;
+	}	
+	
+	// ---------------------------------------------------------------------------------------------------------
+	// b)- insertando el articulo en el detalle de la tabla 
+	// ---------------------------------------------------------------------------------------------------------
+	var otabla = document.getElementById("tdetalles");
+
+	var oRow = "<tr class='listados'>";
+	oRow += "<td width='90px' >" + odata.cservno   + "</td>";
+	oRow += "<td width='220px'>" + odata.cdesc     + "</td>";
+	oRow += "<td width='50px'><input type='number' class='textqty' name='nprice' id='nprice' value="+ odata.nprice +"></td>";
+	oRow += "<td width='75px'><input type='number' class='textqty' name='nqty'   id='nqty'   value=1></td>";
+	oRow += "<td width='50px'><input type='number' class='textqty' name='ndesc'  id='ndesc'  value=0></td>";
+	oRow += "<td width='50px'><input type='number' class='textqty' name='ntax'   id='ntax'   value="+ odata.ntax +"></td>";
+	oRow += "<td width='75px' name='nsalesamt_u' id='nsalesamt_u' class='textqty'>" + odata.nprice  + "</td>";
+	oRow += "<td><img src='../photos/escoba.ico' id='btquitar' class='botones_row'  onclick='deleteRow(this)' title='Eliminar Registro'/></td>";
+	oRow += "</tr>";
+ 	otabla.insertRow(-1).innerHTML = oRow;
+	cservno1.value = "";
+
+	// ---------------------------------------------------------------------------------------------------------
+	// c)- configurando detalle para que responda a eventos.
+	// ---------------------------------------------------------------------------------------------------------
+	set_validation_table();
 	cksum();
 }
 //refresca el valor de los totales de la tabla.
 function cksum(){
 	var otabla = document.getElementById("tdetalles");
-	var lnsalesamt = 00, lntaxamt = 0,lndescamt = 0;
-	var lnsalesamt_u = 00, lntaxamt_u = 0,lndescamt_u = 0;
+	var lnsalesamt = 0, lntaxamt = 0,lndescamt = 0, lnsalesamt_u = 0, lntaxamt_u = 0,lndescamt_u = 0;
 	var lnveces = otabla.rows.length - 1;
 	
 	for (var i = 1; i <= lnveces; ++i){
-		lnsalesamt_u = parseFloat(otabla.rows[i].cells[6].innerText);
-		lndescamt_u  = parseFloat(otabla.rows[i].cells[4].innerText);
-		lntaxamt_u   = parseFloat(lnsalesamt_u - lndescamt_u) * parseFloat(parseFloat(otabla.rows[i].cells[5].innerText)/100);
+		// costo de la linea 
+		lnsalesamt_u = parseFloat(otabla.rows[i].cells[2].children[0].value) * parseFloat(otabla.rows[i].cells[3].children[0].value);
+		lndescamt_u  = parseFloat(otabla.rows[i].cells[4].children[0].value);
+		lntaxamt_u   = (lnsalesamt_u - lndescamt_u) * parseFloat(otabla.rows[i].cells[5].children[0].value)/100;
+		otabla.rows[i].cells[6].innerText = lnsalesamt_u.toFixed(2);
 		// totales
 		lnsalesamt += lnsalesamt_u;
 		lndescamt  += lndescamt_u;
 		lntaxamt   += lntaxamt_u;
 	}
 	// cargando los valores del total.
-	nsubamt.value  = parseFloat(lnsalesamt);
-	ndescamt.value = parseFloat(lndescamt);
-	ntaxamt.value  = parseFloat(lntaxamt);
-	ntotamt.value  = parseFloat((lnsalesamt + lntaxamt )- lndescamt);
+	nsubamt.value  = lnsalesamt.toFixed(2);
+	ndescamt.value = lndescamt.toFixed(2);
+	ntaxamt.value  = lntaxamt.toFixed(2);
+	ntotamt.value  = ((lnsalesamt + lntaxamt) - lndescamt).toFixed(2);
 }
+function deleteRow(row){
+    var d = row.parentNode.parentNode.rowIndex;
+    document.getElementById('tdetalles').deleteRow(d);
+    cksum();
+}
+function guardar(){
+	var lcservno = "",odata="", lnqty=0 ,lnveces=1, lncost = 0;
+	// ---------------------------------------------------------------------
+	// A)- verificando integridad de datos antes de guardar definitivamente.
+	// ---------------------------------------------------------------------
+	if (isvalidentry()){
+		return ;
+	}
+	// b)- Validando que hayan detalles a procesar.
+	var otabla = document.getElementById("tdetalles");
+	var lnrows = otabla.rows.length ;
+	if(lnrows == 0){
+		getmsgalert("No hay detalle de facturas cliente no tiene cuentas pendientes");
+		return ;
+	}
+	// verificando que no haya campos NaN En cantidad o Costo.
+	var lnvalue = parseFloat(document.getElementById("ntotamt").value).toFixed(2);
+	if (isNaN(lnvalue)){
+		llcont = false;
+		getmsgalert("revise las cantidades o el total existe un dato no permitido");
+		return ;
+	}		
+	// ------------------------------------------------------------------------------------------
+	// b)- armando JSON.
+	// b.1)- Armando el encabezado.
+	odata += '{"ccustno":"'   + document.getElementById("ccustno").value  	+ '",';
+	odata += ' "cpaycode":"'  + document.getElementById("cpaycode").value 	+ '",';
+	odata += ' "cwhseno":"'   + document.getElementById("cwhseno").value   	+ '",';
+	odata += ' "crespno":"'   + document.getElementById("crespno").value   	+ '",';
+	odata += ' "dstardate":"' + document.getElementById("dstardate").value  + '",';
+	odata += ' "denddate":"'  + document.getElementById("denddate").value   + '",';
+	odata += ' "mnotas":"'    + document.getElementById("mnotas").value   	+ '",';
+	odata += ' "crefno":"'    + document.getElementById("crefno").value   	+ '",';
+	odata += ' "cdesc":"'     + document.getElementById("cdesc").value   	+ '",';
+	odata += ' "ntc":"'       + document.getElementById("ntc").value   		+ '",';
+	odata += ' "efectivo":"'  + document.getElementById("efectivo").value   + '",';
+	odata += ' "dpay":"'      + document.getElementById("dpay").value   	+ '",';
+	odata += ' "mnotasr":"'   + document.getElementById("mnotasr").value   	+ '",';
+		// b.2)- Armando el detalle
+	odata += ' "articulos":[' ;
+	// recorriendo la tabla en busca de abono y factura.
+	for (var i = 0; i<lnrows; ++i){
+		// obteniendo valor de celdas en cada fila
+		lnprice  = parseFloat(otabla.rows[i].cells[2].children["nprice"].value);
+		lnqty    = parseFloat(otabla.rows[i].cells[3].children["nqty"].value);
+		lndesc   = parseFloat(otabla.rows[i].cells[4].children["ndesc"].value);
+		lntax    = parseFloat(otabla.rows[i].cells[5].children["ntax"].value);
 
+		lcservno = otabla.rows[i].cells[0].innerText;
+    	// si hay algo en el monto a aplicar en cualquier fila, procesara el pago y continua.
+		if (!isNaN(lnvalue)){
+			// si es la primera vez
+			if (lnveces == 1){
+				odata += '{"cservno":"' + lcservno + '","nprice":' + lnprice + ',"nqty":' + lnqty + ',"ndesc":' + lndesc +',"ntax":' + lntax +  '}' ;
+				lnveces = 2;
+			}else{
+				odata += ',{"cservno":"' + lcservno + '","nprice":' + lnprice + ',"nqty":' + lnqty + ',"ndesc":' + lndesc +',"ntax":' + lntax +  '}' ;
+			} // if (lnveces == 1){
+		} // if (!isNaN(lnvalue)){		
+	} // for (var i = 1; i<lnrows; ++i){
+	odata += ']}' ;
+	
+	// codigo request para enviar al crud de php
+	var oRequest = new XMLHttpRequest();
+	// Creando objeto para empaquetado de datos.
+	var oDatos   = new FormData();
+	// adicionando datos en formato CLAVE/VALOR en el objeto datos para enviar como parametro a la consulta AJAX
+	oDatos.append("json",odata);
+	oDatos.append("accion","SAVE");
+	oRequest.open("POST","../modelo/crud_arinvc.php",false); 
+	oRequest.send(oDatos);
+	// enviando mensaje de configuracion.
+	getmsgalert(oRequest.responseText.trim());
+	clear_view();
+}
+function guardar2(){
+	// ---------------------------------------------------------------------
+	// A)- verificando integridad de datos antes de guardar definitivamente.
+	// ---------------------------------------------------------------------
+	var llcont = isvalidentry();
+	if (!llcont){
+		return ;
+	}
+	// ---------------------------------------------------------------------
+	// B)- Guardando factura
+	// ---------------------------------------------------------------------
+	// haciendo request que devuelva el contenido de la fila en formato JSON.
+	var oRequest = new XMLHttpRequest();
+	// Creando objeto para empaquetado de datos.
+	var oDatos = new FormData();
+	var lntc = 1;
+	
+	if (ntc.value != ""){
+		lntc = ntc.value;
+	}
+	// adicionando datos en formato CLAVE/VALOR en el objeto datos para enviar como parametro a la consulta AJAX
+	oDatos.append("accion","SAVE");
+	oDatos.append("ccustno",ccustno.value);
+	oDatos.append("cwhseno",cwhseno.value);
+	oDatos.append("cpaycode",cpaycode.value);
+	oDatos.append("crespno",crespno.value);
+	oDatos.append("dstardate",dstardate.value);
+	oDatos.append("denddate",denddate.value);
+	oDatos.append("mnotas",mnotas.value);
+	oDatos.append("efectivo",efectivo.value);
+	oDatos.append("dpay",dpay.value);
+	oDatos.append("mnotasr",mnotasr.value);
+	oDatos.append("cdesc",cdesc.value);
+	oDatos.append("crefno",crefno.value);
+	oDatos.append("ntc",lntc);
+	// enviando el request.
+	oRequest.open("POST","../modelo/crud_arinvc.php",false); 
+	oRequest.send(oDatos);
+	// ---------------------------------------------------------------------
+	// C)- Cerrando proceso
+	// ---------------------------------------------------------------------
+	var odata = oRequest.responseText.trim(); 
+	// mostrando el boton de imprimir factura
+	btVer.style.display    ="inline";
+	// mostrando el boton de nueva factura continua trabajando.
+	btnuevaf.style.display ="inline";
+	// ocultando boton de salir simple ocultar pantalla.
+	btsalvar.style.display ="none";
+	btsalir.style.display  ="none";
+
+	// mostrando el nuevo numero de factura.
+	ctrnno1.value = odata;
+}
 window.onload=init;

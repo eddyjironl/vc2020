@@ -1,79 +1,28 @@
 <?php
-include("../modelo/armodule.php");
-include("../modelo/vc_funciones.php");
-$oConn = vc_funciones::get_coneccion("CIA");
-$lcaccion = $_POST["accion"];
-if (isset($_POST["xtrnno"])){
-	// CAMPOS 
-	$lcinvno  = $_POST["xtrnno"];
-	
-	// a)- Retorna Precio, Costo y Descripcion. en forma JSON.
-	// ------------------------------------------------------------------------------
-	if($lcaccion == "LIST"){
-		$lcuid    = $_POST["cuid"];
-		$lcsql    = "select nprice, nqty, cdesc, ntax, ndesc, mnotas
-		              from arinvt_tmp where cuid = '$lcuid'";
-		
-		$lcresult = mysqli_query($oConn,$lcsql);
-		$ldata   = mysqli_fetch_assoc($lcresult);
-		// enviando en formato json.	
-		$jsondata = json_encode($ldata,true);
-		// retornando objeto json
-		echo $jsondata;
-	}
-	// b)-  inserta una linea en el detalle de factura temporal.
-	// ------------------------------------------------------------------------------
-	if($lcaccion == "INSERT"){
-		$lcservno = $_POST["cservno1"];
-		$lcsql    = "select nprice,ncost, cdesc, ntax from arserm where cservno = '$lcservno'";
-		$lcresult = mysqli_query($oConn,$lcsql);
-		$odata    = mysqli_fetch_assoc($lcresult);
-		$lnqty    = 1; // $_POST["nqty"];
-		$lmnotas  = ""; //$_POST["mnotas"];
-		$lcsql    = " insert into arinvt_tmp(cinvno,cservno,cdesc,nqty,nprice,ncost,ntax, mnotas)
-    		                          values('$lcinvno','$lcservno','". $odata['cdesc'] ."',". $lnqty .",". $odata['nprice'] .",". $odata['ncost'] .",". $odata['ntax'] .",'$lmnotas')";	
-		// insertando los datos.
-		$lcresult = mysqli_query($oConn,$lcsql);
-		// Refrescando el detalle de la factura.
-		get_detalle($lcinvno,$oConn);
-	}
-	// c)-  actualiza un registro segun el ID que se proporciona.
-	// ------------------------------------------------------------------------------
-	if($lcaccion == "UPDATE"){
-		$lcuid   = $_POST["cuid"];		
-		$lnqty   = $_POST["nqty"];
-		$lnprice = $_POST["nprice"];
-		$lntax   = $_POST["ntax"];
-		$lndesc  = $_POST["ndesc"];
-		$lmnotas = $_POST["mnotas"];
-		$lcsql   = " update arinvt_tmp set nqty = $lnqty, nprice = $lnprice, mnotas = '$lmnotas',
-					 ntax = $lntax, ndesc = $lndesc where arinvt_tmp.cuid = '$lcuid' ";
-		// Ejecutando la instruccion.
-		mysqli_query($oConn,$lcsql);
-		get_detalle($lcinvno,$oConn);
-	}
-	// d)-  Elimina una linea.
-	// ------------------------------------------------------------------------------
-	if($lcaccion == "DELETE"){
-		$lcuid = $_POST["cuid"];
-		$lcsql = " delete from arinvt_tmp where arinvt_tmp.cuid = $lcuid ";
-		// Ejecutando la instruccion.
-		mysqli_query($oConn,$lcsql);
-		get_detalle($lcinvno,$oConn);
-	}
+	include("../modelo/armodule.php");
+	include("../modelo/vc_funciones.php");
+	$oConn = vc_funciones::get_coneccion("CIA");
+	$lcaccion = $_POST["accion"];
+	$lcinvno  = "";
 	// e)-  Guarda la factura en forma definitiva.
 	// ------------------------------------------------------------------------------
 	if($lcaccion == "SAVE"){
-		$lccustno   = $_POST["ccustno"];
-		$lcwhseno   = $_POST["cwhseno"];
-		$lcpaycode  = $_POST["cpaycode"];
-		$lcrespno   = $_POST["crespno"];
-		$ldstardate = $_POST["dstardate"];
-		$ldenddate  = $_POST["denddate"];
-		$lmnotas    = $_POST["mnotas"];
-		$lcrefno    = $_POST["crefno"];
-		$lcdesc     = $_POST["cdesc"];
-		$lntc       = $_POST["ntc"];
+		// recibiendo el JSON
+		$json = $_POST["json"];
+		$oAjt = json_decode($json,true);
+		$lccustno   = $oAjt["ccustno"];
+		$lcwhseno   = $oAjt["cwhseno"];
+		$lcpaycode  = $oAjt["cpaycode"];
+		$lcrespno   = $oAjt["crespno"];
+		$ldstardate = $oAjt["dstardate"];
+		$ldenddate  = $oAjt["denddate"];
+		$lmnotas    = $oAjt["mnotas"];
+		$lcrefno    = $oAjt["crefno"];
+		$lcdesc     = $oAjt["cdesc"];
+		$lntc       = $oAjt["ntc"];
+		$lnefectivo = $oAjt["efectivo"];
+		$ldpay      = $oAjt["dpay"];
+		$lmnotasr   = $oAjt["mnotasr"];
 		// configuracion de los saldos de factura.
 		$lnsalesamt = 0;
 		$lntaxamt   = 0;
@@ -82,27 +31,39 @@ if (isset($_POST["xtrnno"])){
 		$lnSaldo    = 0;
 		$lnpayamt   = 0;
 		$lcNewCashno = 0;
-		$lnefectivo = $_POST["efectivo"];
 		//obteniendo el numero de factura.
 		$lcNewInvno = GetNewDoc($oConn,"ARINVC");
 		// -------------------------------------------------------------------------------------------------------
 		// A)- Cargando el detalle de factura.
 		// -------------------------------------------------------------------------------------------------------
-		$lcsql = " select * from arinvt_tmp where cinvno = '$lcinvno' ";
-		$lcresult = mysqli_query($oConn,$lcsql);
-		// insertando en detalle definitivo de facturacion.
-		while($odata = mysqli_fetch_assoc($lcresult)){
-			$lcsql = " insert into arinvt(cinvno,cservno,cdesc,nqty,nprice,ncost,ntax, ndesc, mnotas,cuserid,fecha,hora)
-    		          values('$lcNewInvno','". $odata['cservno']."','". $odata['cdesc'] ."',".
-					  			$odata['nqty'] .",". $odata['nprice'] .",". $odata['ncost'] .",". $odata['ntax'] .",".$odata['ndesc'] .",'".$odata['mnotas'].
-								"','". $_SESSION['cuserid']. "','','')";
-			// insertando los datos.
-			mysqli_query($oConn,$lcsql);
-			// generando saldos a montar 
-			$lnsalesamt += $odata['nqty'] * $odata['nprice'] ;
-			$lndesamt   += $odata['ndesc'];
-			$lntaxamt   += (($odata['nqty'] * $odata['nprice']) -$odata['ndesc']) * ($odata['ntax']/100);
-		}
+		$lnveces = 1;
+		$lcsql_d  = "";
+		foreach ($oAjt as $a=>$b) {
+			if($a == "articulos"){
+				$longitud = count($b);
+				for($i=0; $i<$longitud; $i++) {
+					$lcservno  = $b[$i]["cservno"];
+					//$lnpayamt = $b[$i]["ncost"];
+					$lcsql_ser = "select cdesc , ncost ,ntax from arserm where cservno = '". $lcservno ."'";
+					$lcresult  = mysqli_query($oConn,$lcsql_ser);
+					$ldata     = mysqli_fetch_assoc($lcresult);
+					if ($lnveces == 1){
+						$lcsql_d = " insert into arinvt(cinvno,cservno,cdesc,nqty,nprice,ncost,ntax, ndesc, mnotas,cuserid,fecha,hora)
+									values('$lcNewInvno','". $b[$i]['cservno']."','". $ldata['cdesc'] ."',".
+											$b[$i]['nqty'] .",". $b[$i]['nprice'] .",". $ldata['ncost'] .",". $b[$i]['ntax'] .",".$b[$i]['ndesc'] .",'".$b[$i]['mnotas'].
+											"','" .$_SESSION["cuserid"]."','".$ldtrndate."','". date("h:i:s a")."')";
+  						$lnveces = 2;
+					}else{
+						$lcsql_d = $lcsql_d . " ,('$lcNewInvno','". $b[$i]["cservno"] ."','". $ldata["cdesc"] ."',".
+												$b[$i]['nqty'] .",". $b[$i]['nprice'] .",". $ldata['ncost'] .",". $b[$i]['ntax'] .",".$b[$i]['ndesc'] .",'".$b[$i]['mnotas'].
+												"','" .$_SESSION["cuserid"]."','".$ldtrndate."','". date("h:i:s a")."')";
+					}  //if ($lnveces == 1)
+					$lnsalesamt += $b[$i]['nqty'] * $b[$i]['nprice'] ;
+					$lndesamt   += $b[$i]['ndesc'];
+					$lntaxamt   += (($b[$i]['nqty'] * $b[$i]['nprice']) -$b[$i]['ndesc']) * ($b[$i]['ntax']/100);
+				}	//for($i=0; $i<$longitud; $i++) 
+			}  //if($a == "pagos"){
+		}  //foreach ($oAjt as $a=>$b)
 		//total monto de la factura.
 		$lnbalance = ($lnsalesamt + $lntaxamt) - $lndesamt;
 		// -------------------------------------------------------------------------------------------------------
@@ -147,6 +108,7 @@ if (isset($_POST["xtrnno"])){
 							values('$lcNewInvno', '$lccustno', '$lcwhseno', '$lcrespno', '$lcpaycode', '$ldstardate', '$ldenddate', '$lmnotas',
 							        $lnsalesamt, $lntaxamt, $lndesamt, $lnSaldo ,$lntc, '$lcdesc','$lcrefno','". $_SESSION['cuserid']. "','','')";
 		mysqli_query($oConn,$lcsql);
+		mysqli_query($oConn,$lcsql_d);	
 		// -------------------------------------------------------------------------------------------------------
 		// D)- Actualizando saldo de cliente
 		// -------------------------------------------------------------------------------------------------------
@@ -156,70 +118,45 @@ if (isset($_POST["xtrnno"])){
 		// -------------------------------------------------------------------------------------------------------
 		// E)- Cerrando las transaciones del temporal 
 		// -------------------------------------------------------------------------------------------------------
-		$lcsql = " delete from arinvt_tmp where cinvno = '$lcinvno' ";
-		mysqli_query($oConn,$lcsql);	
 		echo $lcNewInvno;
-	}
-	
-	/*else{
-		echo "Numero de transaccion Vacio <br> no se puede guarda la factura.";
-	}*/
-}
-
-if($lcaccion=="MENU"){
-	// el where no siempre viene incluido
-	$lcwhere  = "";
-	if (!empty($_POST["filtro"])){
-		$lcwhere  = " where ". $_POST["orden"]. " like '%". $_POST["filtro"] ."%' ";
-	}
-	// ordenamiento del reporte siempre debe estar lleno.	
-	$lcorder  = " order by ". $_POST["orden"];
-	// sentencia sql filtrada.
-	$lcsql    = " select arinvc.* ,
-				  arcust.cname as cfullname,
-				  artcas.cdesc as cdescpay
-				  from arinvc
-				  join arcust on arcust.ccustno  = arinvc.ccustno 
-				  join artcas on artcas.cpaycode = arinvc.cpaycode ". $lcwhere . $lcorder;
-		
-	$lcresult = mysqli_query($oConn,$lcsql);
-	$ojson    = '[';
-	$lnveces  = 1;
-	$lcSpace  = "";
-	while ($ldata = mysqli_fetch_assoc($lcresult)){
-		if ($lnveces == 1){
-			$lnveces = 2;
-		}else{
-			$lcSpace = ",";			
 		}
-		$ojson = $ojson . $lcSpace .'{"cinvno":"' .$ldata["cinvno"] .'","cfullname":"'. $ldata["cfullname"] .'","cdescpay":"'. $ldata["cdescpay"] .'","crefno":"'. $ldata["crefno"] .'"}';	
-	}
-	$ojson = $ojson . ']';
-	// enviando variable json.
-	echo $ojson;		
-}
+	
+	if($lcaccion=="MENU"){
+		// el where no siempre viene incluido
+		$lcwhere  = "";
+		if (!empty($_POST["filtro"])){
+			$lcwhere  = " where ". $_POST["orden"]. " like '%". $_POST["filtro"] ."%' ";
+		}
+		// ordenamiento del reporte siempre debe estar lleno.	
+		$lcorder  = " order by ". $_POST["orden"];
+		// sentencia sql filtrada.
+		$lcsql    = " select arinvc.* ,
+					arcust.cname as cfullname,
+					artcas.cdesc as cdescpay
+					from arinvc
+					join arcust on arcust.ccustno  = arinvc.ccustno 
+					join artcas on artcas.cpaycode = arinvc.cpaycode ". $lcwhere . $lcorder;
+			
+		$lcresult = mysqli_query($oConn,$lcsql);
+		$ojson    = '[';
+		$lnveces  = 1;
+		$lcSpace  = "";
+		while ($ldata = mysqli_fetch_assoc($lcresult)){
+			if ($lnveces == 1){
+				$lnveces = 2;
+			}else{
+				$lcSpace = ",";			
+			}
+			$ojson = $ojson . $lcSpace .'{"cinvno":"' .$ldata["cinvno"] .'","cfullname":"'. $ldata["cfullname"] .'","cdescpay":"'. $ldata["cdescpay"] .'","crefno":"'. $ldata["crefno"] .'"}';	
+		}
+		$ojson = $ojson . ']';
+		// enviando variable json.
+		echo $ojson;		
+		}
+
+
+	
 	// muestra todos los contenidos de la tabla.
-function get_detalle($pctrnno,$oConn){
-	$lcsql     = " select * from arinvt_tmp where cinvno ='$pctrnno' ";	
-	$lcInsert  = "";
-	$lcresult  = mysqli_query($oConn,$lcsql);
-	echo '<tbody>';
-	while($row = mysqli_fetch_assoc($lcresult)){
-		echo '<tr class="listados">';
-		echo '<td  width="90px">'.  $row["cservno"] .' </td>';
-		echo '<td  width="220px">'. $row["cdesc"]   .'</td>';
-		echo '<td  width="75px"><input type="number" name="nprice" id="nprice" value=$row["nprice"] > </td>';
-		echo '<td  width="75px">'.  $row["nqty"]    .'</td>';
-		echo '<td  width="50px">'.  $row["ndesc"]   .'</td>';
-		echo '<td  width="50px">'.  $row["ntax"]    .'</td>';
-		echo '<td  width="75px">'. round($row["nqty"] * $row["nprice"],2) .'</td>';
-		echo '<td>';
-		echo '	<img src="../photos/escoba.ico" id="btquitar"  class="botones_row" value="Eliminar" title= "Eliminar Registro" onclick="eliminarFila('.$row["cuid"].')" />';
-		echo '</td>';
-		echo '</tr>';
-	}
-	echo '</tbody>';
-}
-// cerrando la coneccion.
+	// cerrando la coneccion.
 mysqli_close($oConn);
-?>
+?>	
