@@ -41,7 +41,6 @@ function init(){
 	// ------------------------------------------------------------------------
 	clear_view();
 }
-
 // ----------------------------------------------------------------------
 // MENU DE articulos
 // ----------------------------------------------------------------------
@@ -225,6 +224,7 @@ function call_pantalla_pago(){
 	dpay.value     = dstardate.value;
 	cdescpay.value = "Pago en efectivo";
 	efectivo.focus();
+
 }
 function cerrar_pantalla_pago(){
 	pantalla_pago.style.display="none";
@@ -251,16 +251,28 @@ function clear_view(){
 	crefno.value = "";
 	cdesc.value = "";
 	mnotas.value = "";
+	ctrnno1.value = "";
 	// detalle de la factura poniendolo en blanco
-	articulos.innerHTML= "";	
+	
+	var lctable = 	'<thead>'+'<tr class="table_det">'+
+		'	<th width="90px">Codigo</th>'+'	<th width="220px">Descripcion de Producto</th>'+
+		'	<th width="75px">Precio</th>'+'	<th width="75px">Cantidad</th>'+
+		'	<th width="50px">Descuento</th>'+'	<th width="50px">IVA %</th>'+
+		'	<th width="75px">Monto</th>'+' </tr></thead>';
+
+		document.getElementById("tdetalles").innerHTML = lctable;
+		//document.getElementById("tdetalles").innerHTML = "";
+	
+	//articulos.innerHTML= "";	
 	ninvlinmax = odata.ninvlinmax;
 	// poniendo en cero el pago recibido
-	efectivo.value = "";
-	nsubamt.value = "";
-	ntaxamt.value = "";
-	ntotamt.value = "";
-	nlimcrd.value = "";
-	nsalecust.value = "";
+	efectivo.value = 0.00;
+	nsubamt.value = 0.00;
+	ntaxamt.value = 0.00;
+	ntotamt.value = 0.00;
+	nlimcrd.value = 0.00;
+	nsalecust.value = 0.00;
+	ndescamt.value = 0.00
 	//poniendo foco en la barra de codigo para lectura del scanner.
 	cservno1.focus();
 }
@@ -377,39 +389,13 @@ function upddet(){
 	cksum();
 }
 //refresca el valor de los totales de la tabla.
-function cksum(){
-	var otabla = document.getElementById("tdetalles");
-	var lnsalesamt = 0, lntaxamt = 0,lndescamt = 0, lnsalesamt_u = 0, lntaxamt_u = 0,lndescamt_u = 0;
-	var lnveces = otabla.rows.length - 1;
-	
-	for (var i = 1; i <= lnveces; ++i){
-		// costo de la linea 
-		lnsalesamt_u = parseFloat(otabla.rows[i].cells[2].children[0].value) * parseFloat(otabla.rows[i].cells[3].children[0].value);
-		lndescamt_u  = parseFloat(otabla.rows[i].cells[4].children[0].value);
-		lntaxamt_u   = (lnsalesamt_u - lndescamt_u) * parseFloat(otabla.rows[i].cells[5].children[0].value)/100;
-		otabla.rows[i].cells[6].innerText = lnsalesamt_u.toFixed(2);
-		// totales
-		lnsalesamt += lnsalesamt_u;
-		lndescamt  += lndescamt_u;
-		lntaxamt   += lntaxamt_u;
-	}
-	// cargando los valores del total.
-	nsubamt.value  = lnsalesamt.toFixed(2);
-	ndescamt.value = lndescamt.toFixed(2);
-	ntaxamt.value  = lntaxamt.toFixed(2);
-	ntotamt.value  = ((lnsalesamt + lntaxamt) - lndescamt).toFixed(2);
-}
-function deleteRow(row){
-    var d = row.parentNode.parentNode.rowIndex;
-    document.getElementById('tdetalles').deleteRow(d);
-    cksum();
-}
+
 function guardar(){
 	var lcservno = "",odata="", lnqty=0 ,lnveces=1, lncost = 0;
 	// ---------------------------------------------------------------------
 	// A)- verificando integridad de datos antes de guardar definitivamente.
 	// ---------------------------------------------------------------------
-	if (isvalidentry()){
+	if (!isvalidentry()){
 		return ;
 	}
 	// b)- Validando que hayan detalles a procesar.
@@ -445,7 +431,7 @@ function guardar(){
 		// b.2)- Armando el detalle
 	odata += ' "articulos":[' ;
 	// recorriendo la tabla en busca de abono y factura.
-	for (var i = 0; i<lnrows; ++i){
+	for (var i = 1; i<lnrows; ++i){
 		// obteniendo valor de celdas en cada fila
 		lnprice  = parseFloat(otabla.rows[i].cells[2].children["nprice"].value);
 		lnqty    = parseFloat(otabla.rows[i].cells[3].children["nqty"].value);
@@ -475,48 +461,7 @@ function guardar(){
 	oDatos.append("accion","SAVE");
 	oRequest.open("POST","../modelo/crud_arinvc.php",false); 
 	oRequest.send(oDatos);
-	// enviando mensaje de configuracion.
-	getmsgalert(oRequest.responseText.trim());
-	clear_view();
-}
-function guardar2(){
-	// ---------------------------------------------------------------------
-	// A)- verificando integridad de datos antes de guardar definitivamente.
-	// ---------------------------------------------------------------------
-	var llcont = isvalidentry();
-	if (!llcont){
-		return ;
-	}
-	// ---------------------------------------------------------------------
-	// B)- Guardando factura
-	// ---------------------------------------------------------------------
-	// haciendo request que devuelva el contenido de la fila en formato JSON.
-	var oRequest = new XMLHttpRequest();
-	// Creando objeto para empaquetado de datos.
-	var oDatos = new FormData();
-	var lntc = 1;
-	
-	if (ntc.value != ""){
-		lntc = ntc.value;
-	}
-	// adicionando datos en formato CLAVE/VALOR en el objeto datos para enviar como parametro a la consulta AJAX
-	oDatos.append("accion","SAVE");
-	oDatos.append("ccustno",ccustno.value);
-	oDatos.append("cwhseno",cwhseno.value);
-	oDatos.append("cpaycode",cpaycode.value);
-	oDatos.append("crespno",crespno.value);
-	oDatos.append("dstardate",dstardate.value);
-	oDatos.append("denddate",denddate.value);
-	oDatos.append("mnotas",mnotas.value);
-	oDatos.append("efectivo",efectivo.value);
-	oDatos.append("dpay",dpay.value);
-	oDatos.append("mnotasr",mnotasr.value);
-	oDatos.append("cdesc",cdesc.value);
-	oDatos.append("crefno",crefno.value);
-	oDatos.append("ntc",lntc);
-	// enviando el request.
-	oRequest.open("POST","../modelo/crud_arinvc.php",false); 
-	oRequest.send(oDatos);
+
 	// ---------------------------------------------------------------------
 	// C)- Cerrando proceso
 	// ---------------------------------------------------------------------
@@ -528,8 +473,40 @@ function guardar2(){
 	// ocultando boton de salir simple ocultar pantalla.
 	btsalvar.style.display ="none";
 	btsalir.style.display  ="none";
-
 	// mostrando el nuevo numero de factura.
 	ctrnno1.value = odata;
+
+	/*
+	// enviando mensaje de configuracion.
+	getmsgalert(oRequest.responseText.trim());
+	clear_view();
+	*/
+}
+function cksum(){
+	var otabla = document.getElementById("tdetalles");
+	var lnsalesamt = 0, lntaxamt = 0,lndescamt = 0, lnsalesamt_u = 0, lntaxamt_u = 0,lndescamt_u = 0;
+	var lnveces = otabla.rows.length - 1;
+	
+	for (var i = 1; i <= lnveces; ++i){
+		// costo de la linea 
+		lnsalesamt_u = parseFloat(otabla.rows[i].cells[2].children[0].value) * parseFloat(otabla.rows[i].cells[3].children[0].value);
+		lndescamt_u  = parseFloat(otabla.rows[i].cells[4].children[0].value);
+		lntaxamt_u   = (lnsalesamt_u - lndescamt_u) * parseFloat(otabla.rows[i].cells[5].children[0].value)/100;
+		otabla.rows[i].cells[6].innerText = lnsalesamt_u.toFixed(2);
+		// totales
+		lnsalesamt += lnsalesamt_u;
+		lndescamt  += lndescamt_u;
+		lntaxamt   += lntaxamt_u;
+	}
+	// cargando los valores del total.
+	nsubamt.value  = lnsalesamt.toFixed(2);
+	ndescamt.value = lndescamt.toFixed(2);
+	ntaxamt.value  = lntaxamt.toFixed(2);
+	ntotamt.value  = ((lnsalesamt + lntaxamt) - lndescamt).toFixed(2);
+}
+function deleteRow(row){
+    var d = row.parentNode.parentNode.rowIndex;
+    document.getElementById('tdetalles').deleteRow(d);
+    cksum();
 }
 window.onload=init;

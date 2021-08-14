@@ -45,7 +45,7 @@ if ($lcStarSession == 1){
 					<br>
 					<label class="labelnormal">Nombre</label> 
 					<input type="text" class="textnormal" id="cdesc" name="cdesc"  >
-				</fieldset>
+					</fieldset>
 				<br>
 				<fieldset id="set2">
 					<label class="labelnormal">Tipo Cambio </label> 
@@ -59,16 +59,24 @@ if ($lcStarSession == 1){
 					<br>
 					<label class="labelsencilla">Comentarios generales de la factura</label><br>
 					<textarea id="mnotas" name="mnotas"  class="mnotas" rows=3 cols=34></textarea>
-				</fieldset>
-			</section>
+					</fieldset>
+				</section>
 			<fieldset id="set3">
 				<label class="labelnormal">Codigo de Articulo </label>
 				<input type="text" class="textnormal" id="cservno1" name="cservno1" >
 				<script>get_btmenu("btcservno","Listado de articulos");</script>
 				<br>
 				<br>
-			</fieldset>
+				</fieldset>
+			
+			
+			
+			
+			
 			<section id="adetalles">
+			
+			
+			
 				<table id="tdetalles">
 					<thead>
 						<tr class="table_det">
@@ -81,32 +89,35 @@ if ($lcStarSession == 1){
 							<th width="75px">Monto</th>
 						</tr>
 					</thead>
-					<tbody id="articulos"></tbody>
-				</table>
-			</section>
+				<!--		<tbody id="articulos" name="articulos"></tbody>  -->
+					</table>
+				</section>
+			
+			
+			
 			<fieldset id="set4">
 				<label class="labelnormal">Sub Total</label>
 				<input type="text" id="nsubamt" name="nsubamt" class="sayamt" readonly>
 				<br>
 				<label class="labelnormal">Descuento</label>
-				<input type="text" id="ndescamt"  class="sayamt" readonly>
+				<input type="text" id="ndescamt" name="ndescamt"  class="sayamt" readonly>
 				<br>
 				<label class="labelnormal">Impuesto</label>
-				<input type="text" id="ntaxamt"  class="sayamt" readonly>
+				<input type="text" id="ntaxamt"  name="ntaxamt" class="sayamt" readonly>
 				<br>	
 				<label class="labelnormal">Total General</label>
 				<input type="text" name="ntotamt" id="ntotamt" class="sayamt" readonly >
-			</fieldset>
-		</form>
+				</fieldset>
+			</form>
 		<script>
 			get_msg();
 			get_xm_menu();
-		</script>
+			</script>
 		<form id="pantalla_pago" target="_blank" name="pantalla_pago" method="post" action="../reports/rpt_arinvc_tiquete.php" >	
 				<section id="fpago" class="form2"  name="fpago">
 					<div id="div1">
 						<h1>Creacion de Factura</h1>
-					</div>
+						</div>
 					<br>
 
 					<fieldset id="set7">
@@ -121,7 +132,7 @@ if ($lcStarSession == 1){
 							<option value="EF">Efectivo</option>
 							<option value="TG">Targeta Credito</option>
 							<option value="CK">Cheque </option>
-						</select>
+							</select>
 						<br>
 						<label class="labelnormal">Referencia # </label>
 						<input type="text" name="cref" id="cref" class="textnormal">
@@ -132,7 +143,7 @@ if ($lcStarSession == 1){
 						<label>Comentarios del recibo</label><br>
 						<textarea class="mnotas" id="mnotasr" name="mnotasr"  rows=3 cols=49></textarea>
 						<br>
-					</fieldset>
+						</fieldset>
 					<br>
 					<fieldset id="set5">
 						<label id="set51">Monto Total</label>
@@ -157,8 +168,8 @@ if ($lcStarSession == 1){
 					</div>
 					<br>
 				</section>
-		</form>	
+			</form>	
 
 
-	</body>
+		</body>
 </html>

@@ -23,6 +23,7 @@
 		$lnefectivo = $oAjt["efectivo"];
 		$ldpay      = $oAjt["dpay"];
 		$lmnotasr   = $oAjt["mnotasr"];
+		$ldtrndate  = date("Y-m-d");
 		// configuracion de los saldos de factura.
 		$lnsalesamt = 0;
 		$lntaxamt   = 0;
@@ -48,14 +49,14 @@
 					$lcresult  = mysqli_query($oConn,$lcsql_ser);
 					$ldata     = mysqli_fetch_assoc($lcresult);
 					if ($lnveces == 1){
-						$lcsql_d = " insert into arinvt(cinvno,cservno,cdesc,nqty,nprice,ncost,ntax, ndesc, mnotas,cuserid,fecha,hora)
+						$lcsql_di = " insert into arinvt(cinvno,cservno,cdesc,nqty,nprice,ncost,ntax, ndesc, mnotas,cuserid,fecha,hora)
 									values('$lcNewInvno','". $b[$i]['cservno']."','". $ldata['cdesc'] ."',".
-											$b[$i]['nqty'] .",". $b[$i]['nprice'] .",". $ldata['ncost'] .",". $b[$i]['ntax'] .",".$b[$i]['ndesc'] .",'".$b[$i]['mnotas'].
+											$b[$i]['nqty'] .",". $b[$i]['nprice'] .",". $ldata['ncost'] .",". $b[$i]['ntax'] .",".$b[$i]['ndesc'] .",'".
 											"','" .$_SESSION["cuserid"]."','".$ldtrndate."','". date("h:i:s a")."')";
   						$lnveces = 2;
 					}else{
-						$lcsql_d = $lcsql_d . " ,('$lcNewInvno','". $b[$i]["cservno"] ."','". $ldata["cdesc"] ."',".
-												$b[$i]['nqty'] .",". $b[$i]['nprice'] .",". $ldata['ncost'] .",". $b[$i]['ntax'] .",".$b[$i]['ndesc'] .",'".$b[$i]['mnotas'].
+						$lcsql_di = $lcsql_di . " ,('$lcNewInvno','". $b[$i]["cservno"] ."','". $ldata["cdesc"] ."',".
+												$b[$i]['nqty'] .",". $b[$i]['nprice'] .",". $ldata['ncost'] .",". $b[$i]['ntax'] .",".$b[$i]['ndesc'] .",'".
 												"','" .$_SESSION["cuserid"]."','".$ldtrndate."','". date("h:i:s a")."')";
 					}  //if ($lnveces == 1)
 					$lnsalesamt += $b[$i]['nqty'] * $b[$i]['nprice'] ;
@@ -85,15 +86,12 @@
 			}
 			// obteniendo el numero del recibo de caja.
 			$lcNewCashno = GetNewDoc($oConn,"ARCASM");
-			// inserta el encabezado del pago.
-			$ldpay   = $_POST["dpay"];
-			$mnotasr = $_POST["mnotasr"];
 			// encabezado del pago.
 			$lcsql_h = "insert into arcasm (ccashno, dtrndate, ccustno, mnotas,ntc,namount, cuserid,fecha,hora)
-					   values('$lcNewCashno','$ldpay','$lccustno','$mnotasr',$lntc,$lnpayamt,'".$_SESSION['cuserid']."','','')";
+					   values('$lcNewCashno','$ldpay','$lccustno','$lmnotasr',$lntc,$lnpayamt,'".$_SESSION['cuserid']."','".$ldtrndate."','". date("h:i:s a")."')";
 			// detalle de facturas que paga en el encabezado del pago 
 			$lcsql_d = "insert into arcash (ccashno, cinvno, namount, cuserid,fecha,hora)
-					   values('$lcNewCashno','$lcNewInvno', $lnpayamt,'".$_SESSION['cuserid']."','','')";
+					   values('$lcNewCashno','$lcNewInvno', $lnpayamt,'".$_SESSION['cuserid']."','".$ldtrndate."','". date("h:i:s a")."')";
 			// ejecutando las instrucciones de insercion.	
 			mysqli_query($oConn,$lcsql_h);
 			mysqli_query($oConn,$lcsql_d);
@@ -106,9 +104,10 @@
 		$lcsql   = "insert into arinvc(cinvno, ccustno, cwhseno, crespno, cpaycode, dstar, dend, mnotas,
                                       nsalesamt, ntaxamt, ndesamt, nbalance,ntc,cdesc, crefno, cuserid, fecha, hora)
 							values('$lcNewInvno', '$lccustno', '$lcwhseno', '$lcrespno', '$lcpaycode', '$ldstardate', '$ldenddate', '$lmnotas',
-							        $lnsalesamt, $lntaxamt, $lndesamt, $lnSaldo ,$lntc, '$lcdesc','$lcrefno','". $_SESSION['cuserid']. "','','')";
+							        $lnsalesamt, $lntaxamt, $lndesamt, $lnSaldo ,$lntc, '$lcdesc','$lcrefno','".$_SESSION['cuserid']."','".$ldtrndate."','". date("h:i:s a")."')";
+		mysqli_query($oConn,$lcsql_di);	
 		mysqli_query($oConn,$lcsql);
-		mysqli_query($oConn,$lcsql_d);	
+		
 		// -------------------------------------------------------------------------------------------------------
 		// D)- Actualizando saldo de cliente
 		// -------------------------------------------------------------------------------------------------------
@@ -158,5 +157,5 @@
 	
 	// muestra todos los contenidos de la tabla.
 	// cerrando la coneccion.
-mysqli_close($oConn);
+	mysqli_close($oConn);
 ?>	
