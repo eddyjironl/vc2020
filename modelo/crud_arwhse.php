@@ -36,7 +36,6 @@ if($lcaccion=="DELETE"){
 // -----------------------------------------------------------------------------------------------
 if($lcaccion=="NEW"){
 	// haciendo la coneccion.
-	//$oConn = get_coneccion("CIA");
 	if (isset($_POST["cwhseno"])){
 		$lcdesc   = $_POST["cdesc"];
 		$lcstatus = $_POST["cstatus"];
@@ -150,10 +149,16 @@ if ($lcaccion == "PANTALLA_MENU"){
 
 // LISTA, Genera menu de lista de proveedores.
 if ($lcaccion == "LISTA"){
+	$lcname = "cwhseno";
+	// nombre del objeto
+	if ($_POST["cname"] != ""){
+		$lcname = $_POST["cname"];
+	}
+	
 		//$oConn = get_coneccion("CIA");
 	    $lcSqlCmd = " select * from arwhse order by cdesc ";
 		$lcResult = mysqli_query($oConn,$lcSqlCmd);
-		echo '<select class="listas" name="cwhseno" id="cwhseno" required>';
+		echo '<select class="listas" name="'. $lcname .'" id="'. $lcname .'" required>';
 		echo '<option value="">Elija un Registro </option>';		
 		while ($rows = mysqli_fetch_assoc($lcResult)){
 			echo "<option value='" . $rows["cwhseno"] ."'>"  . $rows["cdesc"]  . "</option>";

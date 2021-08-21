@@ -10,6 +10,15 @@ function init(){
 	document.getElementById("btsalir").addEventListener("click",cerrar_sub_pantalla,false);
 	document.getElementById("btnuevaf").addEventListener("click",clear_view,false);
 	document.getElementById("btVer").addEventListener("click",print_invoice,false);
+	//------------------------------------------------------------------
+	// configurando los botones del tab.
+	document.getElementById("tbinfo1").addEventListener("click",tabshow,false);
+	document.getElementById("tbinfo2").addEventListener("click",tabshow,false);
+	document.getElementById("tbinfo3").addEventListener("click",tabshow,false);
+
+	document.getElementById("finfo1").style.display = "block";
+	document.getElementById("tbinfo1").setAttribute("class","active");
+
 	// -----------------------------------------------------------------
 	// CODIGO PARA LOS MENUS INTERACTIVOS.
 	// CADA MENU
@@ -111,6 +120,11 @@ cerrar_mx_view();
 upddet();
 }
 function print_invoice(){
+	var lcadjno = document.getElementById("cadjno").value;
+	// verfificando que no tenga letas.. solo numeros.
+	
+	
+
 	document.getElementById("pantalla").submit();
 }
 function show_sub_screen(){
@@ -144,8 +158,10 @@ function guardar(){
 	// b)- armando JSON.
 	// b.1)- Armando el encabezado.
 	odata += '{"cwhseno":"'  + document.getElementById("cwhseno").value  + '",';
+	odata += ' "cwhseno1":"' + document.getElementById("cwhseno1").value + '",';
 	odata += ' "dtrndate":"' + document.getElementById("dtrndate").value + '",';
 	odata += ' "ccateno":"'  + document.getElementById("ccateno").value  + '",';
+	odata += ' "ccateno1":"' + document.getElementById("ccateno1").value + '",';
 	odata += ' "crespno":"'  + document.getElementById("crespno").value  + '",';
 	odata += ' "crefno":"'   + document.getElementById("crefno").value   + '",';
 	odata += ' "ntc":'       + document.getElementById("ntc").value   	 + ',';
@@ -230,7 +246,6 @@ function cerrar_sub_pantalla(){
 	btsalir.style.display  ="inline";
 
 }
-
 function get_tc_rate(){
 	var oRequest = new XMLHttpRequest();
 	// Creando objeto para empaquetado de datos.
@@ -371,4 +386,36 @@ function cksum(){
 	// cargando los valores del total.
 	ntotamt.value  = parseFloat(lnsalesamt).toFixed(2);
 }
+
+function tabshow(e){
+	// evitando que el tipo de boton haga un submit por defecto y recargue la pagina.
+	e.preventDefault();
+	var oTabFormBoton = e.target.id;
+	
+	// poniendo ocultos todos los div pantallas ocultos
+	var oTabForm = document.getElementsByClassName("tabcontent");
+	for (i = 0; i < oTabForm.length; i++) {
+		oTabForm[i].style.display = "none";
+	}
+	if(oTabFormBoton == "tbinfo1"){
+		document.getElementById("finfo1").style.display = "block";
+		document.getElementById("tbinfo2").setAttribute("class","")
+		document.getElementById("tbinfo3").setAttribute("class","")
+	}
+	
+	if(oTabFormBoton == "tbinfo2"){
+		document.getElementById("finfo2").style.display = "block";
+		document.getElementById("tbinfo1").setAttribute("class","")
+		document.getElementById("tbinfo3").setAttribute("class","")
+	}
+
+	if(oTabFormBoton == "tbinfo3"){
+		document.getElementById("finfo3").style.display = "block";
+		document.getElementById("tbinfo2").setAttribute("class","")
+		document.getElementById("tbinfo1").setAttribute("class","")
+	}
+	document.getElementById(oTabFormBoton).setAttribute("class","active");
+
+}
+
 window.onload=init;

@@ -162,7 +162,11 @@ if($lcaccion=="MENU"){
 		}else{
 			$lcSpace = ",";			
 		}
-		$ojson = $ojson . $lcSpace .'{"cservno":"' .$ldata["cservno"] .'","cdesc":"'. $ldata["cdesc"] .'","nprice":"'. $ldata["nprice"] .'","ndesc":"'. $ldata["ndesc"] .'"}';	
+		// obteniendo la existencia actual.
+
+		$lnonhand = get_inventory_onhand($oConn,$ldata["cservno"],"R");
+
+		$ojson = $ojson . $lcSpace .'{"cservno":"' .$ldata["cservno"] .'","cdesc":"'. $ldata["cdesc"] .'","nprice":"'. $ldata["nprice"] .'","nonhand":'. $lnonhand .',"ndesc":"'. $ldata["ndesc"] .'"}';	
 	}
 	$ojson = $ojson . ']';
 	// enviando variable json.

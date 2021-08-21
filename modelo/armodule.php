@@ -119,6 +119,10 @@ function get_sales_amount($poConn,$pccustno){
 }
 /* existencia de un articulo. */ 
 function get_inventory_onhand($poConn,$pcservno,$prespt){
+	// Parametros de la funcion
+	// poConn = Coneccion a la base de datos
+	// pcservno = articulo a analizar
+	// prespt = Respuesta a retornar sea R = con return para funciones php E= con la impresion de un valor eco para funciones javascrip
 	$lcsqlcmd = "SELECT aradjt.cservno,
 					     sum(aradjt.nqty) as nqty
 				 FROM aradjm

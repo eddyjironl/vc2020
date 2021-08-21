@@ -60,21 +60,29 @@ function get_lista_artser(){
 	document.write(oRequest.responseText);
 }
 
-function get_lista_arwhse(){
+function get_lista_arwhse(pcName){
 	var oRequest = new XMLHttpRequest();
-	oRequest.open("GET","../menu/menu_arwhse.php",false); // Genera una lista de clientes.
-	oRequest.send();
+	//var cname = (pcName == "")?"cwhseno":pcName;
+	var cname = (pcName != undefined)?pcName:"cwhseno";
+	oRequest.open("POST","../modelo/crud_arwhse.php",false); 
+	var oDatos = new FormData();
+	oDatos.append("accion","LISTA");
+	oDatos.append("cname",cname);
+	oRequest.send(oDatos);
 	document.write(oRequest.responseText);
 }
-function get_lista_arcate(pcwhere){
+function get_lista_arcate(pcwhere, pcName){
 	var oRequest = new XMLHttpRequest();
 	var oDatos   = new FormData();
+	var cname = (pcName != undefined)?pcName:"ccateno";
 	// determinando si vienen una condicion de filtro
 	if (pcwhere != undefined){
 		oDatos.append("where",pcwhere);
 	}
+	
 	// adicionando datos en formato CLAVE/VALOR en el objeto datos para enviar como parametro a la consulta AJAX
 	oDatos.append("accion","LISTA");
+	oDatos.append("cname",cname);
 	oRequest.open("POST","../modelo/crud_arcate.php",false); // Genera una lista de clientes.
 	oRequest.send(oDatos);
 	document.write(oRequest.responseText);

@@ -129,9 +129,12 @@ if ($lcaccion == "LISTA"){
 		if(isset($_POST["where"])){
 			$lcwhere  = " where cstatus = 'OP' and ctypecate = '". $_POST["where"] ."'";		
 		}
+
+		$lcname = $_POST["cname"];
+
 	    $lcSqlCmd = " select * from arcate  $lcwhere order by cdesc ";
 		$lcResult = mysqli_query($oConn,$lcSqlCmd);
-		echo '<select class="listas" name="ccateno" id="ccateno" required>';
+		echo '<select class="listas" name="'. $lcname.'" id="'. $lcname.'" required>';
 		echo '<option value="">Elija un Registro </option>';		
 		while ($rows = mysqli_fetch_assoc($lcResult)){
 			echo "<option value='" . $rows["ccateno"] ."'>"  . $rows["cdesc"]  . "</option>";

@@ -24,11 +24,19 @@
 		echo $jsondata;
 
 	}else{
+		// nombre por defecto del objeto.
+		$lcname = "cwhseno";
+		// nombre del objeto
+		if (isset($_POST["cname"])){
+			$lcname = $_POST["cname"];
+		}
+		
+
 		$lcSqlCmd = " select * from arwhse order by cwhseno ";
 
 		$lcResult = $oConn->query($lcSqlCmd);
 
-		echo '<select class="listas" name="cwhseno" id="cwhseno" required>';
+		echo '<select class="listas" name="'. $lcname .'" id="'. $lcname .'" required>';
 		echo '<option value="">Elija un Registro </option>';		
 		
 		while ($rows = mysqli_fetch_assoc($lcResult)){
