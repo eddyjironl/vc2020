@@ -282,7 +282,10 @@ input, select{
 	display:inline-block;
 	border:none;}
 .form{
-	background-color:rgba(202,202,202,1);
+	display:inline-block;
+	min-width:350px;
+	border:solid 2px rgb(136, 122, 122);
+ 	background-color:rgba(202,202,202,1);
 	box-shadow:black 7px 7px 10px;
 	padding:2px;
 	padding-top:10px;

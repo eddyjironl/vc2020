@@ -190,7 +190,8 @@ function change_module(){
 					'	</li>'+
 					'	<li><a>Modulo</a>'+
 					'		<ul>'+
-					'			<li><a id="mod001">Configuracion VC-2020 WEB</a></li>'+
+					'			<li><a id="mod001">Config VC-2020 WEB</a></li>'+
+					'			<li><a id="mod002">Importar Data</a></li>'+
 					'		</ul>'+
 					'	</li>'+
 					' </ul>'
@@ -222,7 +223,8 @@ function change_module(){
 					'	</li>'+
 					'	<li><a>Configuraciones</a>'+
 					'		<ul>'+
-					'			<li><a id="mod001">Configuracion VC-2020 WEB</a></li>'+
+					'			<li><a id="mod001">Config VC-2020 WEB</a></li>'+
+					'			<li><a id="mod002">Importar Data</a></li>'+
 					'		</ul>'+
 					'	</li>'+
 					' </ul>'
@@ -347,7 +349,8 @@ function change_module_small(pcmenuid){
 			omenu_in_conf = '<ul id="menu"> '+
 							'	<li><a>Configuraciones</a>'+
 							'		<ul>'+
-							'			<li><a id="mod001">Configuracion VC-2020 WEB</a></li>'+
+							'			<li><a id="mod001">Config VC-2020 WEB</a></li>'+
+							'			<li><a id="mod002">Importar Data</a></li>'+
 							'		</ul>'+
 							'	</li>'+
 							' </ul>'
@@ -420,7 +423,8 @@ function change_module_small(pcmenuid){
 			omenu_in_conf = '<ul id="menu"> '+
 							'	<li><a>Configuraciones</a>'+
 							'		<ul>'+
-							'			<li><a id="mod001">Configuracion VC-2020 WEB</a></li>'+
+							'			<li><a id="mod001">Config VC-2020 WEB</a></li>'+
+							'			<li><a id="mod002">Importar Data</a></li>'+
 							'		</ul>'+
 							'	</li>'+
 							' </ul>'
@@ -463,6 +467,7 @@ function upd_armenu(){
 	document.getElementById("ca008").addEventListener("click",ca008,false);
 
 	document.getElementById("mod001").addEventListener("click",mod001,false);
+	document.getElementById("mod002").addEventListener("click",mod002,false);
 	
 }
 function upd_inmenu(){
@@ -481,6 +486,7 @@ function upd_inmenu(){
 	document.getElementById("rp010").addEventListener("click",rp010,false);
 	document.getElementById("rp011").addEventListener("click",rp011,false);
 
+	document.getElementById("mod002").addEventListener("click",mod002,false);
 	document.getElementById("mod001").addEventListener("click",mod001,false);
 }
 //------------------------------------------------------------------------
@@ -496,16 +502,39 @@ function tr001(){
 }
 function tr002(){
 	//document.getElementById("pcerrar").style.display = "block";			
-	document.getElementById("ventana").setAttribute("src","../view/arcash.php");
+	var llcont = doform("tr002");
+	if (llcont){
+		document.getElementById("ventana").setAttribute("src","../view/arcash.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+
+	
 }
 function tr003(){
-	document.getElementById("ventana").setAttribute("src","../view/arcotm.php");
+	var llcont = doform("tr003");
+	if (llcont){
+		document.getElementById("ventana").setAttribute("src","../view/arcotm.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
 }
 function tr004(){
-	document.getElementById("ventana").setAttribute("src","../view/aradjm.php");
+	var llcont = doform("tr004");
+	if (llcont){
+		document.getElementById("ventana").setAttribute("src","../view/aradjm.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
 }
 function tr007(){
-	document.getElementById("ventana").setAttribute("src","../view/arpodvm.php");
+	var llcont = doform("tr007");
+	if (llcont){
+		document.getElementById("ventana").setAttribute("src","../view/arpodvm.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+
 }
 
 //------------------------------------------------------------------------
@@ -613,48 +642,134 @@ function rp011(){
 // catalogos
 //------------------------------------------------------------------------
 function ca001(){
-	document.getElementById("ventana").setAttribute("src","../view/arcust.php");
+	var llcont = doform("ca001");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/arcust.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+
 }
 function ca002(){
-	document.getElementById("ventana").setAttribute("src","../view/artcas.php");
+	var llcont = doform("ca002");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/artcas.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
 }
 function ca003(){
-	document.getElementById("ventana").setAttribute("src","../view/arserm.php");
+	var llcont = doform("ca003");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/arserm.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
 }
 function ca004(){
-	document.getElementById("ventana").setAttribute("src","../view/artser.php");
+	var llcont = doform("ca004");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/artser.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
 }
 function ca005(){
-	document.getElementById("ventana").setAttribute("src","../view/arresp.php");
+	var llcont = doform("ca005");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/arresp.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
 }
 function ca006(){
-	document.getElementById("ventana").setAttribute("src","../view/arcate.php");
+	var llcont = doform("ca006");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/arcate.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
 }
 function ca007(){
-	document.getElementById("ventana").setAttribute("src","../view/arwhse.php");
+	var llcont = doform("ca007");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/arwhse.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
 }
 function ca008(){
-	document.getElementById("ventana").setAttribute("src","../view/armone.php");
+	var llcont = doform("ca008");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/armone.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
 }
 //------------------------------------------------------------------------
 // modulos
 //------------------------------------------------------------------------
 function mod001(){
-	document.getElementById("ventana").setAttribute("src","../view/arsetup.php");
+	var llcont = doform("mod001");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/arsetup.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+
 }
 function mod002(){
-	document.getElementById("ventana").setAttribute("src","../view/admin_artran.php");
+	var llcont = doform("mod002");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/import_data.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
 }
 function sy001(){
-	document.getElementById("ventana").setAttribute("src","../view/sycomp.php");
+	var llcont = doform("sy001");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/sycomp.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
 }
 function sy002(){
-	document.getElementById("ventana").setAttribute("src","../view/sygrup.php");
+	var llcont = doform("sy002");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/sygrup.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
 }
 function sy003(){
-	document.getElementById("ventana").setAttribute("src","../view/syperm.php");
+	var llcont = doform("sy003");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/syperm.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
 }
 function sy004(){
-	document.getElementById("ventana").setAttribute("src","../view/syperm.php");
+	var llcont = doform("sy004");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/syperm.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
 }
 window.onload=init;
