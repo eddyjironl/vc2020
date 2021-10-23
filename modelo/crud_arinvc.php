@@ -19,19 +19,23 @@
 		$lmnotas    = $oAjt["mnotas"];
 		$lcrefno    = $oAjt["crefno"];
 		$lcdesc     = $oAjt["cdesc"];
+		$lctel      = $oAjt["ctel"];
 		$lntc       = $oAjt["ntc"];
 		$lnefectivo = $oAjt["efectivo"];
 		$ldpay      = $oAjt["dpay"];
 		$lmnotasr   = $oAjt["mnotasr"];
 		$ldtrndate  = date("Y-m-d");
 		// configuracion de los saldos de factura.
-		$lnsalesamt = 0;
-		$lntaxamt   = 0;
-		$lndesamt   = 0;
-		$lnbalance  = 0;
-		$lnSaldo    = 0;
-		$lnpayamt   = 0;
-		$lcNewCashno = 0;
+		$lnsalesamt   = 0;
+		$lntaxamt     = 0;
+		$lndesamt     = 0;
+		$lnbalance    = 0;
+		$lnsalesamt_u = 0;
+		$lndesamt_u   = 0;
+		$lntaxamt_u   = 0;
+		$lnSaldo      = 0;
+		$lnpayamt     = 0;
+		$lcNewCashno  = 0;
 		//obteniendo el numero de factura.
 		$lcNewInvno = GetNewDoc($oConn,"ARINVC");
 		// -------------------------------------------------------------------------------------------------------
@@ -59,9 +63,17 @@
 												$b[$i]['nqty'] .",". $b[$i]['nprice'] .",". $ldata['ncost'] .",". $b[$i]['ntax'] .",".$b[$i]['ndesc'] .",'".
 												"','" .$_SESSION["cuserid"]."','".$ldtrndate."','". date("h:i:s a")."')";
 					}  //if ($lnveces == 1)
-					$lnsalesamt += $b[$i]['nqty'] * $b[$i]['nprice'] ;
-					$lndesamt   += $b[$i]['ndesc'];
-					$lntaxamt   += (($b[$i]['nqty'] * $b[$i]['nprice']) -$b[$i]['ndesc']) * ($b[$i]['ntax']/100);
+
+					// cantidad bruta por linea.
+					$lnsalesamt_u = $b[$i]['nqty'] * $b[$i]['nprice'] ;
+					// aplicando el descuento porcentual
+					$lndesamt_u   = $lnsalesamt_u * ($b[$i]['ndesc']/100);
+					// impuesto de venta porcentual.
+					$lntaxamt_u   = ($lnsalesamt_u - $lndesamt_u) * ($b[$i]['ntax']/100);
+					// llevando los valores acumulados.
+					$lnsalesamt  += $lnsalesamt_u ;
+					$lndesamt    += $lndesamt_u;
+					$lntaxamt    += $lntaxamt_u;
 				}	//for($i=0; $i<$longitud; $i++) 
 			}  //if($a == "pagos"){
 		}  //foreach ($oAjt as $a=>$b)
@@ -101,9 +113,9 @@
 		// -------------------------------------------------------------------------------------------------------
 		// saldo de la factura.
 		$lnSaldo = $lnbalance - $lnpayamt;
-		$lcsql   = "insert into arinvc(cinvno, ccustno, cwhseno, crespno, cpaycode, dstar, dend, mnotas,
+		$lcsql   = "insert into arinvc(cinvno, ccustno, ctel, cwhseno, crespno, cpaycode, dstar, dend, mnotas,
                                       nsalesamt, ntaxamt, ndesamt, nbalance,ntc,cdesc, crefno, cuserid, fecha, hora)
-							values('$lcNewInvno', '$lccustno', '$lcwhseno', '$lcrespno', '$lcpaycode', '$ldstardate', '$ldenddate', '$lmnotas',
+							values('$lcNewInvno', '$lccustno', '$lctel', '$lcwhseno', '$lcrespno', '$lcpaycode', '$ldstardate', '$ldenddate', '$lmnotas',
 							        $lnsalesamt, $lntaxamt, $lndesamt, $lnSaldo ,$lntc, '$lcdesc','$lcrefno','".$_SESSION['cuserid']."','".$ldtrndate."','". date("h:i:s a")."')";
 		mysqli_query($oConn,$lcsql_di);	
 		mysqli_query($oConn,$lcsql);

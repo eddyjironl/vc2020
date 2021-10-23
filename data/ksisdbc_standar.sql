@@ -186,6 +186,7 @@ CREATE TABLE `arinvc` (
   `cwhseno` char(10) COLLATE utf8_spanish_ci NOT NULL,
   `crespno` char(10) COLLATE utf8_spanish_ci NOT NULL,
   `cdesc` char(200) COLLATE utf8_spanish_ci NOT NULL,
+  `ctel` char(10) COLLATE utf8_spanish_ci,
   `crefno` char(20) COLLATE utf8_spanish_ci NOT NULL,
   `mnotas` text COLLATE utf8_spanish_ci NOT NULL,
   `nsalesamt` decimal(10,2) NOT NULL,

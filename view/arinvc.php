@@ -45,6 +45,9 @@ if ($lcStarSession == 1){
 					<br>
 					<label class="labelnormal">Nombre</label> 
 					<input type="text" class="textnormal" id="cdesc" name="cdesc"  >
+					<br>
+					<label class="labelnormal">Telefono</label>
+					<input type="text" class="textnormal" id="ctel" name="ctel">
 					</fieldset>
 				<br>
 				<fieldset id="set2">

@@ -245,6 +245,7 @@ function clear_view(){
 	document.getElementById("cpaycode").value  = odata.cpaycode;
 	document.getElementById("dstardate").value = get_date_comp();
 	document.getElementById("denddate").value  = get_date_comp();
+	document.getElementById("ctel").value      = "";
 	get_tc_rate();
 
 	// limpiando otros campos para que no quede ningun datos.
@@ -424,6 +425,7 @@ function guardar(){
 	odata += ' "mnotas":"'    + document.getElementById("mnotas").value   	+ '",';
 	odata += ' "crefno":"'    + document.getElementById("crefno").value   	+ '",';
 	odata += ' "cdesc":"'     + document.getElementById("cdesc").value   	+ '",';
+	odata += ' "ctel":"'      + document.getElementById("ctel").value   	+ '",';
 	odata += ' "ntc":"'       + document.getElementById("ntc").value   		+ '",';
 	odata += ' "efectivo":"'  + document.getElementById("efectivo").value   + '",';
 	odata += ' "dpay":"'      + document.getElementById("dpay").value   	+ '",';
@@ -435,7 +437,7 @@ function guardar(){
 		// obteniendo valor de celdas en cada fila
 		lnprice  = parseFloat(otabla.rows[i].cells[2].children["nprice"].value);
 		lnqty    = parseFloat(otabla.rows[i].cells[3].children["nqty"].value);
-		lndesc   = parseFloat(otabla.rows[i].cells[4].children["ndesc"].value);
+		lndesc   = parseFloat(otabla.rows[i].cells[4].children["ndesc"].value);		// porcentual.
 		lntax    = parseFloat(otabla.rows[i].cells[5].children["ntax"].value);
 
 		lcservno = otabla.rows[i].cells[0].innerText;
@@ -490,7 +492,9 @@ function cksum(){
 	for (var i = 1; i <= lnveces; ++i){
 		// costo de la linea 
 		lnsalesamt_u = parseFloat(otabla.rows[i].cells[2].children[0].value) * parseFloat(otabla.rows[i].cells[3].children[0].value);
-		lndescamt_u  = parseFloat(otabla.rows[i].cells[4].children[0].value);
+		// aplicando el descuento en forma porcentual, si fuera como cantidad solo quitar el 100. y la multiplicacion del moton unitario.
+		lndescamt_u  = lnsalesamt_u * (parseFloat(otabla.rows[i].cells[4].children[0].value)/100);
+		// aplicando el impuesto de forma porcentual.
 		lntaxamt_u   = (lnsalesamt_u - lndescamt_u) * parseFloat(otabla.rows[i].cells[5].children[0].value)/100;
 		otabla.rows[i].cells[6].innerText = lnsalesamt_u.toFixed(2);
 		// totales
