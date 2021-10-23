@@ -162,6 +162,8 @@ function change_module(){
 					'		<ul>'+
 					'			<li><a id="tr001"> Facturacion y Notas de Debito</a></li>'+
 					'			<li><a id="tr002"> Recibos de Dinero </a></li>'+
+					'			<li><a id="tr008"> Anulacion de Facturas</a></li>'+
+					'			<li><a id="tr009"> Anulacion de Recibos</a></li>'+
 					'			<li><a id="tr007"> Preventa a Clientes</a></li>'+
 					'			<li><a id="sy004" href="../index.php">Salir</a></li>'+
 					'		</ul>'+
@@ -188,10 +190,11 @@ function change_module(){
 					'			<li><a id="ca008">Tipos de Cambio</a></li>'+
 					'		</ul>'+
 					'	</li>'+
-					'	<li><a>Modulo</a>'+
+					'	<li><a>Herramientas</a>'+
 					'		<ul>'+
 					'			<li><a id="mod001">Config VC-2020 WEB</a></li>'+
 					'			<li><a id="mod002">Importar Data</a></li>'+
+					'			<li><a id="mod003">Ajuste de Cartera</a></li>'+
 					'		</ul>'+
 					'	</li>'+
 					' </ul>'
@@ -199,6 +202,7 @@ function change_module(){
 					'	<li><a>Transacciones</a>'+
 					'		<ul>'+
 					'			<li><a id="tr004"> Entradas y Salidas de Inventario </a></li>'+
+					'			<li><a id="tr010"> Anulacion de Requisas </a></li>'+
 					'			<li><a id="sy004" href="../index.php">Salir</a></li>'+
 					'		</ul>'+
 					'	</li>'+
@@ -221,10 +225,11 @@ function change_module(){
 					'			<li><a id="ca008">Tipos de Cambio</a></li>'+
 					'		</ul>'+
 					'	</li>'+
-					'	<li><a>Configuraciones</a>'+
+					'	<li><a>Herramientas</a>'+
 					'		<ul>'+
 					'			<li><a id="mod001">Config VC-2020 WEB</a></li>'+
 					'			<li><a id="mod002">Importar Data</a></li>'+
+					'			<li><a id="mod003">Ajuste de Cartera</a></li>'+
 					'		</ul>'+
 					'	</li>'+
 					' </ul>'
@@ -278,22 +283,20 @@ function change_module_small(pcmenuid){
 			'		<ul>'+
 			'			<li><a id="tr001"> Facturacion y Notas de Debito</a></li>'+
 			'			<li><a id="tr002"> Recibos de Dinero </a></li>'+
+			'			<li><a id="tr008"> Anulacion de Facturas</a></li>'+
+			'			<li><a id="tr009"> Anulacion de Recibos</a></li>'+
 			'			<li><a id="tr007"> Preventa a Clientes</a></li>'+
 			'			<li><a id="sy004" href="../index.php">Salir</a></li>'+
 			'		</ul>'+
 			'	</li>'	+
 			' </ul>'
 
-		/*
-			'			<li><a id="tr003"> Cotizaciones </a></li>'+
-			'			<li><a id="tr006"> Administracion de Pedidos </a></li>'+
-			'			<li><a id="tr008"> Facturacion de Pedidos </a></li>'+
-		*/	
 			omenu.innerHTML = omenu_ar_trn;
 			document.getElementById("tr001").addEventListener("click",tr001,false);
 			document.getElementById("tr002").addEventListener("click",tr002,false);
-		//	document.getElementById("tr003").addEventListener("click",tr003,false);
 			document.getElementById("tr007").addEventListener("click",tr007,false);
+			document.getElementById("tr008").addEventListener("click",tr008,false);
+			document.getElementById("tr009").addEventListener("click",tr009,false);
 		}
 
 		if (pcmenuid.target.id == "reportes"){
@@ -344,13 +347,14 @@ function change_module_small(pcmenuid){
 			document.getElementById("ca008").addEventListener("click",ca008,false);
 		}
 
-		if(pcmenuid.target.id == "Modulos"){
+		if(pcmenuid.target.id == "Herramientas"){
 			// Definiendo modulo de Cuentas por cobrar.
 			omenu_in_conf = '<ul id="menu"> '+
 							'	<li><a>Configuraciones</a>'+
 							'		<ul>'+
 							'			<li><a id="mod001">Config VC-2020 WEB</a></li>'+
 							'			<li><a id="mod002">Importar Data</a></li>'+
+							'			<li><a id="mod003">Ajuste de Cartera</a></li>'+
 							'		</ul>'+
 							'	</li>'+
 							' </ul>'
@@ -365,14 +369,16 @@ function change_module_small(pcmenuid){
 				'	<li><a>Transacciones</a>'+
 				'		<ul>'+
 				'			<li><a id="tr004"> Entradas y Salidas de Inventario </a></li>'+
+				'			<li><a id="tr010"> Anulacion de Requisas </a></li>'+
 				'			<li><a id="sy004" href="../index.php">Salir</a></li>'+
 				'		</ul>'+
 				'	</li>'+
 				' </ul>'
 
 				omenu.innerHTML = omenu_in_trn;
-			document.getElementById("tr004").addEventListener("click",tr004,false);
-			//document.getElementById("tr003").addEventListener("click",tr003,false);
+				document.getElementById("tr004").addEventListener("click",tr004,false);
+				document.getElementById("tr010").addEventListener("click",tr010,false);
+				
 		}
 	
 		if (pcmenuid.target.id == "reportes"){
@@ -425,6 +431,7 @@ function change_module_small(pcmenuid){
 							'		<ul>'+
 							'			<li><a id="mod001">Config VC-2020 WEB</a></li>'+
 							'			<li><a id="mod002">Importar Data</a></li>'+
+							'			<li><a id="mod003">Ajuste de Cartera</a></li>'+
 							'		</ul>'+
 							'	</li>'+
 							' </ul>'
@@ -447,8 +454,9 @@ function upd_symenu(){
 function upd_armenu(){
 	document.getElementById("tr001").addEventListener("click",tr001,false);
 	document.getElementById("tr002").addEventListener("click",tr002,false);
-//	document.getElementById("tr003").addEventListener("click",tr003,false);
 	document.getElementById("tr007").addEventListener("click",tr007,false);
+	document.getElementById("tr008").addEventListener("click",tr008,false);
+	document.getElementById("tr009").addEventListener("click",tr009,false);
 	
 	document.getElementById("rp001").addEventListener("click",rp001,false);
 	document.getElementById("rp002").addEventListener("click",rp002,false);
@@ -468,11 +476,13 @@ function upd_armenu(){
 
 	document.getElementById("mod001").addEventListener("click",mod001,false);
 	document.getElementById("mod002").addEventListener("click",mod002,false);
+	document.getElementById("mod003").addEventListener("click",mod003,false);
 	
 }
 function upd_inmenu(){
 	document.getElementById("tr004").addEventListener("click",tr004,false);
-	
+	document.getElementById("tr010").addEventListener("click",tr010,false);
+
 	document.getElementById("ca003").addEventListener("click",ca003,false);
 	document.getElementById("ca004").addEventListener("click",ca004,false);
 	document.getElementById("ca005").addEventListener("click",ca005,false);
@@ -488,6 +498,8 @@ function upd_inmenu(){
 
 	document.getElementById("mod002").addEventListener("click",mod002,false);
 	document.getElementById("mod001").addEventListener("click",mod001,false);
+	document.getElementById("mod003").addEventListener("click",mod003,false);
+	
 }
 //------------------------------------------------------------------------
 // transacciones 
@@ -536,6 +548,34 @@ function tr007(){
 	}
 
 }
+function tr008(){
+	var llcont = doform("tr008");
+	if (llcont){
+		document.getElementById("ventana").setAttribute("src","../view/arvinv.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+
+}
+function tr009(){
+	var llcont = doform("tr009");
+	if (llcont){
+		document.getElementById("ventana").setAttribute("src","../view/arvcas.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+
+}
+function tr010(){
+	var llcont = doform("tr010");
+	if (llcont){
+		document.getElementById("ventana").setAttribute("src","../view/arvadj.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+
+}
+
 
 //------------------------------------------------------------------------
 // Reportes
@@ -736,6 +776,16 @@ function mod002(){
 		getmsgalert("Usuario no tiene derecho de acceso");
 	}
 }
+function mod003(){
+	var llcont = doform("mod003");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/arclear.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+}
+
 function sy001(){
 	var llcont = doform("sy001");
 	if (llcont){

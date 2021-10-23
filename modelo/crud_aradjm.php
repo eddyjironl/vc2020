@@ -233,6 +233,17 @@ if($lcaccion=="MENU"){
 	echo $ojson;		
 }
 
+if ($lcaccion=="ANULAR"){
+	$lcadjno = $_POST["cadjno"];
+	if (empty($lcadjno)){
+		$lcmsg = "Requisa vacia";
+		//header('Location:' . getenv('HTTP_REFERER'));
+		header("Location: ../view/arvadj.php?msg=$lcmsg");
+		return; 
+	}
+	void_adj($oConn,$lcadjno);
+}
+
 function get_detalle($oConn,$pcwhseno){
 	// --------------------------------------------------------------------
 	// lista de facturas de un cliente.
@@ -264,89 +275,43 @@ function get_detalle($oConn,$pcwhseno){
 	echo '</tbody>';
 }
 
-/*
-if($lcaccion=="NEW"){
-	$json = $_POST["json"];
-	$lcmnotas = $_POST["mnotas"];
-	$oAjt = json_decode($json,true);
-	//obteniendo el numero de factura.
-	$lcadjno  = GetNewDoc($oConn,"ARADJM");
-	$lcwhseno = $oAjt['cwhseno'];
-	$lnfactor = 1;
-	$llcont   = true;
-	$llupdcost = false;
-	// Determinando el factor de movimiento en la requisa.
-	$lcsql_factor = " select ctypeadj , lupdcost from arcate where ccateno = '". $oAjt['ccateno'] ."' ";
-	$lcresult = mysqli_query($oConn,$lcsql_factor);
-	$ofactor  = mysqli_fetch_assoc($lcresult);
-	if ($ofactor["ctypeadj"] == "S"){
-		$lnfactor = -1;
-	}
-	$llupdcost = $ofactor["lupdcost"];
-	// -------------------------------------------------------------------------------
-	// A)- insertando los datos del encabezado del requisa
-	// -------------------------------------------------------------------------------
-	$lcsql = "insert into aradjm(cadjno,crefno, ccateno, crespno, dtrndate,mnotas,cwhseno, ntc, cuserid)
-			  values('$lcadjno','" . $oAjt['crefno'] . "','". $oAjt['ccateno'] ."','" .$oAjt['crespno']."','".$oAjt['dtrndate'].
-					"','".$lcmnotas."','".$oAjt['cwhseno']."',".$oAjt['ntc'].",'" . $_SESSION["cuserid"]. "')";
-	// -------------------------------------------------------------------------------
-    // B)- insertando los detalles
-	// -------------------------------------------------------------------------------
-	$lnveces = 1;
-	$lcsql_d  = "";
-	foreach ($oAjt as $a=>$b) {
-		if($a == "articulos"){
-			$longitud = count($b);
-			for($i=0; $i<$longitud; $i++) {
-				$lcservno  = $b[$i]["cservno"];
-				//$lnpayamt = $b[$i]["ncost"];
-				$lcsql_ser = "select cdesc , ncost from arserm where cservno = '". $lcservno ."'";
 
-				$lcresult  = mysqli_query($oConn,$lcsql_ser);
-				$ldata     = mysqli_fetch_assoc($lcresult);
-				if ($lnveces == 1){
-					$lcsql_d = "insert into aradjt(cadjno,cservno,cdesc, ncost,ncostu,nqty,cuserid)
-					            values ('$lcadjno','". $b[$i]["cservno"] ."','". $ldata["cdesc"] ."',". $b[$i]["ncost"] .",". $ldata["ncost"] .",$lnfactor * ". $b[$i]["nqty"] .",'".$_SESSION["cuserid"]."')";
-					$lnveces = 2;
-				}else{
-					$lcsql_d = $lcsql_d . " ,('$lcadjno','". $b[$i]["cservno"] ."','". $ldata["cdesc"] ."',". $b[$i]["ncost"] .",". $ldata["ncost"] .",$lnfactor * ". $b[$i]["nqty"] .",'".$_SESSION["cuserid"]."')";
-				}
-			 	// ----------------------------------------------------------------------------------------------------------------
-				// determinando costo promedio en el maestro de inventarios segun configuracion del modulo o ultimo costo recibido.
-				// ----------------------------------------------------------------------------------------------------------------
-				//  A) Determinando metodo de Costeo Elegido por el usuario.
-				if($llupdcost){
-					//	B) Determinando las cantidades existentes si es costo promedio.
-					$lnonhand = get_inventory_onhand($oConn,$lcservno,"R");
-					//  C) Determinando costo promedio para cargarlo en la linea del articulo.
-					$lnCost_master = $ldata["ncost"];	
-					// determinando costo promedio.
-					$lnExist_amt_act   = $lnonhand * $lnCost_master;
-					// costo actual de la compra.
-					$lnExist_amt_buy   = $b[$i]["nqty"] * $b[$i]["ncost"] ;
-					// costo promedio
-					$lnCostPromd       = ($lnExist_amt_act + $lnExist_amt_buy) / ($lnonhand + $b[$i]["nqty"] );
-					$lnlast_price_buy  =  $b[$i]["ncost"];
-					$lcsqlserupd = " update arserm set  nlastcost = ".  $lnlast_price_buy. ", ncost = ".$lnCostPromd . " where arserm.cservno = '". $lcservno."'";
-					$llcont = $llcont and mysqli_query($oConn,$lcsqlserupd);
-				}
-				// ----------------------------------------------------------------------------------------------------------------
+function void_adj($oConn,$pcadjno){
+	$lcmsg="Anulacion requisa ". $pcadjno ." Completada..!! ";
 
-			}	//codigo ejecutado por cada una de las facturas pagadas.
-		}  //if($a == "pagos"){
-	}
-    // instrucciones para crear el encabezado y detalle del pago.
-	if ($llcont){
-		mysqli_query($oConn,$lcsql);
-		mysqli_query($oConn,$lcsql_d);	
-		echo $lcadjno;
-	}else{
-		echo "Requisa no guardada";
-	}
-	// Actualizando el saldo de facturas..
+	$lcsqlcmd = " select cadjno , lvoid from aradjm where cadjno = '". $pcadjno ."' ";
 	
-} 
-*/
+	try{
+		$lcresult = mysqli_query($oConn,$lcsqlcmd);
+		$lvoid    = mysqli_fetch_assoc($lcresult);
+	
+	}
+	
+	catch(Exception $ex){
+		$lcmsg="ocurrio un error " .$ex->getCode(). " al intentar procesar ".  $ex->getMessage();
+		echo $lcmsg;
+	}
+
+
+
+	if (is_null($lvoid) ){
+		$lcmsg = "La Requisa ". $pcadjno. " No Existe";
+	}
+	elseif ($lvoid["lvoid"] == True){
+		$lcmsg = "La Requisa ". $pcadjno . " Se encuentra Anulada";
+	}else{
+		$lcsqlcmd = " update aradjm set lvoid = 1, cstatus='NL' where cadjno = '" . $pcadjno . "' ";
+		// Para efectos de inventarios esto es todo. pero de haber cuentas por pagar
+		// habria que reversar pagos realizados, tambien balance del proveedor.
+
+		mysqli_query($oConn,$lcsqlcmd);
+	}
+	header("Location: ../view/arvadj.php?msg=$lcmsg");
+
+
+}
+
+
 
 //Cerrando la coneccion.
 mysqli_close($oConn);

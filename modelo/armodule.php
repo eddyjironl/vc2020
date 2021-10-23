@@ -18,6 +18,9 @@
 		if ($_POST["program"]== "get_inventory_onhand"){
 			get_inventory_onhand($oConn,$_POST["cservno"],$_POST["respuesta"]);
 		}
+		if ($_POST["program"]== "conf_cxc"){
+			conf_cxc($oConn,$_POST["ccustno"]);
+		}
 	}
 	// -----------------------------------------------------------------------------------------------------
 	// B) - Funciones especiales del modulo
@@ -107,7 +110,7 @@ function get_sales_amount($poConn,$pccustno){
 	                     sum(nbalance) as nbalance
 				  from arinvc
 				  where ccustno = '$pccustno' and
-						cstatus = 'OP' ";
+						cstatus = 'OP' and lvoid = 0 ";
 
 	$lcResult =   mysqli_query($poConn,$lcsqlcmd); // $oConn->query($lcSqlCmd);
 	// convirtiendo estos datos en un array asociativo
@@ -131,6 +134,7 @@ function get_inventory_onhand($poConn,$pcservno,$prespt){
 				 left outer join arcate on arcate.ccateno = aradjm.ccateno AND arcate.ctypecate = 'A'
 				 where arserm.lupdateonhand = true AND 
 				 	   aradjm.lvoid   = false and 
+					   aradjm.cstatus = 'OP' and 
 					   aradjt.cservno = '$pcservno' 
 				 group by 1
 				 union all 
@@ -142,6 +146,7 @@ function get_inventory_onhand($poConn,$pcservno,$prespt){
 				left outer join artcas on artcas.cpaycode = arinvc.cpaycode
 				where arserm.lupdateonhand = true and
 					  arinvc.lvoid   = false and 
+					  arinvc.cstatus = 'OP' and
 					  arinvt.cservno = '$pcservno' 
 				group by 1
 			";	
@@ -160,5 +165,109 @@ function get_inventory_onhand($poConn,$pcservno,$prespt){
 	
 	
 
+}
+function conf_cxc($poConn,$pccustno){
+	// se ajustara  el saldo de cartera. para uno o para todos los clientes.
+	//. poniendo en cero el saldo de los Clientes
+	$lcmsg ="Proceso concluido";
+	$lcwhere_cus = "";
+	$lcwhere_inv = " where arinvc.cstatus = 'OP' and lvoid = 0 ";
+	if (!empty($pccustno)){
+		$lcwhere_cus = " where arcust.ccustno = '". $pccustno . "' ";
+		$lcwhere_inv = " where arinvc.cstatus = 'OP' and lvoid = 0 and   arinvc.ccustno = '". $pccustno . "' ";
+	}
+	$lcmsg = "puso en cero el saldo";
+	
+	try{
+		// ------------------------------------------------------------------------------------------------------
+		// 1- Poniendo en 0 saldos de cliente y factuas.
+		// ------------------------------------------------------------------------------------------------------
+		// poniendo el saldo de los clientes en 0,
+		mysqli_query($poConn," update arcust set nbbalance = 0, nbsalestot = 0 ".$lcwhere_cus);
+		// poniendo saldo de facturas en 0
+		$lcupd_1 = " update arinvc set nsalesamt = 0, ntaxamt = 0 , ndesamt = 0, nbalance = 0 ". $lcwhere_inv ;
+		mysqli_query($poConn,$lcupd_1);
+
+		// ------------------------------------------------------------------------------------------------------
+		// 2- Recalculado encabezado de Facturas.
+		// ------------------------------------------------------------------------------------------------------
+		$lcresult = mysqli_query($poConn," select cinvno from arinvc ". $lcwhere_inv );
+		// si hay facturas continua haciendo si no no hay nada que hacer.
+		if ($lcresult->num_rows > 0){
+			while( $data = mysqli_fetch_assoc($lcresult)){
+				$lcdet_inv  = " select nqty , nprice , ntax , ndesc from arinvt where cinvno = '" . $data["cinvno"] . "' ";
+				$lcresult2   = mysqli_query($poConn,$lcdet_inv);
+				$lnsalesamt = 0;
+				$lndesamt   = 0;
+				$lntaxamt   = 0;
+				$lnbalance  = 0;
+				$lncashamt  = 0;
+				$lncashamt  = 0;
+				// procesand detalle de facturas.
+				if ($lcresult2->num_rows > 0){
+					echo "Procesando facturas...";
+					while ($data_inv = mysqli_fetch_assoc($lcresult2)){
+						// Venta bruta.
+						// nivel unitario 
+						$lnsalesamt_u = $data_inv["nqty"] * $data_inv["nprice"];
+						$lnsalesamt   = $lnsalesamt + $lnsalesamt_u;
+						// descuento % 
+						$lndesamt_u   = $lnsalesamt_u * ($data_inv["ndesc"]/100);  
+						$lndesamt     = $lndesamt + $lndesamt_u ;  
+						// Impuesto
+						$lntaxamt_u   = ($lnsalesamt_u - $lndesamt_u) * ($data_inv["ntax"]/100);  
+						$lntaxamt     = $lntaxamt + $lntaxamt_u ;  
+					}
+					
+					// total de la factura.
+					// buscando todos los abonos para esta persona.
+					$lccash_amt = " select sum(arcash.namount) as ncashamt from arcash 
+					                join arcasm on arcasm.ccashno = arcash.ccashno
+									where arcasm.cstatus = 'OP' and arcash.cinvno = '". $data['cinvno'] . "' ";
+
+					$lcresult2   = mysqli_query($poConn,$lccash_amt);
+					if ($lcresult2->num_rows > 0){
+						$ldata_cash = mysqli_fetch_assoc($lcresult2);
+						$lncashamt  = $ldata_cash["ncashamt"];
+					}
+					// calculando el balance de la factura.
+					$lnbalance  = ($lnsalesamt + $lntaxamt) - ($lndesamt + $lncashamt);
+					// actualizando encabezado de la factura a como debio ser sin ningun abono.
+					$lcupd_invno = " update arinvc set nsalesamt = $lnsalesamt , ntaxamt = $lntaxamt, ndesamt = $lndesamt, nbalance = $lnbalance 
+					                 where arinvc.cinvno = '" . $data['cinvno'] . "' ";
+					// actualizando el encabezado de factura. 
+					mysqli_query($poConn,$lcupd_invno);
+				}	//if ($lcresult->num_rows > 0){
+				
+			}
+		
+			// ------------------------------------------------------------------------------------------------------
+			// 3- Calculando saldo de clientes.
+			// ------------------------------------------------------------------------------------------------------
+			// poniendo venta bruta y saldo de cuentas por cobrar de cada cliente.
+			$lcsqlcmd = " select ccustno ,  sum(nsalesamt + ntaxamt - ndesamt) as nsalesamt,
+						sum(nbalance) as nbalance from arinvc ". $lcwhere_inv . " group by ccustno ";
+			// obteniendo venta total y saldos de facturas.				
+			$lcresult = mysqli_query($poConn,$lcsqlcmd);
+
+			if ($lcresult->num_rows > 0){
+				while ($lcdata = mysqli_fetch_assoc($lcresult)){
+					$lnvtatotal   = $lcdata["nsalesamt"]; 
+					$lncxctotal   = $lcdata["nbalance"];
+					$lcupd_custno = " update arcust set nbsalestot= $lnvtatotal, nbbalance = $lncxctotal where ccustno = '" .$lcdata["ccustno"] . "' ";
+					mysqli_query($poConn,$lcupd_custno);
+				}	// while ($lcdata = mysqli_fetch_assoc($lcresult)){
+			}
+			$lcmsg = "Proceso Concluido";
+		}else{
+			$lcmsg = "No hay facturas que procesar";
+		}	//if ($lcresult->num_rows > 0)
+	}
+
+	catch(Exception $ex){
+		$lcmsg="ocurrio un error " .$ex->getCode(). " al intentar procesar ".  $ex->getMessage();
+		echo $lcmsg;
+	}
+	header("Location: ../view/arclear.php?msg=$lcmsg");
 }
 ?>

@@ -15,7 +15,7 @@
     $lcrptname  = "rpt_arcash1";
     $lctitle    = "";
 
-	$lcwhere   = " arinvc.cstatus = 'OP' and arinvc.nbalance <> 0 ";
+	$lcwhere   = " arinvc.cstatus = 'OP' and arinvc.lvoid = 0 and arinvc.nbalance <> 0 ";
 	$lcXsortBy = "";
 	$lcDescBy  = "";
 	$lcDescOrderby = "";

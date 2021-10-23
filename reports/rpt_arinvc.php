@@ -16,7 +16,7 @@
 	$lcrptname  = "rpt_arinvc";
 	$lctitle    = "";
 	
-	$lcwhere   = " arinvc.cstatus = 'OP' ";
+	$lcwhere   = " arinvc.cstatus = 'OP' and arinvc.lvoid = 0 ";
 	$lcXsortBy = "";
 	$lcDescBy  = "";
 	$lcDescOrderby = "";

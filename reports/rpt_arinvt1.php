@@ -20,7 +20,7 @@
     $lcrptname  = "rpt_arinvt1";
     $lctitle    = "Resumen de Utilidades y Costos ";
     $lcsubtitle = "";
-	$lcwhere    = ""; // solo requisas no compras.
+	$lcwhere    = " arinvc.cstatus = 'OP' and arinvc.lvoid = 0 "; // solo requisas no compras.
     $llfirttime = true;
     $llpritsub  = false;
     $lnQtyRow   = 0;

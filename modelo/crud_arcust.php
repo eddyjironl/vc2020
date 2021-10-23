@@ -160,7 +160,8 @@ if($lcAccion == "KARDEX"){
 						 arinvc.nbalance
 					from arinvc 
 					left outer join artcas on artcas.cpaycode = arinvc.cpaycode
-					where arinvc.ccustno = '$lccustno' order by 1
+					where arinvc.ccustno = '$lccustno'  and arinvc.lvoid = 0 and arinvc.cstatus = 'OP' 
+					order by 1
 				";	
 	
 	

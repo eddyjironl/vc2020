@@ -153,9 +153,105 @@
 		echo $ojson;		
 		}
 
-
+	if ($lcaccion=="ANULAR"){
+			$lcinvno = $_POST["cinvno"];
+			if (empty($lcinvno)){
+				$lcmsg = "# Factura vacia";
+				//header('Location:' . getenv('HTTP_REFERER'));
+				header("Location: ../view/arvinv.php?msg=$lcmsg");
+				return; 
+			}
+			void_invoice($oConn,$lcinvno);
+		}
 	
-	// muestra todos los contenidos de la tabla.
-	// cerrando la coneccion.
+	function void_invoice($oConn,$pcinvno){
+			try{
+				$lcmsg    = " Anulacion de Factura ". $pcinvno ." Completada..!! ";
+				$llcont   = True;
+				$lcsqlcmd = " select cinvno, ctrnno, ccustno , lvoid, nsalesamt, ntaxamt, ndesamt, nbalance  from arinvc where cinvno = '". $pcinvno ."' ";
+				// determinando los datos relacionados a la Facturacion
+				$lcresult = mysqli_query($oConn,$lcsqlcmd);
+				$oInvno   = mysqli_fetch_assoc($lcresult);
+				// de no ocurrir  error cierra la ejecucion con este codigo.
+				if (is_null($oInvno) ){
+					$lcmsg = "La Factura ". $pcinvno. " No Existe";
+				}
+				elseif ($oInvno["lvoid"] == True){
+					$lcmsg = "La Factura ". $pcinvno . " Se encuentra Anulada";
+				}
+				elseif (!empty($oInvno["ctrnno"])){
+						// 1- previo a la anulacion verificar si tiene asientos contables para no anular la factura si tiene asientos contables.
+						$lcmsg = "La factura no puede ser anulada <br> porque esta procesada en Contabilidad";
+				}
+				else{
+						// 2- tiene recibos .. hay que anularlos.			
+						// Verificando si hay algun recibo pasado a contabilidad.
+						// si lo hay no se puede anular la factura. ya que no se puede anular el recibo.
+						$lcsqlcmd = " select arcasm.ctrnno, arcasm.ccashno 
+										from arcash 
+										left outer join arcasm on arcasm.ccashno = arcash.ccashno 
+										where arcash.cinvno = '$pcinvno' and arcasm.cstatus = 'OP' and arcasm.ctrnno !='' "; 
+						
+						$lcresult = mysqli_query($oConn,$lcsqlcmd);
+
+						if($lcresult->num_rows > 0){
+							$llcont = False;
+							$lcmsg  = "Existen Recibos pasados a Contabilidad No puede anular la factura";
+						}else{
+							// No tiene recibos en contabilidad, por lo tanto procede a anular recibos que existan en relacion a la factura.
+							$lcsqlcmd = " select arcasm.ccashno , arcash.cinvno, arcash.namount 
+							from arcash 
+							left outer join arcasm on arcasm.ccashno = arcash.ccashno 
+							where arcash.cinvno = '$pcinvno' and arcasm.cstatus = 'OP'  "; 
+							
+							// Procesando Recibos.
+							$lcresult = mysqli_query($oConn, $lcsqlcmd);
+							if ($lcresult->num_rows>0){
+								$lccashno_x = "DASF";
+								while ($ldata = mysqli_fetch_assoc($lcresult)){
+									if($lccashno_x  != $ldata["ccashno"]){
+										$lccashno_x =  $ldata["ccashno"];
+										$lcsqlcmd   =  " update arcasm set cstatus = 'NL' where ccashno = '" . $ldata["ccashno"] . "' "; 
+										mysqli_query($oConn,$lcsqlcmd);
+									}
+									// ajustando saldo de factura que tiene el recibo anulado. PERO que no es la factura que vamos a anular.
+									if ($ldata["cinvno"] != $pcinvno){
+										$lcupdate     = " update arinvc set nbalance  = nbalance +  " .$ldata["ncashamt"];
+										$lcupd_arcust = " update arcust set nbbalance = nbbalance + " .$ldata["ncashamt"] ;
+										mysqli_query($oConn,$lcupdate);
+										mysqli_query($oConn,$lcupd_arcust);
+									}	//if ($ldata["cinvno"] != $pcinvno){
+								}		//while ($ldata = mysqli_fetch_assoc($lcresult)){
+							}			//if ($lcresult->num_rows>0){
+						}
+
+						if ($llcont){
+
+							// 3- ajustar el saldo del cliente segun sea el caso rebajando facturas anuladas de su saldo en ventas y 
+							//    cuentas por cobrar en el maestro de clientes.
+							// Anulando Factura.
+							$lcupd_1 = " update arinvc set lvoid = 1 , cstatus = 'NL' where cinvno = '" . $pcinvno . "' ";
+							// Ajustando saldo de cliente.
+							$lcupd_2 = " update arcust set nbbalance = nbbalance - ". $oInvno["nbalance"]. 
+							            ", nbsalestot = nbsalestot - ". ( ($oInvno["nsalesamt"] + $oInvno["ntaxamt"]) - $oInvno["ndesamt"] ).	
+										" where arcust.ccustno = ' ". $oInvno["ccustno"] ."' " ;
+							mysqli_query($oConn,$lcupd_1);
+							mysqli_query($oConn,$lcupd_2);
+						}
+					
+					// Para efectos de inventarios esto es todo. pero de haber cuentas por pagar   nsalesamt, ntaxamt, ndescamt
+					// habria que reversar pagos realizados, tambien balance del proveedor.
+				}
+				header("Location: ../view/arvinv.php?msg=$lcmsg");
+			}
+			catch(Exception $ex){
+				$lcmsg="ocurrio un error " .$ex->getCode(). " al intentar procesar ".  $ex->getMessage();
+				echo $lcmsg;
+			}
+
+		}
+		// muestra todos los contenidos de la tabla.
+
+		// cerrando la coneccion.
 	mysqli_close($oConn);
 ?>	

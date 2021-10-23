@@ -148,9 +148,6 @@ if (vc_funciones::Star_session() == 1){
 						</table>
 					</fieldset>
 					
-					
-					
-					
 					<br>
 					<fieldset class="fieldset" id="invoice_detail">
 						<table class="table_det" id="tdetalles2">

@@ -77,8 +77,19 @@ if (vc_funciones::Star_session() == 1){
 							<option value="IN">Incluir el IVA en Costo del Articulo</option>
 							<option value="EX">No Incluir el IVA en el costo del articulo</option>
 						</select>
+						<br>
+
+						<label class="labeltitle" >Mantenimiento de Cartera</label>	
+						<br>
+						<script>
+							get_boton("btcxccls","transacciones.ico","Verificar");
+						</script>
+						<label class="labelnormal" >Cliente Id</label>	
+						<input type="text" id="ccustno" name="ccustno" class="textkey" placeholder="Indique un cliente">
+					
 				</fieldset>				
 			</div>
+			
 			<div id="finfo2" class="tabcontent">
 				<fieldset>
 					<label class="labeltitle">Configuracion de Comentarios</label>

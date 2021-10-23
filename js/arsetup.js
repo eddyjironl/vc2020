@@ -10,9 +10,22 @@ function init(){
 	// poniendo visible el objeto tab del info 
 	document.getElementById("finfo1").style.display = "block";
 	document.getElementById("tbinfo1").setAttribute("class","active");
+	document.getElementById("btcxccls").addEventListener("click",verificar_cxc,false);
+
 	// refrescando la pantalla con todo sus contenidos.
 	update_window();
 }
+function verificar_cxc(){
+	var oRequest = new XMLHttpRequest();
+	var oDatos   = new FormData();
+	oDatos.append("program","conf_cxc");
+	oDatos.append("ccustno",document.getElementById("ccustno").value);
+	oRequest.open("POST","../modelo/armodule.php");
+	oRequest.send(oDatos);
+	document.getElementById("ccustno").value = "";
+	alert("Proceso Concluido");
+}
+
 function salir(){
 	//var pantalla = document.defaultView;
 	document.getElementById("arsetup").style.display="none";	
