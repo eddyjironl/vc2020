@@ -5,6 +5,7 @@ delete from symenu ;
 insert into symenu(cmenuid,cdesc)
     values("sy001","configuracion de la compañia"),
     ("sy002","Grupos de Trabajo"),
+    /* TRANSACCIONES*/
     ("tr001","Facturacion y Notas de Debito"),
     ("tr002","Recibos de Dinero"),
     ("tr003","Cotizaciones"),
@@ -13,6 +14,7 @@ insert into symenu(cmenuid,cdesc)
     ("tr008","Anulacion de Facturas"),
     ("tr009","Anulacion de Recibos"),
     ("tr010","Anulacion Requisas"),
+    /* REPORTES*/
     ("rp001","Resumen de Ventas"),
     ("rp002","Cuentas por Cobrar"),
     ("rp009","Vencimiento de Cartera"),
@@ -24,6 +26,8 @@ insert into symenu(cmenuid,cdesc)
     ("rp008","Reporte de Movimiento de Inventario (Entradas y Salidas)"),
     ("rp010","Movimientos de Inventario Valorisados AD"),
     ("rp011","Maximos y Minimos "),
+    ("rp012","Reimpresion Formato Factura"),
+    /* CATALOGOS*/
     ("ca001","Catalogo de Clientes"),
     ("ca002","Condiciones de Pago"),
     ("ca003","Maestro de Inventarios"),
@@ -32,6 +36,9 @@ insert into symenu(cmenuid,cdesc)
     ("ca006","Tipos de Requisas / Entradas y Salidas"),
     ("ca007","Bodegas"),
     ("ca008","Tipos de Cambio"),
-    ("mod001","Configuracion VC-2020")
+    /* HERRAMIENTAS*/
+    ("mod001","Configuracion VC-2020"),
+    ("mod002","Importacion de datos"),
+    ("mod003","Ajuste de Cartera")
     
     

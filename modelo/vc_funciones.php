@@ -1,5 +1,10 @@
 <?PHP
 
+	// mensajes generales de la aplicacion.
+	CONST NOT_DATA_RPT = "<H3>No hay datos que coincidan con estos criterios.</H3>";
+	CONST NOT_ALLOW_USER = "Usuario Denegado el Acceso";
+
+
 CLASS vc_funciones{
 	// inicializa la funcion del lado del servidor.
 	public static function arsetup_init(){

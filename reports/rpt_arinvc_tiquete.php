@@ -4,31 +4,26 @@
 if ($_POST["ctrnno1"]){
     $lcinvno = $_POST["ctrnno1"];
 }else{return ;}
-$lcsqlcmd = "select arinvc.cinvno,
+  
+$lcsqlcmd = "select arinvc.*, 
                     arinvc.cdesc as cdesccustno, 
-                    arinvc.ccustno, 
-                    arcust.cname,
-                    arinvc.dstar,
-                    arinvc.cpaycode,
                     artcas.cdesc as cdescpay, 
+                    arcust.cname,
                     arresp.crespno,
-                    arresp.cfullname, 
-                    arinvt.cservno,
+                    arresp.cfullname,
                     arinvt.cdesc as cdescservno,
+                    arinvt.cservno,
                     arinvt.nqty,
                     arinvt.nprice,
                     arinvt.ntax,
                     arinvt.ndesc,
-                    arinvc.nsalesamt,
-                    arinvc.ndesamt,
-                    arinvc.ntaxamt,
-                    arinvc.nefectivo,
                     arinvc.nbalance
             from arinvc
             left outer join arinvt on arinvc.cinvno = arinvt.cinvno
             left outer join arcust on arcust.ccustno = arinvc.ccustno
             left outer join arresp on arinvc.crespno = arresp.crespno
-            left outer join artcas on arinvc.cpaycode = artcas.cpaycode where arinvc.cinvno = '". $lcinvno ."' ";
+            left outer join artcas on arinvc.cpaycode = artcas.cpaycode
+            where arinvc.cinvno = '". $lcinvno ."' ";
 
 // CONFIGURACIÓN PREVIA
 include("../modelo/vc_funciones.php");
@@ -40,6 +35,13 @@ $lctitle    = "";
 $oConn    = vc_funciones::get_coneccion("CIA");
 $oArSetup = vc_funciones::arsetup_init();
 $lcresult = mysqli_query($oConn,$lcsqlcmd);
+// si no hay datos para presentar
+if ($lcresult->num_rows == 0){
+    echo NOT_DATA_RPT;
+    return ;
+}
+
+
 $oInvoice = mysqli_fetch_assoc($lcresult);
 
 

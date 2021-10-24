@@ -170,6 +170,7 @@ function change_module(){
 					'	</li>'+
 					'	<li><a>Reportes</a>'+
 					'		<ul>'+
+					'			<li><a id="rp012"> Reimpresion Formato Factura</a></li>'+
 					'			<li><a id="rp001"> Resumen de Ventas</a></li>'+
 					'			<li><a id="rp006"> Resumen de Utilidades </a></li>'+
 					'			<li><a id="rp002"> Cuentas por Cobrar</a></li>'+
@@ -303,6 +304,7 @@ function change_module_small(pcmenuid){
 			omenu_ar_rpt =  '<ul id="menu"> '+
 			'	<li><a>Reportes</a>'+
 			'		<ul>'+
+			'			<li><a id="rp012"> Reimpresion Formato Factura</a></li>'+
 			'			<li><a id="rp001"> Resumen de Ventas</a></li>'+
 			'			<li><a id="rp002"> Cuentas por Cobrar</a></li>'+
 			'			<li><a id="rp003"> Estado de Cuentas</a></li>'+
@@ -319,6 +321,7 @@ function change_module_small(pcmenuid){
 			document.getElementById("rp004").addEventListener("clicrk",rp004,false);
 			document.getElementById("rp006").addEventListener("clicrk",rp006,false);
 			document.getElementById("rp009").addEventListener("clicrk",rp009,false);
+			document.getElementById("rp012").addEventListener("clicrk",rp012,false);
 		}
 
 		if (pcmenuid.target.id == "catalogos"){
@@ -464,6 +467,7 @@ function upd_armenu(){
 	document.getElementById("rp004").addEventListener("click",rp004,false);
 	document.getElementById("rp006").addEventListener("click",rp006,false);
 	document.getElementById("rp009").addEventListener("click",rp009,false);
+	document.getElementById("rp012").addEventListener("click",rp012,false);
 
 	document.getElementById("ca001").addEventListener("click",ca001,false);
 	document.getElementById("ca002").addEventListener("click",ca002,false);
@@ -583,7 +587,7 @@ function tr010(){
 function rp001(){
 	var llcont = doform("rp001");
 	if (llcont){
-		document.getElementById("ventana").setAttribute("src","../view/arinvc_r.php");
+		document.getElementById("ventana").setAttribute("src","../view/arinvt_r.php");
 	}else{
 		getmsgalert("Usuario no tiene derecho de acceso");
 	}
@@ -673,6 +677,16 @@ function rp011(){
 	if (llcont){
 		// vencimiento de cartera
 		document.getElementById("ventana").setAttribute("src","../view/arserm2_r.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+}
+function rp012(){
+	// Maximos y Minimos
+	var llcont = doform("rp012");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/arinvc_r.php");
 	}else{
 		getmsgalert("Usuario no tiene derecho de acceso");
 	}
