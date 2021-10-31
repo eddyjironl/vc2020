@@ -98,6 +98,7 @@ if (vc_funciones::Star_session() == 1){
 					<option value="SY"> Administracion</option>
 					<option value="AR"> Facturacion y Cuentas por cobrar</option>
 					<option value="IN"> Control de inventario y Cuentas por pagar</option>
+					<option value="PL"> Recursos Humanos</option>
 					<option value="CT"> Contabilidad General</option>
 				</select>
 		</footer>

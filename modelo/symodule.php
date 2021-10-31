@@ -42,8 +42,14 @@ if ($_POST["program"]== "permiso_de_acceso"){
 						cmenuid = '$lcmenuid' ";
 	
 	$otabla   = mysqli_query($oConn,$lcsql_2);
-	$opermiso = mysqli_fetch_assoc($otabla); 
-	echo $opermiso["allow"];
+
+	if ($otabla->num_rows > 0){
+		$opermiso = mysqli_fetch_assoc($otabla); 
+		echo $opermiso["allow"];
+	}else{
+		echo false;
+	}
+	
 }
 
 if ($_POST["program"]== "entry_cia_work"){

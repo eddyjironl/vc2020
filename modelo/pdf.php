@@ -97,6 +97,15 @@ class PDF extends FPDF{
 				}	
 				$this->setfont("arial","",10);
 				break;
+			case "rpt_arinvt2":
+				$this->cell(20,5,"Item No",1,0,"",true);   // cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+				$this->cell(100,5,"Descripcion",1,0,"",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+				$this->cell(20,5,"U. Vendido",1,0,"",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+				$this->cell(20,5,"Efectivo",1,0,"",true);	// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+				$this->cell(20,5,"Contribucion",1,1,"R",true);   					// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)
+			
+				$this->setfont("arial","",10);
+				break;		
 			case "rpt_arserm":
 				$this->cell(30,5,"Articulo",0,0,"",true);   					
 				$this->cell(100,5,"Descripcion",0,0,"",true);   	// cell(largo, alto ,"texto a escribir",borde a dibujar o no(1/0),)

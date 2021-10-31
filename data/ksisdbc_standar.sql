@@ -318,6 +318,7 @@ CREATE TABLE `arresp` (
   `cruc` char(20) COLLATE utf8_spanish_ci NOT NULL,
   `cfoto` char(200) COLLATE utf8_spanish_ci NOT NULL,
   `nbalance` decimal(10,2) NOT NULL,
+  `ncomision` decimal(10,2) not null default '0.00',
   `nbuyamt` decimal(10,2) NOT NULL DEFAULT '0.00',
   `ndays` int(3) NOT NULL DEFAULT '0',
   `llunes` tinyint(1) NOT NULL DEFAULT '0',

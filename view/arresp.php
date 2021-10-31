@@ -8,7 +8,7 @@ if (vc_funciones::Star_session() == 1){
 ?>
 <html>
 	<head>
-		<title>Catalogo de Proveedores</title>
+		<title>Catalogo de Proveedores / Vendedores</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="../css/arresp.css?v1">
 		<link rel="stylesheet" href="../css/vc_estilos.css?v1">
@@ -35,6 +35,9 @@ if (vc_funciones::Star_session() == 1){
 					<br>
 					<label class="labelnormal" >Dias de credito</label>
 					<input type="number" id="ndays" name="ndays" class="textqty">
+					<br>
+					<label class="labelnormal" >Comision %</label>
+					<input type="number" id="ncomision" name="ncomision" class="textqty">
 					<br>
 					<label class="labelnormal" >Estado </label>
 					<select class="listas" id="cstatus" name="cstatus">

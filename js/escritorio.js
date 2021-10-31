@@ -171,7 +171,8 @@ function change_module(){
 					'	<li><a>Reportes</a>'+
 					'		<ul>'+
 					'			<li><a id="rp012"> Reimpresion Formato Factura</a></li>'+
-					'			<li><a id="rp001"> Resumen de Ventas</a></li>'+
+					'			<li><a id="rp001"> Resumen de Ventas (Moneda)</a></li>'+
+					'			<li><a id="rp013"> Resumen de Ventas (Articulos)</a></li>'+
 					'			<li><a id="rp006"> Resumen de Utilidades </a></li>'+
 					'			<li><a id="rp002"> Cuentas por Cobrar</a></li>'+
 					'			<li><a id="rp003"> Estado de Cuentas</a></li>'+
@@ -199,7 +200,7 @@ function change_module(){
 					'		</ul>'+
 					'	</li>'+
 					' </ul>'
-		omenu_in =  '<ul id="menu"> '+
+					omenu_in =  '<ul id="menu"> '+
 					'	<li><a>Transacciones</a>'+
 					'		<ul>'+
 					'			<li><a id="tr004"> Entradas y Salidas de Inventario </a></li>'+
@@ -235,6 +236,29 @@ function change_module(){
 					'	</li>'+
 					' </ul>'
 
+omenu_pl =  '<ul id="menu"> '+
+					'	<li><a>Transacciones</a>'+
+					'		<ul>'+
+					'			<li><a id="pltr001">Generar Planilla</a></li>'+
+					'		</ul>'+
+					'	</li>'+
+					'	<li><a>Reportes</a>'+
+					'		<ul>'+
+					'			<li><a id="plrp001">Reporte de Planilla</a></li>'+
+					'		</ul>'+
+					'	</li>'+
+					'	<li><a>Catalogos</a>'+
+					'		<ul>'+
+					'			<li><a id="plca001">Catalogo de Empleados</a></li>'+
+					'		</ul>'+
+					'	</li>'+
+					'	<li><a>Herramientas</a>'+
+					'		<ul>'+
+					'			<li><a id="plmod001">Config VC-2020 WEB</a></li>'+
+					'		</ul>'+
+					'	</li>'+
+					' </ul>'
+
 	// menu de administracion 
 	omenu_sy =   '<ul id="menu"> '+
 					'	<li><a>Transacciones</a>'+
@@ -255,6 +279,10 @@ function change_module(){
 	if (omodule == "IN"){
 		omenu.innerHTML = omenu_in;
 		upd_inmenu();
+	}
+	if (omodule == "PL"){
+		omenu.innerHTML = omenu_pl;
+		upd_plmenu();
 	}
 	if (omodule == "CT"){
 		omenu.innerHTML = omenu_ct;
@@ -305,7 +333,8 @@ function change_module_small(pcmenuid){
 			'	<li><a>Reportes</a>'+
 			'		<ul>'+
 			'			<li><a id="rp012"> Reimpresion Formato Factura</a></li>'+
-			'			<li><a id="rp001"> Resumen de Ventas</a></li>'+
+			'			<li><a id="rp001"> Resumen de Ventas (Moneda)</a></li>'+
+			'			<li><a id="rp013"> Resumen de Ventas (Articulos)</a></li>'+
 			'			<li><a id="rp002"> Cuentas por Cobrar</a></li>'+
 			'			<li><a id="rp003"> Estado de Cuentas</a></li>'+
 			'			<li><a id="rp009"> Vencimiento de Cartera</a></li>'+
@@ -322,6 +351,7 @@ function change_module_small(pcmenuid){
 			document.getElementById("rp006").addEventListener("clicrk",rp006,false);
 			document.getElementById("rp009").addEventListener("clicrk",rp009,false);
 			document.getElementById("rp012").addEventListener("clicrk",rp012,false);
+			document.getElementById("rp013").addEventListener("clicrk",rp013,false);
 		}
 
 		if (pcmenuid.target.id == "catalogos"){
@@ -468,6 +498,7 @@ function upd_armenu(){
 	document.getElementById("rp006").addEventListener("click",rp006,false);
 	document.getElementById("rp009").addEventListener("click",rp009,false);
 	document.getElementById("rp012").addEventListener("click",rp012,false);
+	document.getElementById("rp013").addEventListener("click",rp013,false);
 
 	document.getElementById("ca001").addEventListener("click",ca001,false);
 	document.getElementById("ca002").addEventListener("click",ca002,false);
@@ -503,6 +534,16 @@ function upd_inmenu(){
 	document.getElementById("mod002").addEventListener("click",mod002,false);
 	document.getElementById("mod001").addEventListener("click",mod001,false);
 	document.getElementById("mod003").addEventListener("click",mod003,false);
+	
+}
+function upd_plmenu(){
+	document.getElementById("pltr001").addEventListener("click",pltr001,false);
+
+	document.getElementById("plca001").addEventListener("click",plca001,false);
+
+	document.getElementById("plrp001").addEventListener("click",plrp001,false);
+
+	document.getElementById("plmod001").addEventListener("click",plmod001,false);
 	
 }
 //------------------------------------------------------------------------
@@ -692,6 +733,17 @@ function rp012(){
 	}
 }
 
+function rp013(){
+	// Maximos y Minimos
+	var llcont = doform("rp013");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/arinvt2_r.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+}
+
 //------------------------------------------------------------------------
 // catalogos
 //------------------------------------------------------------------------
@@ -768,6 +820,19 @@ function ca008(){
 		getmsgalert("Usuario no tiene derecho de acceso");
 	}
 }
+function plca001(){
+	var llcont = doform("plca001");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/plempl.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+}
+
+
+
+
 //------------------------------------------------------------------------
 // modulos
 //------------------------------------------------------------------------
@@ -781,7 +846,7 @@ function mod001(){
 	}
 
 }
-function mod002(){
+function mod002(){f
 	var llcont = doform("mod002");
 	if (llcont){
 		// vencimiento de cartera

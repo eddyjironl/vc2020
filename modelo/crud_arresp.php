@@ -40,6 +40,7 @@ if($lcAccion=="NEW"){
 		$lcctaid    = $_POST["cctaid"];
 		$lmdirecc   = $_POST["mdirecc"];
 		$lmnotas    = $_POST["mnotas"];
+		$lncomision = $_POST["ncomision"];
 		//$lndays    	 = isset($_POST["ndays"]) ? $_POST["ndays"]:0;
 		$lndays    	 = empty($_POST["ndays"])?0:$_POST["ndays"];
 		
@@ -66,15 +67,15 @@ if($lcAccion=="NEW"){
 		if ($lnCount == 0){
 			// este codigo de cliente no existe por tanto lo crea	
 			// ejecutando el insert para la tabla de clientes.
-			$lcsqlcmd = " insert into arresp (crespno,cfullname,cstatus,cctaid,cruc, mtels,mdirecc,mnotas,cfoto,
+			$lcsqlcmd = " insert into arresp (crespno,ncomision,cfullname,cstatus,cctaid,cruc, mtels,mdirecc,mnotas,cfoto,
 												llunes,lmartes,lmiercoles,ljueves,lviernes,lsabado,ldomingo,ndays)
-		                   values('$lcrespno','$lcfullname','$lcstatus','$lcctaid','$lcruc','$lmtel','$lmdirecc','$lmnotas','$lcfotoI',
+		                   values('$lcrespno','$lncomision','$lcfullname','$lcstatus','$lcctaid','$lcruc','$lmtel','$lmdirecc','$lmnotas','$lcfotoI',
 						          $lllunes,$llmartes,$llmiercoles,$lljueves,$llviernes,$llsabado,$lldomingo,$lndays)";
 		}else{
 			// el codigo existe lo que hace es actualizarlo.	
 			//cfoto = '$lcfoto', este campo no se actualizara en el update tendra que ser mediante otra pantalla
 			
-			$lcsqlcmd = " update arresp set cfullname = '$lcfullname', cstatus = '$lcstatus', cctaid = '$lcctaid',
+			$lcsqlcmd = " update arresp set cfullname = '$lcfullname',ncomision = '$lncomision', cstatus = '$lcstatus', cctaid = '$lcctaid',
 							cruc = '$lcruc' , mtels = '$lmtel', mdirecc = '$lmdirecc', mnotas = '$lmnotas', $lcfoto
 							llunes = $lllunes, lmartes = $llmartes, lmiercoles = $llmiercoles, ljueves = $lljueves, lviernes = $llviernes,
 							lsabado = $llsabado, ldomingo = $lldomingo, ndays = $lndays

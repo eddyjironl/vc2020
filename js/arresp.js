@@ -220,6 +220,7 @@ function update_window(pckeyid){
 		document.getElementById("cctaid").value  = odata.cctaid;
 		document.getElementById("cruc").value    = odata.cruc;
 		document.getElementById("mtel").value    = odata.mtels;
+		document.getElementById("ncomision").value = odata.ncomision;
 		document.getElementById("mdirecc").value = odata.mdirecc;
 		document.getElementById("mnotas").value  = odata.mnotas;
 		document.getElementById("cfoto1").setAttribute("src",odata.cfoto) ;

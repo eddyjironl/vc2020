@@ -15,7 +15,8 @@ insert into symenu(cmenuid,cdesc)
     ("tr009","Anulacion de Recibos"),
     ("tr010","Anulacion Requisas"),
     /* REPORTES*/
-    ("rp001","Resumen de Ventas"),
+    ("rp001","Resumen de Ventas (Moneda)"),
+    ("rp013","Resumen de Ventas (Articulos)"),
     ("rp002","Cuentas por Cobrar"),
     ("rp009","Vencimiento de Cartera"),
     ("rp003","Estado de Cuentas"),
@@ -36,6 +37,7 @@ insert into symenu(cmenuid,cdesc)
     ("ca006","Tipos de Requisas / Entradas y Salidas"),
     ("ca007","Bodegas"),
     ("ca008","Tipos de Cambio"),
+    ("plca0081","Catalogo de Empleados"),
     /* HERRAMIENTAS*/
     ("mod001","Configuracion VC-2020"),
     ("mod002","Importacion de datos"),
