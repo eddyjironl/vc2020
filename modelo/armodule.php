@@ -21,11 +21,27 @@
 		if ($_POST["program"]== "conf_cxc"){
 			conf_cxc($oConn,$_POST["ccustno"]);
 		}
+		// descuento maximo del articulo
+		if ($_POST["program"]== "get_item_desc"){
+			get_item_desc($oConn,$_POST["cservno"]);
+		}
 	}
 	// -----------------------------------------------------------------------------------------------------
 	// B) - Funciones especiales del modulo
 	// -----------------------------------------------------------------------------------------------------
-	
+function get_item_desc($poConn,$pcitem){
+	$lcsqlcmd = "select ndesc from arserm where cservno = '". $pcitem ."'";
+	$lcresult = mysqli_query($poConn,$lcsqlcmd);
+	$lnreturn = 0;
+
+	if ($lcresult->num_rows>0){
+		$lodata = mysqli_fetch_assoc($lcresult);
+		$lnreturn = $lodata["ndesc"];
+	}
+	// devolviendo el descuento.
+	echo $lnreturn;
+}
+
 // obteniendo el numero siguiente de la transaccion en las diferentes tablas.	
 function getsetupnumber($poConn, $pctable){
 	if ($pctable == "ARINVC"){
@@ -162,9 +178,6 @@ function get_inventory_onhand($poConn,$pcservno,$prespt){
 	}else{
 		echo $lnqty;
 	}
-	
-	
-
 }
 function conf_cxc($poConn,$pccustno){
 	// se ajustara  el saldo de cartera. para uno o para todos los clientes.

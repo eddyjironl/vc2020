@@ -1,4 +1,7 @@
 var ninvlinmax = 0;
+
+const NOT_ALLOW_DESC = "Descuento aplicado no esta permitido ";
+
 function init(){
 	// cargando numero de transsaccion para esta factura temporal
 	//document.getElementById("xtrnno").value = get_trnno();
@@ -182,7 +185,7 @@ function ck_vuelto(){
 	}
 }
 // imprime una factura 
-function print_invoice(){arguments
+function print_invoice(){
 	document.getElementById("pantalla_pago").submit()
 }
 // nueva factura despues de que se guardo la que se estaba haciendo.
@@ -334,7 +337,6 @@ function set_validation_table(){
 		oinput2[i].onchange = cksum;
 		oinput3[i].onchange = cksum;
 		oinput4[i].onchange = cksum;
-        //oinput2[i].setAttribute("readonly",true);
 	}
 }
 function upddet(){
@@ -369,15 +371,18 @@ function upddet(){
 	// b)- insertando el articulo en el detalle de la tabla 
 	// ---------------------------------------------------------------------------------------------------------
 	var otabla = document.getElementById("tdetalles");
-
+	
+	// oninput='valid_ndesc('"+ odata.cservno + "')'
+	
 	var oRow = "<tr class='listados'>";
-	oRow += "<td width='90px' >" + odata.cservno   + "</td>";
+	//oRow += "<td width='90px' >" + odata.cservno   + "</td>";
+	oRow += "<td width='90px'><input type='text' class='saykey' readonly name='cservno' id='cservno' value="+ odata.cservno +"></td>";
 	oRow += "<td width='220px'>" + odata.cdesc     + "</td>";
-	oRow += "<td width='50px'><input type='number' class='textqty' name='nprice' id='nprice' value="+ odata.nprice +"></td>";
+	oRow += "<td width='50px'><input type='number' class='sayamt' name='nprice' id='nprice' readonly value="+ odata.nprice +"></td>";
 	oRow += "<td width='75px'><input type='number' class='textqty' name='nqty'   id='nqty'   value=1></td>";
 	oRow += "<td width='50px'><input type='number' class='textqty' name='ndesc'  id='ndesc'  value=0></td>";
-	oRow += "<td width='50px'><input type='number' class='textqty' name='ntax'   id='ntax'   value="+ odata.ntax +"></td>";
-	oRow += "<td width='75px' name='nsalesamt_u' id='nsalesamt_u' class='textqty'>" + odata.nprice  + "</td>";
+	oRow += "<td width='50px'><input type='number' class='sayamt' name='ntax'   id='ntax' readonly  value="+ odata.ntax +"></td>";
+	oRow += "<td width='75px' name='nsalesamt_u' id='nsalesamt_u' class='sayamt'>" + odata.nprice  + "</td>";
 	oRow += "<td><img src='../photos/escoba.ico' id='btquitar' class='botones_row'  onclick='deleteRow(this)' title='Eliminar Registro'/></td>";
 	oRow += "</tr>";
  	otabla.insertRow(-1).innerHTML = oRow;
@@ -484,7 +489,24 @@ function guardar(){
 	clear_view();
 	*/
 }
-function cksum(){
+function cksum(pcitem){
+	// validando el descuento maximo por linea de articulo.
+	if (pcitem != undefined){
+		var lcservno   = pcitem.path[2].cells[0].children[0].value;
+		var lndesc_apl = parseFloat(pcitem.path[2].cells[4].children[0].value) // parseFloat(pcitem.path[0].value);
+		var lnmax_desc = parseFloat(get_max_desc(lcservno));
+
+		if (lndesc_apl != undefined){	
+			lcmsg = "Descuento de "+ lndesc_apl + " No permitido, solo hasta "  + lnmax_desc;
+			if (lndesc_apl > lnmax_desc){
+				alert(lcmsg);
+				pcitem.path[0].value = 0;
+			}
+		}else{
+			pcitem.path[0].value = 0;
+		}
+	}
+
 	var otabla = document.getElementById("tdetalles");
 	var lnsalesamt = 0, lntaxamt = 0,lndescamt = 0, lnsalesamt_u = 0, lntaxamt_u = 0,lndescamt_u = 0;
 	var lnveces = otabla.rows.length - 1;

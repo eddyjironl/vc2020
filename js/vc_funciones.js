@@ -106,6 +106,19 @@ function get_trnno(){
 	var lctrnno = Math.floor(Math.random() * 100000000);
 	return lctrnno; 
 }
+
+function get_max_desc(pcitem){
+	// esta funcion para obtener el maximo descuento de un articulo
+	var oRequest = new XMLHttpRequest();
+	var oDatos   = new FormData();
+	// adicionando datos en formato CLAVE/VALOR en el objeto datos para enviar como parametro a la consulta AJAX
+	oDatos.append("program","get_item_desc");
+	oDatos.append("cservno",pcitem);
+	oRequest.open("POST", "../modelo/armodule.php",false);
+	oRequest.send(oDatos);
+	return oRequest.response;
+}
+
 //obtiene el monto de ventas y saldo de un cliente
 function get_sales_amount(pccustno){
 	var oRequest = new XMLHttpRequest();
@@ -134,7 +147,6 @@ function get_inventory_onhand(pcservno){
 	var odata = JSON.parse(oRequest.response);
 	return odata;
 }
-
 function doform(pcmenuid){
 	var oRequest = new XMLHttpRequest();
 	var oDatos   = new FormData();
