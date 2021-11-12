@@ -29,7 +29,7 @@
 	$lcUserID 	= $_POST["cuserid"];
 	$lcPasword 	= $_POST["cpasword"];
 	$lcCompid 	= $_POST["ccompid"];
-	$lcSqlCmd 	= "select * from sysuser where cuserid = '" . strtoupper($_POST["cuserid"]). 
+	$lcSqlCmd 	= "select * from sysuser where cstatus ='OP' and cuserid = '" . strtoupper($_POST["cuserid"]). 
 				  "' and cpasword = '" . strtoupper($_POST["cpasword"]) ."'";
 	$lcResult 	= mysqli_query($oConn,$lcSqlCmd); //$oConn->query($lcSqlCmd);
 	$lnRecno 	= mysqli_num_rows($lcResult); //$lcResult->num_rows;
@@ -46,6 +46,9 @@
 		$_SESSION["cpasword"]  = $_POST["cpasword"]; 
 		$_SESSION["cfullname"] = $lcLine["cfullname"]; 
 		$_SESSION["cinvno"]    = "";
+		// bodega unica para procesar con este usuario
+		$_SESSION["cwhseno"]   = $lcLine["cwhseno"];
+		
 		// verificando cadena de coneccion para la empresa si esta vacia no entra.
 		// ************************************************************************************************
 		$lcsqlcia  = " select * from syscomp where ccompid = '" . $_POST["ccompid"] ."' ";

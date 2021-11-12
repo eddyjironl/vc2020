@@ -72,6 +72,16 @@ if($lcaccion=="UPD_PERMISOS"){
 	}
 	get_permisos($oConn,$lcgrpid,$lciaid);
 }
+
+if ($lcaccion=="DELETE_USER"){
+	$lcuid    = $_POST["cuid"];
+	$pcgrupid = $_POST["cgrupid"];
+	// validando sentencia de usuario para borrar.
+	$lcsqluser_del = "delete from sysuser where cuid  = '$lcuid'";
+	mysqli_query($oConn,$lcsqluser_del);
+	get_detalle($oConn, $pcgrupid);
+}
+
 // Ingresando a un nuevo usuario en el grupo.
 if($lcaccion=="NEW_USER"){
 	$lcuid      = $_POST["cuid"];
@@ -80,12 +90,15 @@ if($lcaccion=="NEW_USER"){
 	$lcfullname = $_POST["cfullname"];
 	$lcuserid   = $_POST["cuserid"];
 	$lcpasword  = $_POST["cpasword"];
+	$lcwhseno   = $_POST["cwhseno"];
 	if($lcuid == ""){
-		$lcsql = " insert into sysuser (cgrpid, cfullname, cuserid,cpasword)
-				   values('$lcgrpid','$lcfullname','$lcuserid','$lcpasword')
+		$lcsql = " insert into sysuser (cgrpid, cfullname, cuserid,cpasword,cwhseno)
+				   values('$lcgrpid','$lcfullname','$lcuserid','$lcpasword','$lcwhseno')
 			 	 ";
 	}else{
-		$lcsql = " update sysuser set cgrpid = '$lcgrpid', cfullname = '$lcfullname', cuserid = '$lcuserid',cpasword = '$lcpasword', cstatus = '$lcstatus' 
+		$lcsql = " update sysuser set cgrpid = '$lcgrpid', cfullname = '$lcfullname', 
+		                              cuserid = '$lcuserid',cpasword = '$lcpasword', cstatus = '$lcstatus' ,
+									  cwhseno = '$lcwhseno'
 					where cuid = '$lcuid'
 			 	 ";
 	}		 
@@ -210,8 +223,21 @@ if($lcaccion=="NEW"){
 }
 
 function get_detalle($oConn, $pcgrupid){
-    $lcsql = " select *	from sysuser where cgrpid = '$pcgrupid' ";	
-	$lcresult  = mysqli_query($oConn,$lcsql);
+    $lcsql     = " select *	from sysuser where cgrpid = '$pcgrupid' ";	
+	$lcsql_whs = "select cwhseno , cdesc from arwhse ";
+	// configurando las bodegas para cada usuario.
+	// Conectando con la base de datos.
+
+	$oConn_cia    = vc_funciones::get_coneccion("CIA");
+	$lcresult_whs = mysqli_query($oConn_cia,$lcsql_whs);
+	$lcmsg_whs    = "";
+	$llCont_whs   = false;
+	// existen detalle de bodegas definidos.
+	if ($lcresult_whs->num_rows > 0){
+		$llCont_whs = True;
+	}
+
+	$lcresult    = mysqli_query($oConn,$lcsql);
 	echo '<tbody>';
 	while($row = mysqli_fetch_assoc($lcresult)){
 		echo '<tr>';
@@ -219,7 +245,21 @@ function get_detalle($oConn, $pcgrupid){
 		echo '<td class="saytextd"  width="70px">' . $row["cuserid"]   .'</td>';
 		echo '<td class="saytextd"  width="70px">' . $row["cpasword"]  .'</td>';
 		echo '<td class="saytextd"  width="70px">' . $row["cstatus"]   .'</td>';
-		echo '<td class="saytextd"  width="50px"> <input type="button" value="Editar" onclick = "edit_userid('. $row["cuid"].',this)"> </td>';
+		echo '<td class="saytextd"  width="200px">' ;
+		$lcmsg_whs = "Bodega No Especificada";
+			if($llCont_whs){
+				$lcresult_whs = mysqli_query($oConn_cia,$lcsql_whs);
+				while($odata = mysqli_fetch_assoc($lcresult_whs)){
+					if($row["cwhseno"] == $odata["cwhseno"]){
+						$lcmsg_whs = $odata["cdesc"];			
+					}
+				}
+			}
+		echo '<input type="text" class="saytext" value="' .$lcmsg_whs. '" name="cwhseno" id="cwhseno" >';
+		echo'</td>';
+		echo  "<td><img src='../photos/editar.ico' id='btquitar' class='botones_row'  onclick = 'edit_userid(". $row["cuid"].",this)' title='Editar Registro de Usuario'/></td>";
+		echo  "<td><img src='../photos/escoba.ico' id='btquitar' class='botones_row'  onclick = 'delete_user(". $row["cuid"].")' title='Eliminar Registro'/></td>";
+
 	echo '</tr>';
 	}
 	echo '</tbody>';

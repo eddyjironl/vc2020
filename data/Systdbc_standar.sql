@@ -120,6 +120,7 @@ CREATE TABLE `sysuser` (
   `cfullname` char(100) COLLATE latin1_spanish_ci NOT NULL,
   `cuserid` char(10) COLLATE latin1_spanish_ci NOT NULL,
   `cstatus` char(2) COLLATE latin1_spanish_ci NOT NULL DEFAULT 'OP',
+  `cwhseno` char(10) COLLATE latin1_spanish_ci NOT NULL DEFAULT '01',
   `cpasword` char(10) COLLATE latin1_spanish_ci NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 

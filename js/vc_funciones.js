@@ -62,7 +62,7 @@ function get_lista_artser(){
 
 function get_lista_arwhse(pcName){
 	var oRequest = new XMLHttpRequest();
-	//var cname = (pcName == "")?"cwhseno":pcName;
+
 	var cname = (pcName != undefined)?pcName:"cwhseno";
 	oRequest.open("POST","../modelo/crud_arwhse.php",false); 
 	var oDatos = new FormData();
@@ -70,6 +70,7 @@ function get_lista_arwhse(pcName){
 	oDatos.append("cname",cname);
 	oRequest.send(oDatos);
 	document.write(oRequest.responseText);
+
 }
 function get_lista_arcate(pcwhere, pcName){
 	var oRequest = new XMLHttpRequest();

@@ -51,6 +51,7 @@ if (vc_funciones::Star_session() == 1){
 								<td width="72px">Usuario </td>
 								<td width="72px">Clave</td>
 								<td width="72px">Estado</td>
+								<td width="202px">Bodega Default</td>
 								<td width="52px">Acciones </td>
 							</tr>
 							</thead>
@@ -148,6 +149,27 @@ if (vc_funciones::Star_session() == 1){
 							<option value ="" >Elija Estado</option>
 							<option value ="OP" >Activo</option>
 							<option value ="CL" >Anulado</option>
+						</select>
+						<br>
+						<label class="labelnormal">Bodega Asignada</label>
+						<select id="cwhseno_user" name="cwhseno_user" class="listas">
+							<option value ="" >Seleccione una bodega</option>
+						
+							<?php
+								// obteniendo listado de bodegas.
+								$lcsql_whs    = "select cwhseno , cdesc from arwhse ";
+								// configurando las bodegas para cada usuario.
+								// Conectando con la base de datos.
+								$oConn_cia    = vc_funciones::get_coneccion("CIA");
+								$lcresult_whs = mysqli_query($oConn_cia,$lcsql_whs);
+								
+								if($lcresult_whs->num_rows > 0){
+									while($odata = mysqli_fetch_assoc($lcresult_whs)){
+										$lcselected = "" ; //($row["cwhseno"] == $odata["cwhseno"] )?' selected ':'';
+										echo  '<option value="'. $odata["cwhseno"].'" '. $lcselected .' >'. $odata["cdesc"] .'</option>';
+									}
+								}
+							?>
 						</select>
 					</fieldset>
 				<br>

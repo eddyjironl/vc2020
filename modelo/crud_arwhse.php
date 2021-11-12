@@ -150,13 +150,19 @@ if ($lcaccion == "PANTALLA_MENU"){
 // LISTA, Genera menu de lista de proveedores.
 if ($lcaccion == "LISTA"){
 	$lcname = "cwhseno";
+	$lcwhere = "";
+
 	// nombre del objeto
 	if ($_POST["cname"] != ""){
 		$lcname = $_POST["cname"];
 	}
-	
+
+	if (!empty($_SESSION["cwhseno"])){
+		$lcwhere = " where cwhseno = '". $_SESSION["cwhseno"] ."' ";
+	}
+
 		//$oConn = get_coneccion("CIA");
-	    $lcSqlCmd = " select * from arwhse order by cdesc ";
+	    $lcSqlCmd = " select * from arwhse ". $lcwhere ."order by cdesc ";
 		$lcResult = mysqli_query($oConn,$lcSqlCmd);
 		echo '<select class="listas" name="'. $lcname .'" id="'. $lcname .'" required>';
 		echo '<option value="">Elija un Registro </option>';		

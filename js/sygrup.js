@@ -25,6 +25,7 @@ function init(){
 	// configurando las variables de estado.
 	gckeyid   = "cgrpid";
 	gckeydesc = "cdesc";
+	gcbtkeyid = "btgrupid";
 
 	// ------------------------------------------------------------------------
 	// CODIGO PARA LOS MENUS INTERACTIVOS.
@@ -122,8 +123,6 @@ function select_xkey(e){
 	update_window();
 }
 // ----------------------------------------------------------------------------------------
-
-
 // refrescando tabla de permisos. 
 function guardar_sygrup(){
 	// validando
@@ -304,8 +303,29 @@ function edit_userid(pcid,pthis){
 	document.getElementById("cuserid").value   = otable.cells[1].innerText;
 	document.getElementById("cpasword").value  = otable.cells[2].innerText;
 	document.getElementById("cstatus_user").value = otable.cells[3].innerText;
+	document.getElementById("cwhseno_user").value = otable.cells[4].children.cwhseno.value;
 	document.getElementById("area_syuser").style.display = "inline";
 }
+
+function delete_user(pcuid){
+	// mensaje de alerta para prevenir que borre si no quiere.
+	if (!confirm("Esta seguro de borrar este registro?")){
+		return ;
+	}
+
+	// ejecutando la insercion del nuevo usuario.
+	var oRequest = new XMLHttpRequest();
+	// Creando objeto para empaquetado de datos.
+	var oDatos   = new FormData();
+	// adicionando datos en formato CLAVE/VALOR en el objeto datos para enviar como parametro a la consulta AJAX
+	oDatos.append("accion","DELETE_USER");
+	oDatos.append("cuid",pcuid);
+	oDatos.append("cgrupid",document.getElementById("cgrpid").value);
+	oRequest.open("POST","../modelo/crud_sygrup.php",false); 
+	oRequest.send(oDatos);
+	document.getElementById("tablad_usuarios").innerHTML = oRequest.response;
+}
+
 function refresh_user_list(){
 	// ejecutando la insercion del nuevo usuario.
 	var oRequest = new XMLHttpRequest();
@@ -353,10 +373,12 @@ function guardar_usuario(){
 	oDatos.append("cuserid",document.getElementById("cuserid").value);
 	oDatos.append("cpasword",document.getElementById("cpasword").value);
 	oDatos.append("cgrpid",document.getElementById("cgrpid").value);
+	oDatos.append("cwhseno",document.getElementById("cwhseno_user").value);
 	oRequest.open("POST","../modelo/crud_sygrup.php",false); 
 	oRequest.send(oDatos);
 	refresh_user_list();
 	cerrar_syuser();
+	document.getElementById("cwhseno_user").value = "";
 }
 function abrir_syuser(){
 	document.getElementById("area_syuser").style.display = "inline";
