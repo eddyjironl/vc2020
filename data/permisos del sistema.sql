@@ -1,6 +1,12 @@
 /* ultimo reporte : rp011 */
 
+
+
+
+/* Listado de permisos del sistema. */
 delete from symenu ;
+delete from sysuser;
+delete from syscomp;
 
 insert into symenu(cmenuid,cdesc)
     values("sy001","configuracion de la compañia"),
@@ -43,4 +49,16 @@ insert into symenu(cmenuid,cdesc)
     ("mod002","Importacion de datos"),
     ("mod003","Ajuste de Cartera")
     
+/* B)- Usuario estandar del sistema.. */
     
+insert into sysuser(cgrpid,cfullname,cuserid,cstatus,cpasword) 
+values("00","Supervisor General","SUPERVISOR","OP","2505")
+
+INSERT INTO sygrup(cgrpid,cdesc,cstatus) values("00","Grupo Sistemas","OP")
+
+insert into syscomp(ccompid, compdesc,cstatus,dbname,chost,cuser)
+value("00","Compañia de Pruebas","OP","ksisdbc","localhost","root")
+
+insert into syperm(cgrpid,cmenuid,cdesc,allow,ccompid)
+values("00","sy001","configuracion de la compañia",1,"00"),
+      ("00","sy002","Grupos de Trabajo",1,"00")
