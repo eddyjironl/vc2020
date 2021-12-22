@@ -17,16 +17,336 @@ drop database if EXISTS ksisdbc;
 create database ksisdbc;
 use ksisdbc;
 
-DROP TABLE IF EXISTS arwqty;
-create table arwqty(
-  cuid int(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  cwhseno char(10) COLLATE utf8_spanish_ci not null,
-  cservno char(20) COLLATE utf8_spanish_ci not null,
-  nqtymin decimal(10,2) NOT NULL default 0.00,
-  nqtymax decimal(10,2) not null default 0.00,
-  cestante char(50) not null default "",
-  cbinno char(50) not null default ""
+/* DATA PLANILLAS */
+ 	DROP TABLE if EXISTS plempl;
+   create table plempl(
+    cempno char(10) PRIMARY KEY NOT NULL ,
+    cfullname char(200),
+    ccedid char(20),
+    dnacday date,
+    cmarital char(2),
+    csexo char(1),
+    mdirecc text,
+    mtels text,
+    mnotas text default '' ,
+    dstar date,
+    dend date,
+    cstatus char(2),
+    cdescmot char(100),
+    cworkid char(10),
+    cdeptno char(10),
+    cturno char(10),
+    nsalary decimal(10,2) default 0.00,
+    nhrate decimal(10,2) default 0.00,
+    nhratext decimal(10,2) default 0.00,
+    ctypemp char(2),
+    ctyppay char(2),
+    ctyppay2 char(2),
+    nsetpay decimal(10,2),
+    cins char(10),
+    lnotausent tinyint(1) DEFAULT 0
+	 
+    )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+  /*ADD UNIQUE KEY cempno ("cuid"),*/
+
+  drop table if exists pldedm;
+  create table pldedm(
+    cdedid    char(10) primary key,
+    cdesc     char(200) default '',
+    cdescsh   char(20) default '',
+    ccateno   char(10) default '', 
+    nvalue    decimal(10,2) default 0,
+    nporctj   decimal(10,2) default 0,
+    cctaid_d  char(20) default '',
+    cctaid_h  char(20) default '',
+    ctype     char(2),
+    lclear    tinyint(1) default 0,
+    lapply    tinyint(1) default 0,
+    cstatus   char(2) default 'OP',
+    mnotas    text default '',
+    hora      char(10) NOT NULL,
+    fecha     date NOT NULL, 
+    usuario   char(10) NOT NULL
+    )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  
+
+  drop table if exists pldedt;
+   create table pldedt(
+    cuid    int(15) AUTO_INCREMENT UNIQUE,
+    cempno  char(10) default '' ,
+    cctaid  char(20) default '' ,
+    cdesc   char(200) default '' ,
+    cdedid  char(10) default ''  ,
+    crefno  char(10) default ''  ,
+    nvalue  decimal(10,2) default 0.00 ,
+    nsaldo  decimal(10,2) default 0.00 ,
+    npayamt decimal(10,2) default 0.00 ,
+    lapply  tinyint(1) default 0,  
+    lclear  tinyint(1) default 0,
+    ctype   char(2) default '' ,
+    cstatus char(2) default 'OP' ,
+    mnotas  text  default '' ,
+    hora    char(10) NOT NULL,
+    fecha   date NOT NULL, 
+    usuario char(10) NOT NULL
+    )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+    
+    
+  drop table if exists pldedth;
+  create table pldedth(
+    cuid    char(15) UNIQUE,
+    cplano  char(10) default '' ,
+    cempno  char(10)  default ''  key,
+    cctaid  char(20) default '' ,
+    cdesc   char(200) default '' ,
+    cdedid  char(10)  default '' ,
+    crefno  char(10)  default '' ,
+    nvalue  decimal(10,2 default 0.00 ),
+    nsaldo  decimal(10,2) default 0.00 ,
+    npayamt decimal(10,2) default 0.00 ,
+    lapply  tinyint(1) default 0,  
+    lclear  tinyint(1) default 0,
+    ctype   char(2) default '' ,
+    cstatus char(2) default 'OP' ,
+    mnotas  text  default '' ,
+    hora    char(10) NOT NULL,
+    fecha   date NOT NULL, 
+    usuario char(10) NOT NULL
+    )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+    
+  
+  /* Detalle de Permisos*/
+  drop table if exists plperm;
+  create table plperm(
+    cpermno char(10) primary key,        /* Codigo de permiso*/
+    dtrndate date not null,  /* Fecha del permiso*/
+    ndays int(3),            /* numero de dias del permiso*/
+    ntime int(3),            /* Tiempo del permiso solicitado*/
+    ctype char(1),           /* Tipo de permiso H= Horas D=Dias */
+    cempno char(10),         /* Codigo de empleados*/
+    mnotas text,             /* detalles del permiso*/
+    ccateno char(10),        /* Tipo de Justificacion de  */
+    hora char(10) not null,
+    fecha date not null,
+    usuario char(10) not null 
+  )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  
+
+  /* Detalle de fechas del permiso*/
+  drop table if exists plpedf;
+  create table plpedf(
+    cpermno char(10) KEY ,
+    dtrndate date not null,
+    hora char(10) not null,
+    fecha date not null,
+    usuario char(10) not null 
+  )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  
+  /*tabla de rango de impuestos*/
+  drop table if exists plimpm;
+  create table plimpm(
+    cuid int(15) AUTO_INCREMENT UNIQUE,
+    nstar decimal(10,2),                  /*Rango de inicio*/
+    nend decimal(10,2),                   /*Rango mayor */
+    nrate decimal(10,2),  /* impuesto del tramo */
+    npayamt decimal(10,2), /*monto del impuesto para el tramo*/
+    hora char(10) not null,
+    fecha date not null,
+    usuario char(10) not null 
+
+  )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+  drop table if exists plsyst;
+  create table plsyst(
+    cplsetup char(1),
+    ninatec    int(3),
+    nminpay    decimal(10,2),   /*Salario minimo del gobierno */
+    nmaxpay    decimal(10,2),   /*Salario maximo para calculo del inss*/
+    cded_1     char(10),
+    cded_2     char(10),
+    cded_3     char(10),
+    cdedd1     char(20),
+    cdedd2     char(20),
+    cdedd3     char(20),
+    cded_11    char(10),
+    cing_1     char(10),
+    cing_2     char(10),
+    cing_3     char(10),
+    cingd1     char(20),
+    cingd2     char(20),
+    nPorIhss   decimal(10,2),                      /*Porcentage aplicado al seguro*/
+    namtIhss   decimal(10,2),                      /*Maximo monto pagado por seguro*/
+    nMaxHToPay decimal(4,0),
+    cturno	   char(10),
+    cturno2	   char(10),
+    cturno3	   char(10),
+    ckeyid	   char(50),
+    ckeyid2	   char(50),
+    lAusentAut tinyint(1) default 0,
+    nOpcExtPay int(1),
+    ndays      int(3),
+    ncomi1     decimal(10,4),
+    ncomi2     decimal(10,4),
+    hora char(10) not null,
+    fecha date not null,
+    usuario char(10) not null 
+
+  )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+/* tabla de departamentos*/
+DROP TABLE if EXISTS pldept ;
+create table pldept(
+  cdeptno  char(10) PRIMARY KEY ,
+  cdesc    char(200),
+  cseg3no  char(10), 
+  ccon2no  char(10),
+  mnotas   text,     
+  hora char(10) not null,
+  fecha date not null,
+  usuario char(10) not null 
+	    
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+/* Puestos de trabajo */
+drop table if exists plworm;
+create table plworm(
+  cworkno  char(10) ,
+  cdesc    char(200),
+  mnotas   text,     
+	hora char(10) not null,
+  fecha date not null,
+  usuario char(10) not null 
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+/* ausentismo */
+drop table if exists plausd;
+create table plausd(
+  cuid      int(15) AUTO_INCREMENT UNIQUE,
+	cempno    char(10) KEY,
+	nhrsau    DECIMAL(10,2), 
+	nhrgoc    DECIMAL(10,2),/* Horas con goce*/
+	nhrsgc    DECIMAL(10,2), /* Horas sin goce*/
+	nhours    DECIMAL(10,2), /* Horas normales*/
+	nhrext    DECIMAL(10,2), /* horas Extras*/
+	nhwork    DECIMAL(10,2), /* horas que debio trabajar*/
+	dtrndate  date,          /* Fecha de ausencia del trabajo.*/
+	ccateno   char(10) not null,      /* justificacion de la ausencia*/
+	ldeleted  tinyint(1) default 0,    /* Indica si el registro esta borrado o no*/
+	mnotas    text,          /* Comentarios Generales */
+	hora    char(10) not null,
+  fecha   date not null,
+  usuario char(10) not null 
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/* ausentismos historico*/
+
+drop table if exists plausdh;
+create table plausdh(
+  cuid      int(15) ,
+	cempno    char(10) KEY,
+	nhrsau    DECIMAL(10,2), 
+	nhrgoc    DECIMAL(10,2),/* Horas con goce*/
+	nhrsgc    DECIMAL(10,2), /* Horas sin goce*/
+	nhours    DECIMAL(10,2), /* Horas normales*/
+	nhrext    DECIMAL(10,2), /* horas Extras*/
+	nhwork    DECIMAL(10,2), /* horas que debio trabajar*/
+	dtrndate  date,          /* Fecha de ausencia del trabajo.*/
+	ccateno   char(10) not null,      /* justificacion de la ausencia*/
+	ldeleted  tinyint(1) default 0,    /* Indica si el registro esta borrado o no*/
+	mnotas    text,          /* Comentarios Generales */
+	hora    char(10) not null,
+  fecha   date not null,
+  usuario char(10) not null 
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+drop table if exists plingm;
+create table plingm(
+  cingid  char(10) primary key,
+  cctaid  char(20),
+	cdesc   char(200),
+	cdescsh char(20),
+	nvalue  decimal(10,2),
+	nporctj decimal(10,2),
+	ctype   char(2),
+	cstatus char(2),
+	lclear   tinyint(1) default 0, 
+	lvac     tinyint(1) default 0, 
+  lIhsApl  tinyint(1) default 0,
+  lvecinal tinyint(1) default 0,  /* indica si paga impuesto vecinal o no */
+  l1314avo tinyint(1) default 0,  /* indica si entra en el calculo del 13avo y 14avo */
+  lprest   tinyint(1) default 0,  /* indica si entra en cualculo de prestaciones */
+	hora    char(10) not null,
+  fecha   date not null,
+  usuario char(10) not null 
+
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+/* detalle de ingresos de planillas*/
+drop table if exists plingt;
+create table plingt(
+  cuid     int(15) AUTO_INCREMENT PRIMARY key,
+  cctaid   char(20) default '',
+  cempno   char(10) default '',
+  dfreday  date not null ,
+	cingid   char(10) default '',
+	cdesc    char(200) default '',
+	nvalue   decimal(10,2) default 0,
+	lapply   tinyint(1) default 0,
+	lclear   tinyint(1) default 0,
+	ctype    char(2) default '',
+	cstatus  char(2) default "OP",
+	mnotas   text default "",
+	hora    char(10) not null,
+  fecha   date not null,
+  usuario char(10) not null 
+	
+
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+/* detalle historico de ingresos de planillas */
+drop table if exists plingt;
+create table plingt(
+  cuid     int(15) ,
+  cctaid   char(20),
+  cplano   char(10),
+  cempno   char(10) ,
+  dfreday  date not null ,
+	cingid   char(10),
+	cdesc    char(200),
+	nvalue   decimal(10,2),
+	lapply   tinyint(1) default 0,
+	lclear   tinyint(1) default 0,
+	ctype    char(2),
+	cstatus  char(2) default "OP",
+	mnotas   text default "",
+	hora    char(10) not null,
+  fecha   date not null,
+  usuario char(10) not null 
+	
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/* detalle de planillas.*/
+
+
+
+
+
+
+
+
+
+
+
+/* DATA DE INVENTARIO */
+  DROP TABLE IF EXISTS arwqty;
+  create table arwqty(
+    cuid int(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    cwhseno char(10) COLLATE utf8_spanish_ci not null,
+    cservno char(20) COLLATE utf8_spanish_ci not null,
+    nqtymin decimal(10,2) NOT NULL default 0.00,
+    nqtymax decimal(10,2) not null default 0.00,
+    cestante char(50) not null default "",
+    cbinno char(50) not null default ""
+  )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 ALTER TABLE arwqty
   ADD KEY `cwhseno` (`cwhseno`),

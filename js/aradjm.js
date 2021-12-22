@@ -337,28 +337,7 @@ function upddet(){
 	// ---------------------------------------------------------------------------------------------------------
 	set_validation_table();
 	cksum();
-	/*
-	var llcont = isvalidentry();
-	if (!llcont){
-		document.getElementById("cservno1").value="";
-		return ;
-	}
-	
-	var oRequest = new XMLHttpRequest();
-	// Creando objeto para empaquetado de datos.
-	var oDatos   = new FormData();
-	// adicionando datos en formato CLAVE/VALOR en el objeto datos para enviar como parametro a la consulta AJAX
-	oDatos.append("cservno1",document.getElementById("cservno1").value);
-	oDatos.append("accion","INSERT");
-	oDatos.append("xtrnno",document.getElementById("xtrnno").value);
-	// obteniendo el menu
-	oRequest.open("POST","../modelo/crud_arinvc.php",false); 
-	oRequest.send(oDatos);
-	// cargando el detalle.
-	document.getElementById("cservno1").value="";
-	document.getElementById("articulos").innerHTML=oRequest.response;
-	cksum();
-	*/
+
 }
 function set_validation_table(){
 	var oinput1 = document.querySelectorAll("#nqty");

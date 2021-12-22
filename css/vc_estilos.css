@@ -147,11 +147,31 @@ input, select{
 }
 .textcdesc{
 	padding:1px;
-	border:solid 1px rgb(2textcdesc40,240,240);
+	border:solid 1px rgb(240,240,240);
 	display:inline-block;	
 	width:250px;
 
 }
+.textcdescreadonly{
+	padding:1px;
+	border:solid 1px rgb(240,240,240);
+	display:inline-block;	
+	color:blue;
+	width:200px;
+	background-color:rgb(240,240,240);
+
+}
+
+.textkeyreadonly{
+	padding:1px;
+	border:solid 1px rgb(240,240,240);
+	display:inline-block;	
+	color:blue;
+	width:70px;
+	background-color:rgb(240,240,240);
+	
+}
+
 .textkey{
 	padding:1px;
 	border:solid 1px rgb(240,240,240);
