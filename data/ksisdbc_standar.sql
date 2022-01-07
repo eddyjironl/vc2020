@@ -48,7 +48,29 @@ use ksisdbc;
 	 
     )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
-  /*ADD UNIQUE KEY cempno ("cuid"),*/
+/* creando los listados de menu del sistema.*/
+  SET @lcSelect = " select cingid , cdesc from plingm  ";
+  INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
+    VALUES("PLINGM","00","SELECT",@lcSelect,0,"PL"),
+    ("PLINGM","01","Ingreso Id","cingid",50,"PL"),
+    ("PLINGM","02","Nombre del Ingreso","cdesc",100,"PL");
+
+  SET @lcSelect = " select * from pldedm  ";
+  INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
+    VALUES("PLDEDM","00","Listado de deducciones",@lcSelect,0,"PL"),
+    ("PLDEDM","01","Deduccion Id","cdedid",50,"PL"),
+    ("PLDEDM","02","Nombre de la Deduccion","cdesc",120,"PL");
+
+  SET @lcSelect = " select * from plempl  ";
+  INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
+    VALUES("PLEMPL","00","SELECT",@lcSelect,0,"PL"),
+    ("PLEMPL","01","Empleado Id","cempno",70,"PL"),
+    ("PLEMPL","02","Nombre del empleado","cfullname",100,"PL"),
+    ("PLEMPL","03","Cedula No","ccedid",70,"PL"),
+    ("PLEMPL","04","Fecha Nacimiento","dnacday",70,"PL");
+
+
+/*ADD UNIQUE KEY cempno ("cuid"),*/
 
   drop table if exists pldedm;
   create table pldedm(

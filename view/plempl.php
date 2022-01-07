@@ -285,7 +285,7 @@ if (vc_funciones::Star_session() == 1){
                 <input type="text" id="cuid_ing" readonly class="textkey">
                 <br>
                 <label class="labelnormal">Ing Id</label>
-                <input type="text" id="cingid" class="textkey">
+                <input type="text" id="cingid" class="textkey" >
                 <script>get_btmenu("btcingid","Listado de ingresos");</script>
                 <br>
                 <label class="labelnormal">Descripcion</label>
@@ -305,11 +305,10 @@ if (vc_funciones::Star_session() == 1){
                 <input type="button" class= "btbarra" id="btsalvar_ing" value="Guardar">
                 <input type="button" class= "btbarra" id="btquit_ing"  value="Salir">
         </fieldset>
-
+        
+        <div id="showmenulist"></div>    
 
 		<script>
-			get_vmenu();
-			get_xm_menu();
 			get_msg();
 		</script>
 

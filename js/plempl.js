@@ -3,7 +3,7 @@ function init(){
 	document.getElementById("btguardar").addEventListener("click",guardar,false);
 	document.getElementById("btnueva").addEventListener("click",nueva,false);
 	document.getElementById("btdelete").addEventListener("click",borrar,false);
-	document.getElementById("cempno").addEventListener("change",valid_ckeyid,false);
+	
 	//document.getElementById("btccateno").addEventListener("click",getmenulist,false);
 	// configurando las variables de estado.
 	gckeyid   = "cempno";
@@ -22,25 +22,29 @@ function init(){
 	// ------------------------------------------------------------------------
 	// CODIGO PARA LOS MENUS INTERACTIVOS.
 	// CADA MENU
-	document.getElementById("btccempno").addEventListener("click",show_menu_plempl,false);
-	//document.getElementById("bt_m_refresh").addEventListener("click",show_menu_arcust,false);
-	// una funcion de ordenamiento segun el menu que se elija.
-	// Lista de ordenamiento
-	document.getElementById("mx_opc_order").addEventListener("click",get_mx_detalle,false);
-	// opcion de busqueda
-	document.getElementById("mx_cbuscar").addEventListener("input",get_mx_detalle,false);
+	// menu de empleados
+	document.getElementById("btccempno").addEventListener("click",function(){
+        get_menu_list("plempl","showmenulist","cempno");
+    },false);
+	
+	// menu de ingresos/
+	document.getElementById("btcingid").addEventListener("click",function(){
+        get_menu_list("plingm","showmenulist","cingid");
+    },false);
+
+	document.getElementById("btcdedid1").addEventListener("click",function(){
+        get_menu_list("pldedm","showmenulist","cdedid1");
+    },false);
+
+	document.getElementById("cempno").addEventListener("blur",valid_ckeyid,false);
+	document.getElementById("cdedid1").addEventListener("blur",valid_deduction,false);
+	document.getElementById("cingid").addEventListener("blur",valid_ingresos,false);
+	
 	// ------------------------------------------------------------------------	
 	// adicionando deducciones e ingresos
 	// ocultando la ventana de adicion de deducciones.
 	document.getElementById("add_deduction").style.display = "none";
 	document.getElementById("add_ingresos").style.display = "none";
-
-	// escribiendo el codigo de deduccion. 
-	document.getElementById("cdedid1").addEventListener("change",valid_deduction,false);
-	document.getElementById("cingid").addEventListener("change",valid_ingresos,false);
-
-	document.getElementById("btcdedid1").addEventListener("click",show_menu_pldedm);
-	document.getElementById("btcingid").addEventListener("click",show_menu_plingm);
 
 	document.getElementById("btadd").addEventListener("click",show_add_deduction,false);
 	document.getElementById("btadd2").addEventListener("click",show_add_ingresos,false);
@@ -141,13 +145,6 @@ function starinitformded(){
 	document.getElementById("nvalue_ing").value = 0.00;
 	document.getElementById("lapply_ing").value = 0;
 	document.getElementById("cdesc_ing").value  = "";
-}
-
-function show_menu_pldedm(){
-
-}
-function show_menu_plingm(){
-
 }
 
 function add_deduction(){
@@ -256,85 +253,6 @@ function nueva(){
 	get_clear_view();
 	document.getElementById("det_deducciones").innerHTML="";
 	document.getElementById("det_ingresos").innerHTML="";
-}
-function show_menu_plempl(){
-	document.getElementById("xm_area_menu").style.display="inline";
-	var o_mx_lista = "";
-	// armando el listado
-	o_mx_lista += '	<select class="listas" id="mx_opc_order"> ';
-	o_mx_lista += ' 	<option value = "cempno">Empleado Id</option> ';
-	o_mx_lista += '		<option value = "cfullname">Nombre Completo</option> ';
-	o_mx_lista += '		<option value = "cwhordesc">Puesto</option> ';
-	o_mx_lista += '	</select> ';
-	// armando el encabezado 
-	var o_mx_Header = "";
-	o_mx_Header += ' <table id="mx_head" class="table_det"> ';
-	o_mx_Header += '	<thead> ';
-	o_mx_Header += '		<tr> ';
-	o_mx_Header += '			<td width="100px"> Empleado Id </td> ';
-	o_mx_Header += '			<td width="200px"> Nombre Comlleto </td> ';
-	o_mx_Header += '			<td width="200px" > Puesto </td> ';
-	o_mx_Header += '		</tr> ';
-	o_mx_Header += '	</thead> ';
-	o_mx_Header += '</table> ';
-	// armando detalle de contenidos.
-	// cambiando el encabezado .
-	document.getElementById("mx_head").innerHTML = o_mx_Header;
-	document.getElementById("mx_opc_order").innerHTML = o_mx_lista;
-	get_mx_detalle();
-}
-
-// obteniendo el detalle de menus.
-function get_mx_detalle(){
-		// A) filtrando y ordenando el detalle.
-		// ordenamiento por default
-		var lcorder = document.getElementById("mx_opc_order").value;
-		document.getElementById("mx_opc_order").value = lcorder;
-		// filtro de busqueda por defecto
-		var lcwhere = document.getElementById("mx_cbuscar").value;
-
-		// ejecutando la insercion del nuevo usuario.
-		var oRequest = new XMLHttpRequest();
-		// Creando objeto para empaquetado de datos.
-		var oDatos   = new FormData();
-		// adicionando datos en formato CLAVE/VALOR en el objeto datos para enviar como parametro a la consulta AJAX
-		oDatos.append("accion","MENU");
-		oDatos.append("orden", lcorder);
-		oDatos.append("filtro",lcwhere);
-		oRequest.open("POST","../modelo/crud_plempl.php",false); 
-		oRequest.send(oDatos);
-		var odata = JSON.parse(oRequest.response);
-		//cargando los valores de la pantalla.
-		if (odata != null){
-			var lnrows = odata.length;
-			var o_mx_detalles = '<table id="mx_detalle"> ';
-			o_mx_detalles += '<tbody>';
-			for (var i = 0; lnrows > i; ++i){
-				o_mx_detalles += '<tr class="xm_row_menu"> ';
-				o_mx_detalles += '	<td width="100px"> '+ odata[i]["cempno"]   + '</td> ';
-				o_mx_detalles += '	<td width="200px"> '+ odata[i]["cfullname"]     + '</td> ';
-				o_mx_detalles += '	<td width="200px"> '+ odata[i]["cworkdesc"]     + '</td> ';
-				o_mx_detalles += '</tr> ';
-			}
-			o_mx_detalles += '</tbody> ';
-		}else{
-			o_mx_detalles = "<h1>No hay datos en el archivo</h1>";
-		}
-		document.getElementById("mx_detalle").innerHTML = o_mx_detalles;
-		// aplicando el llamado de la funcion de seleccion
-		var oRowDet = document.querySelectorAll("#mx_detalle tr");
-		lnRows = oRowDet.length;
-		for (var i=0; lnRows >i; ++i){
-			oRowDet[i].addEventListener("click",select_xkey,false);
-		}		
-}
-
-function select_xkey(e){
-	var lckey  = e.currentTarget.cells[0].innerText;
-	var lcdesc = e.currentTarget.cells[1].innerText;
-	document.getElementById("cempno").value = lckey;
-	cerrar_mx_view();
-	update_window(lckey);
 }
 // -----------------------------------------------------------------------
 

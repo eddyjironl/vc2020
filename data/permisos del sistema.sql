@@ -43,7 +43,9 @@ insert into symenu(cmenuid,cdesc)
     ("ca006","Tipos de Requisas / Entradas y Salidas"),
     ("ca007","Bodegas"),
     ("ca008","Tipos de Cambio"),
+    /* Modulo de Planillas */
     ("plca0081","Catalogo de Empleados"),
+    ("plca002","Catalogo de Ingresos"),
     /* HERRAMIENTAS*/
     ("mod001","Configuracion VC-2020"),
     ("mod002","Importacion de datos"),

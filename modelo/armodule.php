@@ -25,6 +25,12 @@
 		if ($_POST["program"]== "get_item_desc"){
 			get_item_desc($oConn,$_POST["cservno"]);
 		}
+
+		// llamando el menu desde algo que no es una clase
+		if ($_POST["program"]== "get_menu_list"){
+			//get_item_desc($oConn,$_POST["menu"],$_POST["menu"]);
+			get_menu_list($_POST["menu"],$_POST["window"]);
+		}
 	}
 	// -----------------------------------------------------------------------------------------------------
 	// B) - Funciones especiales del modulo
@@ -282,5 +288,116 @@ function conf_cxc($poConn,$pccustno){
 		echo $lcmsg;
 	}
 	header("Location: ../view/arclear.php?msg=$lcmsg");
+}
+
+function get_menu_list_backup($pcmenu, $pcShowIn){
+	// definiendo las variables.
+	$oConn     = vc_funciones::get_coneccion("SYS");		
+	$lcsqlcmd  = "select * from ksschgrd where calias= '$pcmenu' ";
+	$lcresult  = mysqli_query($oConn,$lcsqlcmd);
+	$oFormMenu = "";
+	$lcTitle   = "";
+	$lcBtQuit  = "";
+	//configuracion del boton de salida del menu
+	$lcid        = "bt_menu_salir";
+	$pcpicture   = "../photos/salir.ico";
+	$pcDescShort = "cerrar";
+
+	$lcbt = '<button class="btbarra" 
+				style="width:60px; height:60px" 
+				type="button" 
+				name="' . $lcid . '" id="' . $lcid . '" 
+				title="" 
+				accesskey="g"> 
+					<img style="width:30px; height:30px" src="' . $pcpicture . '" alt="x" /> 
+					<br>' . $pcDescShort .
+			'</button>';
+
+	if($lcresult->num_rows> 0){
+
+		// creando lista de menu ordemnamientos y encabezados de tabla.
+		$lcselect = '<select class="listas" id="mx_opc_order">';
+		// creando encabezado de la tabla.
+		$lctableheader = '<table id="mx_head" class="mx_formato_datos"> <tr>';
+		// hacemos un lup buscando los datos necesarios.
+		$lnveces = 1;
+		while($oHtml = mysqli_fetch_assoc($lcresult)){
+			if ($lnveces == 1){
+				// primera ves obteniendo el SQL para listar datos.
+				$lnveces  = 2;
+				// obteniendo el select de la lista de datos del menu
+				$lcsqlcmd = $oHtml["mcolvalue"];
+				$lcTitle  = $oHtml["cheader"];
+			}else{
+				// guardando estructura de tabla que se presentara.
+				$afields[]=$oHtml["mcolvalue"];
+				$afieldsLength[]=$oHtml["ncolwidth"];
+				$lnveces ++;
+				// cargando la lista y encabezado de tabla.
+				$lcselect = $lcselect. '<option value = "'. $oHtml["mcolvalue"] .'"> '. $oHtml["cheader"].' </option>';
+				// caargando las columnas del encabezado.
+				$lctableheader = $lctableheader . '<th width='.$oHtml["ncolwidth"].'> '. $oHtml["cheader"] .'</th>';		
+			}
+		}
+		$lcselect = $lcselect . '</select>';
+		$lctableheader = $lctableheader . '</tr></table>';
+		
+		// -----------------------------------------------------------------------------------------------------------------------------------
+		// Obteniendo datos del sistema.
+		// -----------------------------------------------------------------------------------------------------------------------------------
+		$oConn1 = vc_funciones::get_coneccion("CIA");		
+		$lctabledetail = '<table id="mx_detalle" class="mx_formato_datos">';
+		$lcresult = mysqli_query($oConn1, $lcsqlcmd);
+		// numero de registros a presentar en la tabla de detalles.
+		$lnReccnos = count($afields);
+
+		if($lcresult->num_rows > 0){
+			// debera haber un array para los nombres de los campos que se usaran en este caso.
+			// Cargando datos de la tabla en cuestion
+			// antes de esto hay que cargar en un arreglo los titulos.
+			while($oData = mysqli_fetch_assoc($lcresult)){
+				// dentro del bucle for i debera recorrer orizontalmente el arreglo para vertir los encabezados de la tabla.
+				$lctabledetail = $lctabledetail  .'<tr>';
+				for ($i=0; $i<$lnReccnos; ++$i){
+					$lctabledetail = $lctabledetail  . "<td width=". $afieldsLength[$i] ."px>".$oData[$afields[$i]] ." </td>";  
+				}
+				$lctabledetail = $lctabledetail  .'</tr>';
+			}
+			$lctabledetail = $lctabledetail . "</table";
+
+		}else{
+			$lctabledetail = "Tabla ". $lcTitle . "Se encuentra Vacia";
+		}
+		// pintando la pantalla
+		$oFormMenu = '	<section class="mx_area_bloqueo" id="xm_area_menu">
+						<section class="form2" id="form_menu">
+							<div class="mx_barra_sencilla" id="mx_barra_sencilla">
+								<strong id="mx_titulo">'. $lcTitle.'</strong>
+								<br>
+								<label class="labelnormal">Ordenado por </label>
+									'.$lcselect.'
+								<br>				
+								<label class="labelnormal">Buscar</label>
+								<input type="text" id="mx_cbuscar" name="mx_cbuscar" class="textnormal">
+							</div>
+							<br>
+							<div= class="mx_area_encabezado">'
+								.$lctableheader. '
+							</div=>
+							<br>
+							<div class="mx_area_detalles">
+								'.$lctabledetail.'
+							</div>
+							<div class= "mx_area_encabezado">
+								'.$lcbt.'
+							</div>
+						</section>
+					</section>';
+
+		echo $oFormMenu;
+		
+	}else{
+		echo "Menu no configurado";
+	}
 }
 ?>

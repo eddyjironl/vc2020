@@ -18,8 +18,29 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `systdbc`
+-- Base de datos: `ksschgrd`
+-- lista de menus estructurados del sistema.
 --
+
+drop table if exists 'ksschgrd';
+create table ksschgrd(
+  calias char(10) default "",
+  corder char(10) default "",
+  cheader char(30) default "",
+  mcolvalue text  default "",
+  ncolwidth integer(3) default 0,
+  cmodule char(10) default ""
+
+)ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `kssgrid`
+--
+
+
+
 
 -- --------------------------------------------------------
 

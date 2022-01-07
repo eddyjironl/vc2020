@@ -5,6 +5,8 @@
 	CONST NOT_ALLOW_USER = "Usuario Denegado el Acceso";
 
 CLASS vc_funciones{
+	// obteniendo listado de menus de cualquier tabla en formato generico.
+	
 	// inicializa la funcion del lado del servidor.
 	public static function arsetup_init(){
 		$oConn = vc_funciones::get_coneccion("CIA");		

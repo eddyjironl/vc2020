@@ -21,9 +21,6 @@ var gckeydesc = "";
 var gcbtkeyid = "";
 var oArSetup = {};
 arsetup_init();
-//-------------------------------------------------------
-// A)- listados de catalogos.
-//-------------------------------------------------------
 // Esta funcion carga los valores del arsetup para efectos de javascript.
 function arsetup_init(){
 	var oRequest = new XMLHttpRequest();
@@ -35,6 +32,93 @@ function arsetup_init(){
 	// desplegando pantalla de menu con su informacion.
 	oArSetup = JSON.parse(oRequest.response);
 }
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
+// A)- listados de catalogos unificado nuevo. iniciado el 1/1/2022 terminado el 4/1/2022
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+/* obtiene la funcion de lista de menu automatico.*/
+function get_menu_list(pcmenuid,pcShowIn,pckeyshow ){
+	// mas que indicar en que parte del DOM se mostrara la venta deberia indicar en que campo el valor seleccionado
+	// se mostrara en el DOM.
+	/*
+		Descripcion.
+		---------------------------------------
+		pcmenuid: Id del listado de menu que se 
+				  desea desplegar en pantalla.
+	
+		pcShowIn: Nombre del elemento HTML que se
+	    	      usara para presentar el window del
+				  menu solicitado. 
+
+		*/
+
+	var oRequest = new XMLHttpRequest();
+	var oDatos = new FormData();
+	oDatos.append("program","get_menu_list");
+	oDatos.append("menu",pcmenuid);
+	oDatos.append("window",pcShowIn);
+	//oRequest.open("POST","../modelo/armodule.php",false);
+	oRequest.open("POST","../modelo/symodule.php",false);
+	oRequest.send(oDatos);
+	document.getElementById(pcShowIn).innerHTML = oRequest.responseText;
+	document.getElementById("xm_area_menu").style.display="inline";
+	// configurando apariencia del menu y comportamiento.
+	set_config_menu(pckeyshow,pcmenuid);
+}
+function set_config_menu(pckeyshow,pcmenuid){
+    // configurando la salida del boton de menu
+    document.getElementById("bt_menu_salir").addEventListener("click",cerrar_mx_view,false);
+	// a)- Configurando comportamiento de la lista de ordenamiento
+	// Lista de ordenamiento
+	document.getElementById("mx_opc_order").addEventListener("click",function(){get_mx_detalle(pcmenuid);},false);
+	// b)- Configurando el comportamiento del texto de busqueda.
+	// opcion de busqueda
+	document.getElementById("mx_cbuscar").addEventListener("input",function(){get_mx_detalle(pcmenuid);},false);
+	// c)- Configurando el selector de registro en el menu.
+	// aplicando el llamado de la funcion de seleccion
+	var oRowDet = document.querySelectorAll("#mx_detalle tr");
+	lnRows = oRowDet.length;
+	for (var i=0; lnRows >i; ++i){
+		//oRowDet[i].addEventListener("click",select_xkey,false);
+		oRowDet[i].addEventListener("click",function(){
+			select_xkey_x(this,pckeyshow);
+		},false);
+	}		
+}
+function select_xkey_x(e,pcobjshow){
+	//	var lckey  = e.currentTarget.cells[0].innerText;
+	//	var lcdesc = e.currentTarget.cells[1].innerText;
+		var lckey  = e.cells[0].innerText;
+		var lcdesc = e.cells[1].innerText;
+		cerrar_mx_view();
+		document.getElementById(pcobjshow).value = lckey;
+		document.getElementById(pcobjshow).focus();
+		
+}
+// Se encarga de refrescar el detalle de la pantalla de menu segun los parametros de la lista de menu
+// no recarga la pantalla completa solo la parte del detalle.
+// actualiza la parte datos del menu de lista segun su ordenamiento o filtro.
+function get_mx_detalle(pcmenuid){
+	var oRequest = new XMLHttpRequest();
+	var oDatos = new FormData();
+	oDatos.append("program","get_mx_detalle");
+	// campos que contienen los valores de busqueda y ordenamiento.
+	lcorder = document.getElementById("mx_opc_order").value;
+	lcseek  = document.getElementById("mx_cbuscar").value;
+
+	oDatos.append("orden" ,lcorder);
+	oDatos.append("filtro",lcseek);
+	oDatos.append("tabla" ,pcmenuid);
+	//oRequest.open("POST","../modelo/armodule.php",false);
+	oRequest.open("POST","../modelo/symodule.php",false);
+	oRequest.send(oDatos);
+	document.getElementById("mx_detalle").innerHTML = oRequest.responseText;
+
+}
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 function get_lista_artran(){
 	var oRequest = new XMLHttpRequest();
 	oRequest.open("GET","../menu/menu_artran.php",false); // Genera una lista de clientes.
@@ -418,13 +502,29 @@ function get_bthelp(pcDesc){
 }
 
 function get_clear_view(){
-	var oinput = document.querySelectorAll("input");
+	// -------------------------------------------------------------------------------
+	// modificacion 07/01/2020
+	// reconfigurando los elementos inputs de la vista 
+	// -------------------------------------------------------------------------------
+	var oinput = document.querySelectorAll("input[type='text']");
+	var oinput_number = document.querySelectorAll("input[type='numeric']");
+	var oinput_chek   = document.querySelectorAll("input[type='checkbox']");
+	// -------------------------------------------------------------------------------
 	var olista = document.querySelectorAll("select");
 	var oTexta = document.querySelectorAll("Textarea");
 	var oImg   = document.querySelectorAll("img");
+
 		for (var i=0; i<oinput.length; i++){
 			oinput[i].value = "";
 		}
+		for (var i=0; i<oinput_number.length; i++){
+			oinput_number[i].value = "";
+		}
+
+		for (var i=0; i<oinput_chek.length; i++){
+			oinput_chek[i].checked = 0;
+		}
+
 		// limpiando las listas.
 		for (var i=0; i<olista.length; i++){
 			olista[i].value = "";

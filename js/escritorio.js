@@ -239,17 +239,34 @@ function change_module(){
 omenu_pl =  '<ul id="menu"> '+
 					'	<li><a>Transacciones</a>'+
 					'		<ul>'+
-					'			<li><a id="pltr001">Generar Planilla</a></li>'+
+					'			<li><a id="pltr001">Definir Planilla</a></li>'+
+					'			<li><a id="pltr002">Generar Registros de Planilla </a></li>'+
+					'			<li><a id="pltr003">Modificar Registros de Planilla</a></li>'+
+					'			<li><a id="pltr004">Cerrar de Planilla</a></li>'+
+					'			<li><a id="pltr005">Importar Ingresos o Deducciones de planilla</a></li>'+
+					'			<li><a id="pltr006">Aplicar o desaplicar deducciones </a></li>'+
+					'			<li><a id="pltr007">Calculo del IR </a></li>'+
 					'		</ul>'+
 					'	</li>'+
 					'	<li><a>Reportes</a>'+
 					'		<ul>'+
 					'			<li><a id="plrp001">Reporte de Planilla</a></li>'+
+					'			<li><a id="plrp002">Impresion de Boletas</a></li>'+
+					'			<li><a id="plrp003">Desgloce de Moneda</a></li>'+
+					'			<li><a id="plrp004">Reporte de deducciones</a></li>'+
+					'			<li><a id="plrp005">Reporte de Ingresos/a></li>'+
 					'		</ul>'+
 					'	</li>'+
 					'	<li><a>Catalogos</a>'+
 					'		<ul>'+
 					'			<li><a id="plca001">Catalogo de Empleados</a></li>'+
+					'			<li><a id="plca002">Ingresos</a></li>'+
+					'			<li><a id="plca003">Deducciones</a></li>'+
+					'			<li><a id="plca004">Impuesto sobre la Renta</a></li>'+
+					'			<li><a id="plca005">Puestos de Trabajo</a></li>'+
+					'			<li><a id="plca006">Departamentos</a></li>'+
+					'			<li><a id="plca007">Tipos de Justificaciones</a></li>'+
+					'			<li><a id="plca008">Turnos</a></li>'+
 					'		</ul>'+
 					'	</li>'+
 					'	<li><a>Herramientas</a>'+
@@ -540,6 +557,7 @@ function upd_plmenu(){
 	document.getElementById("pltr001").addEventListener("click",pltr001,false);
 
 	document.getElementById("plca001").addEventListener("click",plca001,false);
+	document.getElementById("plca002").addEventListener("click",plca002,false);
 
 	document.getElementById("plrp001").addEventListener("click",plrp001,false);
 
@@ -820,11 +838,26 @@ function ca008(){
 		getmsgalert("Usuario no tiene derecho de acceso");
 	}
 }
+
+/*
+	Sistema de planillas
+*/
 function plca001(){
+	/* ingresos*/ 
 	var llcont = doform("plca001");
 	if (llcont){
 		// vencimiento de cartera
 		document.getElementById("ventana").setAttribute("src","../view/plempl.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+}
+
+function plca002(){
+	var llcont = doform("plca002");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/plingm.php");
 	}else{
 		getmsgalert("Usuario no tiene derecho de acceso");
 	}
