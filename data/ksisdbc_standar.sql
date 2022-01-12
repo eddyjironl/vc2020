@@ -52,23 +52,68 @@ use ksisdbc;
   SET @lcSelect = " select cingid , cdesc from plingm  ";
   INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
     VALUES("PLINGM","00","SELECT",@lcSelect,0,"PL"),
-    ("PLINGM","01","Ingreso Id","cingid",50,"PL"),
-    ("PLINGM","02","Nombre del Ingreso","cdesc",100,"PL");
+    ("PLINGM","01","Ingreso Id","cingid",70,"PL"),
+    ("PLINGM","02","Nombre del Ingreso","cdesc",200,"PL");
 
   SET @lcSelect = " select * from pldedm  ";
   INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
     VALUES("PLDEDM","00","Listado de deducciones",@lcSelect,0,"PL"),
-    ("PLDEDM","01","Deduccion Id","cdedid",50,"PL"),
-    ("PLDEDM","02","Nombre de la Deduccion","cdesc",120,"PL");
+    ("PLDEDM","01","Deduccion Id","cdedid",70,"PL"),
+    ("PLDEDM","02","Nombre de la Deduccion","cdesc",200,"PL");
 
   SET @lcSelect = " select * from plempl  ";
   INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
     VALUES("PLEMPL","00","SELECT",@lcSelect,0,"PL"),
     ("PLEMPL","01","Empleado Id","cempno",70,"PL"),
-    ("PLEMPL","02","Nombre del empleado","cfullname",100,"PL"),
+    ("PLEMPL","02","Nombre del empleado","cfullname",200,"PL"),
     ("PLEMPL","03","Cedula No","ccedid",70,"PL"),
     ("PLEMPL","04","Fecha Nacimiento","dnacday",70,"PL");
 
+  SET @lcSelect = " select * from pldept ";
+  INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
+    VALUES("PLDEPT","00","Listado de Departamentos",@lcSelect,0,"PL"),
+    ("PLDEPT","01","Departamento id","cdeptno",70,"PL"),
+    ("PLDEPT","02","Nombre","cdesc",200,"PL");
+
+  SET @lcSelect = " select * from plwork ";
+  INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
+    VALUES("PLWORM","00","Listado de Puestos de Trabajo",@lcSelect,0,"PL"),
+    ("PLWORM","01","Puesto id","cworkno",70,"PL"),
+    ("PLWORM","02","Nombre","cdesc",200,"PL");
+
+  SET @lcSelect = " select * from plturm ";
+  INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
+    VALUES("PLTURM","00","Turnos de Trabajo",@lcSelect,0,"PL"),
+    ("PLTURM","01","Turno id","cturno",70,"PL"),
+    ("PLTURM","02","Nombre","cdesc",200,"PL");
+
+  SET @lcSelect = " select * from pljusm ";
+  INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
+    VALUES("PLJUSM","00","Justificaciones de Ausencias",@lcSelect,0,"PL"),
+    ("PLJUSM","01","Just id","cjusno",70,"PL"),
+    ("PLJUSM","02","Nombre","cdesc",200,"PL");
+
+
+
+drop table if exists plturm;
+create table plturm(
+  cturno  char(10) primary key default '',
+  cdesc   char(200) default '',
+  mnotas  text default '',
+  hora    char(10) NOT NULL,
+  fecha   date NOT NULL, 
+  usuario char(10) NOT NULL
+  )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+drop table if exists pljusm;
+create table pljusm(
+  cjusno  char(10) primary key default '',
+  cdesc   char(200) default '',
+  mnotas  text default '',
+  hora    char(10) NOT NULL,
+  fecha   date NOT NULL, 
+  usuario char(10) NOT NULL
+  )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 /*ADD UNIQUE KEY cempno ("cuid"),*/
 
@@ -220,10 +265,8 @@ use ksisdbc;
 DROP TABLE if EXISTS pldept ;
 create table pldept(
   cdeptno  char(10) PRIMARY KEY ,
-  cdesc    char(200),
-  cseg3no  char(10), 
-  ccon2no  char(10),
-  mnotas   text,     
+  cdesc    char(200) DEFAULT '',
+  mnotas   text default '',     
   hora char(10) not null,
   fecha date not null,
   usuario char(10) not null 

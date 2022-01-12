@@ -14,8 +14,8 @@ if(isset($_POST["accion"])){
 }else{
 	$lcaccion = $_GET["accion"]; 	
 }
-if (isset($_POST["cdedid"])){
-	$lcdedid = $_POST["cdedid"];
+if (isset($_POST["cworkno"])){
+	$lcworkno = $_POST["cworkno"];
 }
 $lnRowsAfect = 0;
 // ------------------------------------------------------------------------------------------------
@@ -23,7 +23,7 @@ $lnRowsAfect = 0;
 // ------------------------------------------------------------------------------------------------
 if($lcaccion=="DELETE"){
 	//$oConn = get_coneccion("CIA");
-	$lcsqlcmd = " delete from pldedm where cdedid = '" . $lcdedid . "' ";
+	$lcsqlcmd = " delete from plworm where cworkno = '" . $lcworkno . "' ";
 	$lresultF = mysqli_query($oConn,$lcsqlcmd);	
 }
 // ------------------------------------------------------------------------------------------------
@@ -32,30 +32,21 @@ if($lcaccion=="DELETE"){
 if($lcaccion=="NEW"){
 	// haciendo la coneccion.
 	//$oConn = get_coneccion("CIA");
-	if (isset($_POST["cdedid"])){
-		$lcdesc     = $_POST["cdesc"];
-		$lcstatus   = $_POST["cstatus"];
-		$lcdescsh  = $_POST["cdescsh"];
-		$lnvalue   = ($_POST["nvalue"]=="")? 0:$_POST["nvalue"];
-		$lmnotas   = $_POST["mnotas"];
-		$lcctaid_d = $_POST["cctaid_d"];
-		$lcctaid_h = $_POST["cctaid_h"];
-		$lclear    = isset($_POST["lclear"]) ? 1:0;   
+	if (isset($_POST["cworkno"])){
+		$lcdesc  = $_POST["cdesc"];
+		$lmnotas = $_POST["mnotas"];
 
 		// verificando que el codigo exista o no 
-		$lcsql   = " select cdedid from pldedm where cdedid = '$lcdedid' ";
+		$lcsql   = " select cworkno from plworm where cworkno = '$lcworkno' ";
 		$lresult = mysqli_query($oConn,$lcsql);	
 		$lnCount = mysqli_num_rows($lresult);
 		if ($lnCount == 0){
 			// este codigo de cliente no existe por tanto lo crea	
 			// ejecutando el insert para la tabla de clientes.
-			$lcsqlcmd = " insert into pldedm (cdedid,cdesc,cstatus,cdescsh,mnotas,nvalue,cctaid_d,cctaid_h,lclear)
-							values('$lcdedid','$lcdesc','$lcstatus','$lcdescsh','$lmnotas',$lnvalue,'$lcctaid_d','$lcctaid_h',$lclear)";
+			$lcsqlcmd = " insert into plworm (cworkno,cdesc,mnotas)	values('$lcworkno','$lcdesc','$lmnotas')";
 		}else{
 			// el codigo existe lo que hace es actualizarlo.	
-			$lcsqlcmd = " update pldedm set cdesc = '$lcdesc',cstatus = '$lcstatus',mnotas = '$lmnotas', cdescsh = '$lcdescsh' ,
-			              cctaid_d = '$lcctaid_d',cctaid_h = '$lcctaid_h',lclear =$lclear
-						  where cdedid = '$lcdedid' ";
+			$lcsqlcmd = " update plworm set cdesc = '$lcdesc',mnotas = '$lmnotas' where cworkno = '$lcworkno' ";
 		}
 		// ------------------------------------------------------------------------------------------------
 		// Generando coneccion y procesando el comando.
@@ -64,15 +55,15 @@ if($lcaccion=="NEW"){
 		//mysqli_query($oConn,$lcsqlcmd);
 		$lnRowsAfect = mysqli_affected_rows($oConn);
 	}  	// if (isset($_POST["ccateno"])){
-	header("location:../view/pldedm.php");		
+	header("location:../view/plworm.php");		
 }  		//if($lcaccion=="NEW")
 // ------------------------------------------------------------------------------------------------
 // JSON, - Informacion detallada de un solo registro.
 // ------------------------------------------------------------------------------------------------
 if ($lcaccion == "JSON"){
-	if (isset($_POST["cdedid"])){
+	if (isset($_POST["cworkno"])){
  		// Consulta unitaria
-		$lcSqlCmd = " select * from pldedm where cdedid ='". $_POST["cdedid"] ."'";
+		$lcSqlCmd = " select * from plworm where cworkno ='". $_POST["cworkno"] ."'";
 		// obteniendo datos del servidor
 		$lcResult = mysqli_query($oConn,$lcSqlCmd);
         // convirtiendo estos datos en un array asociativo

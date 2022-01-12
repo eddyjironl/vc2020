@@ -135,16 +135,49 @@ if (vc_funciones::Star_session() == 1){
                     <label class="labelnormal" >Puesto Id </label>
                     <select class="listas" id="cworkid" name="cworkid">
                         <option value="">Elija un Puesto de trabajo</option>
+                        <?php
+                            $lcsqlcmd = "select * from plworm";
+                            $oConn = vc_funciones::get_coneccion("CIA");
+                            $lcresult = mysqli_query($oConn,$lcsqlcmd);
+                            if ($lcresult->num_rows > 0){
+                                while($odata = mysqli_fetch_assoc($lcresult)){
+                                    echo "<option value= '". $odata["cworno"]."'>".$odata["cdesc"]."</option>";
+                                }
+                            }
+                            $oConn->close();
+                        ?>
                     </select>
                     <br>
                     <label class="labelnormal" >Departamento Id </label>
                     <select class="listas" id="cdeptno" name="cdeptno">
                         <option value="">Elija un Departamento</option>
+                        <?php
+                            $lcsqlcmd = "select * from pldept";
+                            $oConn = vc_funciones::get_coneccion("CIA");
+                            $lcresult = mysqli_query($oConn,$lcsqlcmd);
+                            if ($lcresult->num_rows > 0){
+                                while($odata = mysqli_fetch_assoc($lcresult)){
+                                    echo "<option value= '". $odata["cdeptno"]."'>".$odata["cdesc"]."</option>";
+                                }
+                            }
+                            $oConn->close();
+                        ?>
                     </select>
                     <br>
                     <label class="labelnormal" >Turno Id </label>
                     <select class="listas" id="cturno" name="cturno">
                         <option value="">Elija un Turno </option>
+                        <?php
+                            $lcsqlcmd = "select * from plturm";
+                            $oConn = vc_funciones::get_coneccion("CIA");
+                            $lcresult = mysqli_query($oConn,$lcsqlcmd);
+                            if ($lcresult->num_rows > 0){
+                                while($odata = mysqli_fetch_assoc($lcresult)){
+                                    echo "<option value= '". $odata["cturno"]."'>".$odata["cdesc"]."</option>";
+                                }
+                            }
+                            $oConn->close();
+                        ?>
                     </select>
                 </div>
 

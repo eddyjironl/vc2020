@@ -558,6 +558,12 @@ function upd_plmenu(){
 
 	document.getElementById("plca001").addEventListener("click",plca001,false);
 	document.getElementById("plca002").addEventListener("click",plca002,false);
+	document.getElementById("plca003").addEventListener("click",plca003,false);
+	document.getElementById("plca004").addEventListener("click",plca004,false);
+	document.getElementById("plca005").addEventListener("click",plca005,false);
+	document.getElementById("plca006").addEventListener("click",plca006,false);
+	document.getElementById("plca007").addEventListener("click",plca007,false);
+	document.getElementById("plca008").addEventListener("click",plca008,false);
 
 	document.getElementById("plrp001").addEventListener("click",plrp001,false);
 
@@ -863,7 +869,70 @@ function plca002(){
 	}
 }
 
+function plca003(){
+	var llcont = doform("plca003");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/pldedm.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+}
 
+function plca003(){
+	var llcont = doform("plca003");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/pldedm.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+}
+function plca004(){
+	var llcont = doform("plca004");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/plrent.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+}
+function plca005(){
+	var llcont = doform("plca005");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/plworm.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+}
+function plca006(){
+	var llcont = doform("plca006");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/pldepm.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+}
+function plca007(){
+	var llcont = doform("plca007");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/pljusm.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+}
+function plca008(){
+	var llcont = doform("plca008");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/plturm.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+}
 
 
 //------------------------------------------------------------------------
