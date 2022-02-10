@@ -15,7 +15,7 @@ if(isset($_POST["accion"])){
 	$lcAccion=$_GET["accion"]; 	
 }
 if (isset($_POST["ccustno"])){
-	$lccustno = $_POST["ccustno"];	
+	$lccustno = mysqli_real_escape_string($oConn,$_POST["ccustno"]);	
 }	
 
 // ------------------------------------------------------------------------------------------------
@@ -45,25 +45,26 @@ if($lcAccion=="NEW"){
 	// haciendo la coneccion.
 	//	$oConn = get_coneccion("CIA");
 	if (isset($_POST["ccustno"])){
-		$ldstar   = $_POST["dstar"];
-		$lcname   = $_POST["cname"];
-		$lcstatus = $_POST["cstatus"];
-		$lctel    = $_POST["ctel"];
-		$lcemail  = $_POST["cemail"];
-		$lcweb    = $_POST["cweb"];
-		$lcubino  = $_POST["cubino"];
-		$lccateno = $_POST["ccateno"];
-		$lcwhseno = $_POST["cwhseno"];
-		$lcrespno = $_POST["crespno"];
-		$lcpaycode = $_POST["cpaycode"];
-		$lcctaid   = $_POST["cctaid"];
-		$lcpasword = $_POST["cpasword"];
+		$ldstar   = (empty($_POST["dstar"]))?"0000-00-00":$_POST["dstar"];
+		$lcname   = mysqli_real_escape_string($oConn,$_POST["cname"]);
+		$lcstatus = mysqli_real_escape_string($oConn,$_POST["cstatus"]);
+		$lctel    = mysqli_real_escape_string($oConn,$_POST["ctel"]);
+		$lcemail  = mysqli_real_escape_string($oConn,$_POST["cemail"]);
+		$lcweb    = mysqli_real_escape_string($oConn,$_POST["cweb"]);
+		$lcubino  = mysqli_real_escape_string($oConn,$_POST["cubino"]);
+		$lccateno = mysqli_real_escape_string($oConn,$_POST["ccateno"]);
+		$lcwhseno = mysqli_real_escape_string($oConn,$_POST["cwhseno"]);
+		$lcrespno = mysqli_real_escape_string($oConn,$_POST["crespno"]);
+		$lcpaycode = mysqli_real_escape_string($oConn,$_POST["cpaycode"]);
+		$lcctaid   = mysqli_real_escape_string($oConn,$_POST["cctaid"]);
+		$lcpasword = mysqli_real_escape_string($oConn,$_POST["cpasword"]);
 		$lnlimcrd  = ($_POST["nlimcrd"] == "")?0:$_POST["nlimcrd"];
-		$lmnotas   = $_POST["mnotas"];
-		$lmdirecc  = $_POST["mdirecc"];
+		$lmnotas   = mysqli_real_escape_string($oConn,$_POST["mnotas"]);
+		$lmdirecc  = mysqli_real_escape_string($oConn,$_POST["mdirecc"]);
 		if(!empty($_POST["cfoto"])){
-			$lcfoto  = 'cfoto = "../photos/otras/' . $_POST["cfoto"]. '",'; 	
-			$lcfotoI = '../photos/otras/' . $_POST["cfoto"]; 	
+			$lcnamefoto = mysqli_real_escape_string($oConn,$_POST["cfoto"]);
+			$lcfoto  = 'cfoto = "../photos/otras/' . $lcnamefoto. '",'; 	
+			$lcfotoI = '../photos/otras/' . $lcnamefoto; 	
 		}else{
 			$lcfoto  = "";
 			$lcfotoI = "";

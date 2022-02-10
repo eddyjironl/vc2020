@@ -18,7 +18,7 @@ if(isset($_POST["accion"])){
 }
 
 if (isset($_POST["ccateno"])){
-	$lccateno = $_POST["ccateno"];
+	$lccateno =mysqli_real_escape_string($oConn,$_POST["ccateno"]);
 }
 $lnRowsAfect = 0;
 
@@ -38,13 +38,13 @@ if($lcaccion=="NEW"){
 	// haciendo la coneccion.
 	//$oConn = get_coneccion("CIA");
 	if (isset($_POST["ccateno"])){
-		$lcdesc     = $_POST["cdesc"];
-		$lcstatus   = $_POST["cstatus"];
-		$lctypecate = $_POST["ctypecate"];
-		$lmnotas    = $_POST["mnotas"];
-		$lctypeadj  = $_POST["ctypeadj"];
-		$lcctaid    = $_POST["cctaid"];
-		$lcctaid_tax= $_POST["cctaid_tax"];
+		$lcdesc     = mysqli_real_escape_string($oConn,$_POST["cdesc"]);
+		$lcstatus   = mysqli_real_escape_string($oConn,$_POST["cstatus"]);
+		$lctypecate = mysqli_real_escape_string($oConn,$_POST["ctypecate"]);
+		$lmnotas    = mysqli_real_escape_string($oConn,$_POST["mnotas"]);
+		$lctypeadj  = mysqli_real_escape_string($oConn,$_POST["ctypeadj"]);
+		$lcctaid    = mysqli_real_escape_string($oConn,$_POST["cctaid"]);
+		$lcctaid_tax= mysqli_real_escape_string($oConn,$_POST["cctaid_tax"]);
 		$llctaresp  = isset($_POST["lctaresp"]) ? 1:0;   
 		$llexpcont  = isset($_POST["lexpcont"]) ? 1:0;
 		$llupdcost  = isset($_POST["lupdcost"]) ? 1:0; 
@@ -80,8 +80,9 @@ if($lcaccion=="NEW"){
 // ------------------------------------------------------------------------------------------------
 if ($lcaccion == "JSON"){
 	if (isset($_POST["ccateno"])){
+		$lccateno = mysqli_real_escape_string($oConn,$_POST["ccateno"]);
  		// Consulta unitaria
-		$lcSqlCmd = " select * from arcate where ccateno ='". $_POST["ccateno"] ."'";
+		$lcSqlCmd = " select * from arcate where ccateno ='". $lccateno ."'";
 		// obteniendo datos del servidor
 		$lcResult = mysqli_query($oConn,$lcSqlCmd);
 		// convirtiendo estos datos en un array asociativo

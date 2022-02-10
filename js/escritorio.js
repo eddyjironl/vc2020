@@ -555,6 +555,10 @@ function upd_inmenu(){
 }
 function upd_plmenu(){
 	document.getElementById("pltr001").addEventListener("click",pltr001,false);
+	document.getElementById("pltr002").addEventListener("click",pltr002,false);
+	document.getElementById("pltr003").addEventListener("click",pltr003,false);
+	document.getElementById("pltr004").addEventListener("click",pltr004,false);
+	document.getElementById("pltr005").addEventListener("click",pltr005,false);
 
 	document.getElementById("plca001").addEventListener("click",plca001,false);
 	document.getElementById("plca002").addEventListener("click",plca002,false);
@@ -848,6 +852,50 @@ function ca008(){
 /*
 	Sistema de planillas
 */
+
+/* TRANSACCIONES DE PLANILLA
+'			<li><a id="pltr001">Definir Planilla</a></li>'+
+'			<li><a id="pltr002">Generar Registros de Planilla </a></li>'+
+'			<li><a id="pltr003">Modificar Registros de Planilla</a></li>'+
+'			<li><a id="pltr004">Cerrar de Planilla</a></li>'+
+'			<li><a id="pltr005">Importar Ingresos o Deducciones de planilla</a></li>'+
+'			<li><a id="pltr006">Aplicar o desaplicar deducciones </a></li>'+
+'			<li><a id="pltr007">Calculo del IR </a></li>'+
+*/
+
+function pltr001(){
+	/* ingresos*/ 
+	var llcont = doform("pltr001");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/plmast.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+}
+
+function pltr002(){
+	/* ingresos*/ 
+	var llcont = doform("pltr002");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/plimpd.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+}
+function pltr003(){
+	/* ingresos*/ 
+	var llcont = doform("pltr003");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/plmasd.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+}
+
+// CATALOGOS DE PLANILLAS.
 function plca001(){
 	/* ingresos*/ 
 	var llcont = doform("plca001");
@@ -858,7 +906,6 @@ function plca001(){
 		getmsgalert("Usuario no tiene derecho de acceso");
 	}
 }
-
 function plca002(){
 	var llcont = doform("plca002");
 	if (llcont){
@@ -868,17 +915,6 @@ function plca002(){
 		getmsgalert("Usuario no tiene derecho de acceso");
 	}
 }
-
-function plca003(){
-	var llcont = doform("plca003");
-	if (llcont){
-		// vencimiento de cartera
-		document.getElementById("ventana").setAttribute("src","../view/pldedm.php");
-	}else{
-		getmsgalert("Usuario no tiene derecho de acceso");
-	}
-}
-
 function plca003(){
 	var llcont = doform("plca003");
 	if (llcont){

@@ -16,7 +16,7 @@ if(isset($_POST["accion"])){
 	$lcAccion=$_GET["accion"]; 	
 }
 if (isset($_POST["crespno"])){
-	$lcrespno    = $_POST["crespno"];
+	$lcrespno    =mysqli_real_escape_string($oConn, $_POST["crespno"]);
 }
 $lnRowsAfect = 0;
  
@@ -33,14 +33,14 @@ if($lcAccion=="DELETE"){
 // ------------------------------------------------------------------------------------------------
 if($lcAccion=="NEW"){
 	if (isset($_POST["crespno"])){
-		$lcfullname = $_POST["cfullname"];
-		$lcruc      = $_POST["cruc"];
-		$lmtel      = $_POST["mtel"];
-		$lcstatus   = $_POST["cstatus"];
-		$lcctaid    = $_POST["cctaid"];
-		$lmdirecc   = $_POST["mdirecc"];
-		$lmnotas    = $_POST["mnotas"];
-		$lncomision = $_POST["ncomision"];
+		$lcfullname = mysqli_real_escape_string($oConn,$_POST["cfullname"]);
+		$lcruc      = mysqli_real_escape_string($oConn,$_POST["cruc"]);
+		$lmtel      = mysqli_real_escape_string($oConn,$_POST["mtel"]);
+		$lcstatus   = mysqli_real_escape_string($oConn,$_POST["cstatus"]);
+		$lcctaid    = mysqli_real_escape_string($oConn,$_POST["cctaid"]);
+		$lmdirecc   = mysqli_real_escape_string($oConn,$_POST["mdirecc"]);
+		$lmnotas    = mysqli_real_escape_string($oConn,$_POST["mnotas"]);
+		$lncomision = mysqli_real_escape_string($oConn,$_POST["ncomision"]);
 		//$lndays    	 = isset($_POST["ndays"]) ? $_POST["ndays"]:0;
 		$lndays    	 = empty($_POST["ndays"])?0:$_POST["ndays"];
 		
@@ -53,8 +53,9 @@ if($lcAccion=="NEW"){
 		$lldomingo   = isset($_POST["ldomingo"]) ? 1:0; //$_POST["ldomingo"];
 		
 		if(!empty($_POST["cfoto"])){
-			$lcfoto  = 'cfoto = "../photos/otras/' . $_POST["cfoto"]. '",'; 	
-			$lcfotoI = '../photos/otras/' . $_POST["cfoto"]; 	
+			$lcnamefoto = mysqli_real_escape_string($oConn,$_POST["cfoto"]);
+			$lcfoto  = 'cfoto = "../photos/otras/' . $lcnamefoto. '",'; 	
+			$lcfotoI = '../photos/otras/' . $lcnamefoto; 	
 		}else{
 			$lcfoto  = "";
 			$lcfotoI = "";

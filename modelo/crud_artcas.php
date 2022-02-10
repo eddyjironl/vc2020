@@ -37,15 +37,15 @@ if($lcaccion=="DELETE"){
 if($lcaccion=="NEW"){
 	// haciendo la coneccion.
 	if (isset($_POST["cpaycode"])){
-		$lcdesc     = $_POST["cdesc"];
-		$lndays     = $_POST["nday"];
-		$lcstatus   = $_POST["cstatus"];
-		$lmnotas    = $_POST["mnotas"];
-		$lcctaid1   = $_POST["cctaid1"];
-		$lcctaid2   = $_POST["cctaid2"];
-		$lcctaid3   = $_POST["cctaid3"];
-		$lcctaid4   = $_POST["cctaid4"];
-		$lcctaid5   = $_POST["cctaid5"];
+		$lcdesc     = mysqli_real_escape_string($oConn,$_POST["cdesc"]);
+		$lndays     = mysqli_real_escape_string($oConn,$_POST["nday"]);
+		$lcstatus   = mysqli_real_escape_string($oConn,$_POST["cstatus"]);
+		$lmnotas    = mysqli_real_escape_string($oConn,$_POST["mnotas"]);
+		$lcctaid1   = mysqli_real_escape_string($oConn,$_POST["cctaid1"]);
+		$lcctaid2   = mysqli_real_escape_string($oConn,$_POST["cctaid2"]);
+		$lcctaid3   = mysqli_real_escape_string($oConn,$_POST["cctaid3"]);
+		$lcctaid4   = mysqli_real_escape_string($oConn,$_POST["cctaid4"]);
+		$lcctaid5   = mysqli_real_escape_string($oConn,$_POST["cctaid5"]);
 		$llvalidcrd = isset($_POST["lvalidcrd"]) ? 1:0; 
 		$llqtypay   = isset($_POST["lqtypay"]) ? 1:0; 
 

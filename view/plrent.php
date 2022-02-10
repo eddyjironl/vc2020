@@ -28,12 +28,6 @@ if (vc_funciones::Star_session() == 1){
             position:absolute;
 
         }
-        #plrent{
-            width:600px;
-            height:500px;
-            padding:10px;
-
-        }
         #cable_header{
 	        margin:auto 10px;
             background:grey;
@@ -54,9 +48,9 @@ if (vc_funciones::Star_session() == 1){
     <body>
         
         <form id="plrent" name="plrent" method="post" class="form2" action="">
-            <h2>Rangos de Calculo</h2>
-            <br>
-
+            <div class="barra-standar">
+                <strong>Tabla de rangos de Impuestos sobre la Renta</strong>
+            </div>
             <table id="cable_header">
                 <tr>
                     <td width="100px">Orden</td>
@@ -95,7 +89,7 @@ if (vc_funciones::Star_session() == 1){
             <br>
             <input type="button" id="add2" value="Agregar"> </input>
             <input type="button" id="quit2" value="Salir"> </input>
-    </form>
+        </form>
         
     </body>
 </html>

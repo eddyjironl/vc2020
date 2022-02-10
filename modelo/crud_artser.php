@@ -64,9 +64,9 @@ if($lcaccion=="NEW"){
 	// haciendo la coneccion.
 	//$oConn = get_coneccion("CIA");
 	if (isset($_POST["ctserno"])){
-		$lcdesc     = $_POST["cdesc"];
-		$lcstatus   = $_POST["cstatus"];
-		$lmnotas    = $_POST["mnotas"];
+		$lcdesc     = mysqli_real_escape_string($oConn,$_POST["cdesc"]);
+		$lcstatus   = mysqli_real_escape_string($oConn,$_POST["cstatus"]);
+		$lmnotas    = mysqli_real_escape_string($oConn, $_POST["mnotas"]);
 		// verificando que el codigo exista o no 
 		$lcsql   = " select ctserno from artser where ctserno ='$lctserno' ";
 		$lresult = mysqli_query($oConn,$lcsql);	

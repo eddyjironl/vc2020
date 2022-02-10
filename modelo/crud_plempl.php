@@ -22,9 +22,12 @@ if($lcaccion=="NEW"){
     $lnotausent = (isset($_POST["lnotausent"]))? 1 : 0;
     $lnsetpay   = (empty($_POST["nsetpay"]))   ? 0 : $_POST["nsetpay"];
     $lnhratext  = (empty($_POST["nhratext"])) ?0:$_POST["nhratext"];       // 0;
-    $lnhrate    =  (empty($_POST["nhrate"])) ?0:$_POST["nhrate"];
+    $lnhrate    = (empty($_POST["nhrate"])) ?0:$_POST["nhrate"];
     $lnsalary   = (empty($_POST["nsalary"])) ?0:$_POST["nsalary"];
-
+    $ldnacday   = (empty($_POST["dnacday"])) ?"0000-00-00":mysqli_real_escape_string($oConn,$_POST["dnacday"]);
+    $ldstar     = (empty($_POST["dstar"]))   ?"0000-00-00":mysqli_real_escape_string($oConn,$_POST["dstar"]);
+    $ldend      = (empty($_POST["ldend"]))   ?"0000-00-00":mysqli_real_escape_string($oConn,$_POST["dend"]);
+    
     if (empty($lcempno)){
         echo "no ha indicado un Codigo de Empleado";
         return ;
@@ -39,14 +42,14 @@ if($lcaccion=="NEW"){
                                               mdirecc,mtels, mnotas,dstar,dend,cstatus,
                                                cdescmot,cworkid,cdeptno,cturno,nsalary,nhrate,
                                                nhratext, ctypemp, ctyppay, ctyppay2, nsetpay, cins, lnotausent )
-                           values('".$_POST["cempno"]."','".$_POST["cfullname"]."','".$_POST["ccedid"]."','".$_POST["dnacday"]."','".$_POST["cmarital"]."','".$_POST["csexo"].
-                           "','". $_POST["mdirecc"] ."','". $_POST["mtels"] ."','". $_POST["mnotas"] ."','". $_POST["dstar"] ."','". $_POST["dend"] ."','". $_POST["cstatus"] .
+                           values('".$_POST["cempno"]."','".$_POST["cfullname"]."','".$_POST["ccedid"]."','".$ldnacday."','".$_POST["cmarital"]."','".$_POST["csexo"].
+                           "','". $_POST["mdirecc"] ."','". $_POST["mtels"] ."','". $_POST["mnotas"] ."','". $ldstar ."','". $ldend ."','". $_POST["cstatus"] .
                            "','". $_POST["cdescmot"] ."','". $_POST["cworkid"] ."','". $_POST["cdeptno"] ."','". $_POST["cturno"] ."',". $lnsalary .",". $lnhrate .
                            ",". $lnhratext .",'". $_POST["ctypemp"] ."','". $_POST["ctyppay"] ."','". $_POST["ctyppay2"] ."',". $lnsetpay .",'". $_POST["cins"] ."',".$lnotausent.")";
     }else{
         // actualiza un empleado existente.
-        $lcsql_insert = " update plempl set cfullname = '".$_POST["cfullname"]."',ccedid= '". $_POST["ccedid"] ."',dnacday ='".$_POST["dnacday"]."',cmarital = '".$_POST["cmarital"]."',csexo='".$_POST["csexo"]."',
-                                            mdirecc='".$_POST["mdirecc"]."',mtels='".$_POST["mtels"]."', mnotas='".$_POST["mnotas"]."',dstar='".$_POST["dstar"]."',dend='".$_POST["dend"]."',cstatus='".$_POST["cstatus"]."',
+        $lcsql_insert = " update plempl set cfullname = '".$_POST["cfullname"]."',ccedid= '". $_POST["ccedid"] ."',dnacday ='".$ldnacday."',cmarital = '".$_POST["cmarital"]."',csexo='".$_POST["csexo"]."',
+                                            mdirecc='".$_POST["mdirecc"]."',mtels='".$_POST["mtels"]."', mnotas='".$_POST["mnotas"]."',dstar='".$ldstar."',dend='".$ldend."',cstatus='".$_POST["cstatus"]."',
                                             cdescmot='".$_POST["cdescmot"]."',cworkid='".$_POST["cworkid"]."',cdeptno='".$_POST["cdeptno"]."',cturno='".$_POST["cturno"]."',nsalary=".$lnsalary.",nhrate=".$lnhrate.",
                                             nhratext=".$lnhratext .", ctypemp='".$_POST["ctypemp"]."', ctyppay='".$_POST["ctyppay"]."', ctyppay2='".$_POST["ctyppay2"]."', nsetpay=".$lnsetpay.", cins='".$_POST["cins"]."', lnotausent =".$lnotausent.
                         " where cempno = '". $_POST["cempno"] . "' ";
@@ -60,13 +63,12 @@ if($lcaccion=="NEW"){
 if($lcaccion == "ADD_DEDT"){
     // cargando los datos.
     // --------------------------------------------------------------------------------------------
-    $lcuid    = $_POST["cuid"];
-    $lcempno  = $_POST["cempno"];
-    $lcdedid  = $_POST["cdedid"];
-    $lnvalue  = $_POST["nvalue"];
-    $lcdesc   = $_POST["cdesc"];
-    $lnpayamt = $_POST["npayamt"];
-    $lcrefno  = $_POST["crefno"];
+    $lcuid    = mysqli_real_escape_string($oConn,$_POST["cuid"]);;
+    $lcdedid  = mysqli_real_escape_string($oConn,$_POST["cdedid"]);
+    $lnvalue  = mysqli_real_escape_string($oConn,$_POST["nvalue"]);
+    $lcdesc   = mysqli_real_escape_string($oConn,$_POST["cdesc"]);
+    $lnpayamt = mysqli_real_escape_string($oConn,$_POST["npayamt"]);
+    $lcrefno  = mysqli_real_escape_string($oConn,$_POST["crefno"]);
     $llapply  = $_POST["lapply"];
     // obteniendo configuracion del registro de deduccion.
     $lclear   = 0;
@@ -112,11 +114,11 @@ if($lcaccion == "ADD_DEDT"){
 if($lcaccion == "ADD_INGRESOS"){
     // cargando los datos.
     // --------------------------------------------------------------------------------------------
-    $lcuid    = $_POST["cuid"];
-    $lcempno  = $_POST["cempno"];
-    $lcingid  = $_POST["cingid"];
-    $lnvalue  = $_POST["nvalue"];
-    $lcdesc   = $_POST["cdesc"];
+    $lcuid    = mysqli_real_escape_string($oConn,$_POST["cuid"]);
+    $lcempno  = mysqli_real_escape_string($oConn,$_POST["cempno"]);
+    $lcingid  = mysqli_real_escape_string($oConn,$_POST["cingid"]);
+    $lnvalue  = mysqli_real_escape_string($oConn,$_POST["nvalue"]);
+    $lcdesc   = mysqli_real_escape_string($oConn,$_POST["cdesc"]);
     $llapply  = $_POST["lapply"];
     // obteniendo configuracion del registro de deduccion.
     $lclear   = 0;
@@ -222,26 +224,21 @@ if($lcaccion=="LIST2eee"){
 }
 
 if($lcaccion=="LIST"){
-    $lcwhere = "";
-    if(!empty($_POST["cempno"])){
-        $lcwhere = " where cempno ='".$_POST["cempno"]."'";
-    }else{
-        echo "formato no soportado falta el codigo del empleado";
-        return ;
-    }
-    $lcsqlcmd = " select * from plempl ". $lcwhere;
+	if (isset($_POST["cempno"])){
+        // Consulta unitaria
+       $lcSqlCmd = " select * from plempl where cempno ='". $_POST["cempno"] ."'";
+       // obteniendo datos del servidor
+       $lcResult = mysqli_query($oConn,$lcSqlCmd);
+       // convirtiendo estos datos en un array asociativo
+       $ldata = mysqli_fetch_assoc($lcResult);
+       // convirtiendo este array en archivo jason.
+       $jsondata = json_encode($ldata,true);
+       // retornando objeto json
+       echo $jsondata;
+   }	
 
-	$lcresult = mysqli_query($oConn,$lcsqlcmd);
-    if ($lcresult->num_rows>0){
-    	$ldata    = mysqli_fetch_assoc($lcresult);
-	    // enviando en formato json.	
-	    $jsondata = json_encode($ldata,true);
-    }else{
-        $jsondata = NULL;
-    }
-	// retornando objeto json
-	echo $jsondata;		
 }
+
 // deplegando informacion de una linea de detalle de deduccion en pldedt
 if($lcaccion == "GET_INFO_DEDUCTION"){
     $lcuid = $_POST["cuid"];

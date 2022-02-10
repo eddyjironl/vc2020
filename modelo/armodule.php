@@ -6,30 +6,40 @@
 		include("vc_funciones.php");
 		$oConn = vc_funciones::get_coneccion("CIA");
 		if ($_POST["program"]== "get_sales_amount"){
-			$lccustno = $_POST["ccustno"];
+			//$lccustno = $_POST["ccustno"];
+			$lccustno = mysqli_real_escape_string($oConn,$_POST["ccustno"]);
 			get_sales_amount($oConn,$lccustno);
 		}
 		if ($_POST["program"]== "get_buys_amount"){
-			get_buys_amount($oConn,$_POST["crespno"]);
+			$lcrespno = mysqli_real_escape_string($oConn,$_POST["crespno"]);
+			get_buys_amount($oConn,$lcrespno);
 		}
 		if ($_POST["program"]== "get_tc_rate"){
-			get_tc_rate($oConn,$_POST["dtrndate"]);
+			$ldtrndate = mysqli_real_escape_string($oConn,$_POST["dtrndate"]);
+			get_tc_rate($oConn,$ldtrndate);
 		}
 		if ($_POST["program"]== "get_inventory_onhand"){
+			$lcservno    = mysqli_real_escape_string($oConn,$_POST["cservno"]);
+			$lcrespuesta = mysqli_real_escape_string($oConn,$_POST["respuesta"]);
 			get_inventory_onhand($oConn,$_POST["cservno"],$_POST["respuesta"]);
 		}
 		if ($_POST["program"]== "conf_cxc"){
-			conf_cxc($oConn,$_POST["ccustno"]);
+			$lccustno = mysqli_real_escape_string($oConn,$_POST["ccustno"]);
+			conf_cxc($oConn,$lccustno);
 		}
 		// descuento maximo del articulo
 		if ($_POST["program"]== "get_item_desc"){
-			get_item_desc($oConn,$_POST["cservno"]);
+			$lcservno = mysqli_real_escape_string($oConn,$_POST["cservno"]);
+			get_item_desc($oConn,$lcservno);
 		}
 
 		// llamando el menu desde algo que no es una clase
 		if ($_POST["program"]== "get_menu_list"){
+			$lcmenu = mysqli_real_escape_string($oConn,$_POST["menu"]);
+			$lcwindow = mysqli_real_escape_string($oConn,$_POST["window"]);
+			
 			//get_item_desc($oConn,$_POST["menu"],$_POST["menu"]);
-			get_menu_list($_POST["menu"],$_POST["window"]);
+			get_menu_list($lcmenu,$lcwindow);
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------

@@ -6,6 +6,8 @@ $oConn = vc_funciones::get_coneccion("CIA");
 
 $lcaccion = $_GET["accion"];
 
+
+
 if ($lcaccion == "JSON"){
 	if (isset($_POST["cservno"])){
  		// Consulta unitaria
@@ -17,14 +19,14 @@ if ($lcaccion == "JSON"){
 		// convirtiendo este array en archivo jason.
 		$jsondata = json_encode($ldata,true);
 		// cargando valores de setup en variables globales del php
-		$_ARSETUP["minvno"]     = $ldata["minvno"];
-		$_ARSETUP["mestados"]   = $ldata["mestados"];
-		$_ARSETUP["mcoti"]      = $ldata["mcoti"];
+		$_ARSETUP["minvno"]     = mysqli_real_escape_string($oConn,$ldata["minvno"]);
+		$_ARSETUP["mestados"]   = mysqli_real_escape_string($oConn,$ldata["mestados"]);
+		$_ARSETUP["mcoti"]      = mysqli_real_escape_string($oConn,$ldata["mcoti"]);
 		$_ARSETUP["linvno"]     = $ldata["linvno"];
 		$_ARSETUP["lestados"]   = $ldata["lestados"];
 		$_ARSETUP["lcoti"]      = $ldata["lcoti"];
 		$_ARSETUP["ninvlinmax"] = $ldata["ninvlinmax"];
-		$_ARSETUP["cwhseno"]    = $ldata["cwhseno"];
+		$_ARSETUP["cwhseno"]    = mysqli_real_escape_string($oConn,$ldata["cwhseno"]);
 		// retornando objeto json
 		echo $jsondata;
 	}	
@@ -39,6 +41,7 @@ if ($lcaccion == "SAVE"){
 	$lnupd     = mysqli_num_rows($lresult_t);
 	// ------------------------------------------------------------------------------------------------
 	// campos necesarios del formulario.
+	//  $ldtrndate = mysqli_real_escape_string($oConn,$_POST["dtrndate"]);
 	// ------------------------------------------------------------------------------------------------
 	$lninvno   = $_POST["ninvno"]  == ""? 1:$_POST["ninvno"];
 	$lncashno  = $_POST["ncashno"] == ""? 1:$_POST["ncashno"];
@@ -46,19 +49,19 @@ if ($lcaccion == "SAVE"){
 	$lnncno    = $_POST["nncno"]   == ""? 1:$_POST["nncno"];
 	$lnndno    = $_POST["nndno"]   == ""? 1:$_POST["nndno"];
 	$lncotno   = $_POST["ncotno"]  == ""? 1:$_POST["ncotno"];
-	$lccustno  = $_POST["ccustno"];
-	$lcwhseno  = $_POST["cwhseno"];
-	$lcpaycode = $_POST["cpaycode"];
-	$lccateno  = $_POST["ccateno"];
-	$lctypcost = $_POST["ctypcost"];
-	$lctaxproc = $_POST["ctaxproc"];
+	$lccustno  = mysqli_real_escape_string($oConn,$_POST["ccustno"]) ;
+	$lcwhseno  = mysqli_real_escape_string($oConn,$_POST["cwhseno"]);
+	$lcpaycode = mysqli_real_escape_string($oConn,$_POST["cpaycode"]);
+	$lccateno  = mysqli_real_escape_string($oConn,$_POST["ccateno"]);
+	$lctypcost = mysqli_real_escape_string($oConn,$_POST["ctypcost"]);
+	$lctaxproc = mysqli_real_escape_string($oConn,$_POST["ctaxproc"]);
 	$llinvno   = isset($_POST["linvno"])  ? 1:0;
 	$llestados = isset($_POST["lestados"])? 1:0;
 	$llcoti    = isset($_POST["lcoti"])   ? 1:0;
-	$lminvno   = $_POST["minvno"];
-	$lmestados = $_POST["mestados"];
-	$lmcoti    = $_POST["mcoti"];
-	$lncashamt = $_POST["ncashamt"];
+	$lminvno   = mysqli_real_escape_string($oConn,$_POST["minvno"]);
+	$lmestados = mysqli_real_escape_string($oConn,$_POST["mestados"]);
+	$lmcoti    = mysqli_real_escape_string($oConn,$_POST["mcoti"]);
+	$lncashamt = mysqli_real_escape_string($oConn,$_POST["ncashamt"]);
 	$lninvlinmax = $_POST["ninvlinmax"] ==""? 20:$_POST["ninvlinmax"];
 	// ------------------------------------------------------------------------------------------------
 	// armando la sentencia adecuada.

@@ -16,7 +16,7 @@ if(isset($_POST["accion"])){
 }
 
 if (isset($_POST["cwhseno"])){
-	$lcwhseno = $_POST["cwhseno"];
+	$lcwhseno = mysqli_real_escape_string($oConn, $_POST["cwhseno"]);
 }
 $lnRowsAfect = 0;
 

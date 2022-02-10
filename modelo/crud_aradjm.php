@@ -16,7 +16,7 @@ if(isset($_POST["accion"])){
 }
 
 if (isset($_POST["cwhseno"])){
-	$lcwhseno = $_POST["cwhseno"];
+	$lcwhseno = mysqli_real_escape_string($oConn,$_POST["cwhseno"]);
 }
 $lnRowsAfect = 0;
 
@@ -37,7 +37,7 @@ if($lcaccion=="NEW"){
 	//obteniendo el numero de factura.
 	$lcadjno   = GetNewDoc($oConn,"ARADJM");
 	$lcadjno1  = GetNewDoc($oConn,"ARADJM");
-	$lcwhseno  = $oAjt['cwhseno'];
+	$lcwhseno  = mysqli_real_escape_string($oConn,$oAjt['cwhseno']);
 	$lnfactor  = 1;
 	$lnfactor1 = 1;
 	$llcont    = true;

@@ -1,97 +1,63 @@
--- phpMyAdmin SQL Dump
--- version 4.8.3
--- https://www.phpmyadmin.net/
---
--- Servidor: 127.0.0.1
--- Tiempo de generación: 25-04-2021 a las 03:28:41
--- Versión del servidor: 10.1.37-MariaDB
--- Versión de PHP: 7.2.12
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
 
-drop database if EXISTS ksisdbc;
-create database ksisdbc;
-use ksisdbc;
+-- drop database if EXISTS ksisdbc;
+-- create database ksisdbc;
+-- use ksisdbc;
 
+
+/* detalle de planillas*/
+drop table if exists plmast;
+  CREATE TABLE plmast (cplano char(10) PRIMARY KEY NOT NULL ,
+	cdesc   char(200) default '',
+	ctype   char(2) default '',
+	ctypemp char(2) default '',
+	ctyppay char(2) default '',
+	cmonth  char(2) default'',
+	cstatus char(2) default '',
+	dpay    date null ,
+	tstar   DATE null,
+	tend    date null ,
+	hora    char(8) null ,
+  fecha    date null,
+  usuario  char(10) DEFAULT ''
+  )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+  
 /* DATA PLANILLAS */
  	DROP TABLE if EXISTS plempl;
    create table plempl(
     cempno char(10) PRIMARY KEY NOT NULL ,
-    cfullname char(200),
-    ccedid char(20),
-    dnacday date,
-    cmarital char(2),
-    csexo char(1),
+    cfullname char(200) default '',
+    ccedid char(20) default '',
+    dnacday date  default '0000-00-00',
+    cmarital char(2) default '',
+    csexo char(1) default '',
     mdirecc text,
     mtels text,
-    mnotas text default '' ,
-    dstar date,
-    dend date,
-    cstatus char(2),
-    cdescmot char(100),
-    cworkid char(10),
-    cdeptno char(10),
-    cturno char(10),
+    mnotas text  ,
+    dstar date default '0000-00-00',
+    dend date default '0000-00-00',
+    cstatus char(2) default 'OP',
+    cdescmot char(100) default '',
+    cworkid char(10) default '',
+    cdeptno char(10) default '',
+    cturno char(10) default '',
     nsalary decimal(10,2) default 0.00,
     nhrate decimal(10,2) default 0.00,
     nhratext decimal(10,2) default 0.00,
-    ctypemp char(2),
-    ctyppay char(2),
-    ctyppay2 char(2),
-    nsetpay decimal(10,2),
-    cins char(10),
+    ctypemp char(2) default '',
+    ctyppay char(2) default '',
+    ctyppay2 char(2) default '',
+    nsetpay decimal(10,2)  default 0.00,
+    cins char(10) default '',
     lnotausent tinyint(1) DEFAULT 0
 	 
     )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
-/* creando los listados de menu del sistema.*/
-  SET @lcSelect = " select cingid , cdesc from plingm  ";
-  INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
-    VALUES("PLINGM","00","SELECT",@lcSelect,0,"PL"),
-    ("PLINGM","01","Ingreso Id","cingid",70,"PL"),
-    ("PLINGM","02","Nombre del Ingreso","cdesc",200,"PL");
-
-  SET @lcSelect = " select * from pldedm  ";
-  INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
-    VALUES("PLDEDM","00","Listado de deducciones",@lcSelect,0,"PL"),
-    ("PLDEDM","01","Deduccion Id","cdedid",70,"PL"),
-    ("PLDEDM","02","Nombre de la Deduccion","cdesc",200,"PL");
-
-  SET @lcSelect = " select * from plempl  ";
-  INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
-    VALUES("PLEMPL","00","SELECT",@lcSelect,0,"PL"),
-    ("PLEMPL","01","Empleado Id","cempno",70,"PL"),
-    ("PLEMPL","02","Nombre del empleado","cfullname",200,"PL"),
-    ("PLEMPL","03","Cedula No","ccedid",70,"PL"),
-    ("PLEMPL","04","Fecha Nacimiento","dnacday",70,"PL");
-
-  SET @lcSelect = " select * from pldept ";
-  INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
-    VALUES("PLDEPT","00","Listado de Departamentos",@lcSelect,0,"PL"),
-    ("PLDEPT","01","Departamento id","cdeptno",70,"PL"),
-    ("PLDEPT","02","Nombre","cdesc",200,"PL");
-
-  SET @lcSelect = " select * from plwork ";
-  INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
-    VALUES("PLWORM","00","Listado de Puestos de Trabajo",@lcSelect,0,"PL"),
-    ("PLWORM","01","Puesto id","cworkno",70,"PL"),
-    ("PLWORM","02","Nombre","cdesc",200,"PL");
-
-  SET @lcSelect = " select * from plturm ";
-  INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
-    VALUES("PLTURM","00","Turnos de Trabajo",@lcSelect,0,"PL"),
-    ("PLTURM","01","Turno id","cturno",70,"PL"),
-    ("PLTURM","02","Nombre","cdesc",200,"PL");
-
-  SET @lcSelect = " select * from pljusm ";
-  INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
-    VALUES("PLJUSM","00","Justificaciones de Ausencias",@lcSelect,0,"PL"),
-    ("PLJUSM","01","Just id","cjusno",70,"PL"),
-    ("PLJUSM","02","Nombre","cdesc",200,"PL");
 
 
 
@@ -103,6 +69,16 @@ create table plturm(
   hora    char(10) NOT NULL,
   fecha   date NOT NULL, 
   usuario char(10) NOT NULL
+  )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+drop table if exists pldepd;
+create table pldepd(
+  cuid    int(10) AUTO_INCREMENT UNIQUE,
+  cdeptno char(10) default '',
+  cplano  char(10) default '',
+  hora    char(10) NULL,
+  fecha   date  NULL, 
+  usuario char(10)  default ''
   )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 drop table if exists pljusm;
@@ -127,7 +103,7 @@ create table pljusm(
     nporctj   decimal(10,2) default 0,
     cctaid_d  char(20) default '',
     cctaid_h  char(20) default '',
-    ctype     char(2),
+    ctype     char(2) default '',
     lclear    tinyint(1) default 0,
     lapply    tinyint(1) default 0,
     cstatus   char(2) default 'OP',
@@ -164,12 +140,12 @@ create table pljusm(
   create table pldedth(
     cuid    char(15) UNIQUE,
     cplano  char(10) default '' ,
-    cempno  char(10)  default ''  key,
+    cempno  char(10)  default '',
     cctaid  char(20) default '' ,
     cdesc   char(200) default '' ,
     cdedid  char(10)  default '' ,
     crefno  char(10)  default '' ,
-    nvalue  decimal(10,2 default 0.00 ),
+    nvalue  decimal(10,2) default 0.00 ,
     nsaldo  decimal(10,2) default 0.00 ,
     npayamt decimal(10,2) default 0.00 ,
     lapply  tinyint(1) default 0,  
@@ -226,35 +202,35 @@ create table pljusm(
 
   drop table if exists plsyst;
   create table plsyst(
-    cplsetup char(1),
-    ninatec    int(3),
-    nminpay    decimal(10,2),   /*Salario minimo del gobierno */
-    nmaxpay    decimal(10,2),   /*Salario maximo para calculo del inss*/
-    cded_1     char(10),
-    cded_2     char(10),
-    cded_3     char(10),
-    cdedd1     char(20),
-    cdedd2     char(20),
-    cdedd3     char(20),
-    cded_11    char(10),
-    cing_1     char(10),
-    cing_2     char(10),
-    cing_3     char(10),
-    cingd1     char(20),
-    cingd2     char(20),
-    nPorIhss   decimal(10,2),                      /*Porcentage aplicado al seguro*/
-    namtIhss   decimal(10,2),                      /*Maximo monto pagado por seguro*/
-    nMaxHToPay decimal(4,0),
-    cturno	   char(10),
-    cturno2	   char(10),
-    cturno3	   char(10),
-    ckeyid	   char(50),
-    ckeyid2	   char(50),
+    cplsetup char(1) default '',
+    ninatec    int(3) default 0,
+    nminpay    decimal(10,2) default 0.00,   /*Salario minimo del gobierno */
+    nmaxpay    decimal(10,2) default 0.00,   /*Salario maximo para calculo del inss*/
+    cded_1     char(10) default '',
+    cded_2     char(10) default '',
+    cded_3     char(10) default '',
+    cdedd1     char(20) default '',
+    cdedd2     char(20) default '',
+    cdedd3     char(20) default '',
+    cded_11    char(10) default '',
+    cing_1     char(10) default '',
+    cing_2     char(10) default '',
+    cing_3     char(10) default '',
+    cingd1     char(20) default '',
+    cingd2     char(20) default '',
+    nPorIhss   decimal(10,2) default 0.00,                      /*Porcentage aplicado al seguro*/
+    namtIhss   decimal(10,2) default 0.00,                      /*Maximo monto pagado por seguro*/
+    nMaxHToPay decimal(4,0) default 0.00,
+    cturno	   char(10) default '',
+    cturno2	   char(10) default '',
+    cturno3	   char(10) default '',
+    ckeyid	   char(50) default '',
+    ckeyid2	   char(50) default '',
     lAusentAut tinyint(1) default 0,
-    nOpcExtPay int(1),
-    ndays      int(3),
-    ncomi1     decimal(10,4),
-    ncomi2     decimal(10,4),
+    nOpcExtPay int(1) default 0,
+    ndays      int(3) default 0,
+    ncomi1     decimal(10,4)  default 0.0000,
+    ncomi2     decimal(10,4) default 0.0000,
     hora char(10) not null,
     fecha date not null,
     usuario char(10) not null 
@@ -289,13 +265,13 @@ drop table if exists plausd;
 create table plausd(
   cuid      int(15) AUTO_INCREMENT UNIQUE,
 	cempno    char(10) KEY,
-	nhrsau    DECIMAL(10,2), 
-	nhrgoc    DECIMAL(10,2),/* Horas con goce*/
-	nhrsgc    DECIMAL(10,2), /* Horas sin goce*/
-	nhours    DECIMAL(10,2), /* Horas normales*/
-	nhrext    DECIMAL(10,2), /* horas Extras*/
-	nhwork    DECIMAL(10,2), /* horas que debio trabajar*/
-	dtrndate  date,          /* Fecha de ausencia del trabajo.*/
+	nhrsau    DECIMAL(10,2) default 0, 
+	nhrgoc    DECIMAL(10,2) default 0, /* Horas con goce*/
+	nhrsgc    DECIMAL(10,2) default 0, /* Horas sin goce*/
+	nhours    DECIMAL(10,2) default 0, /* Horas normales*/
+	nhrext    DECIMAL(10,2) default 0, /* horas Extras*/
+	nhwork    DECIMAL(10,2) default 0, /* horas que debio trabajar*/
+	dtrndate  date default '0000-00-00',          /* Fecha de ausencia del trabajo.*/
 	ccateno   char(10) not null,      /* justificacion de la ausencia*/
 	ldeleted  tinyint(1) default 0,    /* Indica si el registro esta borrado o no*/
 	mnotas    text,          /* Comentarios Generales */
@@ -309,13 +285,13 @@ drop table if exists plausdh;
 create table plausdh(
   cuid      int(15) ,
 	cempno    char(10) KEY,
-	nhrsau    DECIMAL(10,2), 
-	nhrgoc    DECIMAL(10,2),/* Horas con goce*/
-	nhrsgc    DECIMAL(10,2), /* Horas sin goce*/
-	nhours    DECIMAL(10,2), /* Horas normales*/
-	nhrext    DECIMAL(10,2), /* horas Extras*/
-	nhwork    DECIMAL(10,2), /* horas que debio trabajar*/
-	dtrndate  date,          /* Fecha de ausencia del trabajo.*/
+	nhrsau    DECIMAL(10,2) default 0, 
+	nhrgoc    DECIMAL(10,2) default 0,/* Horas con goce*/
+	nhrsgc    DECIMAL(10,2) default 0, /* Horas sin goce*/
+	nhours    DECIMAL(10,2) default 0, /* Horas normales*/
+	nhrext    DECIMAL(10,2) default 0, /* horas Extras*/
+	nhwork    DECIMAL(10,2) default 0, /* horas que debio trabajar*/
+	dtrndate  date default '0000-00-00',          /* Fecha de ausencia del trabajo.*/
 	ccateno   char(10) not null,      /* justificacion de la ausencia*/
 	ldeleted  tinyint(1) default 0,    /* Indica si el registro esta borrado o no*/
 	mnotas    text,          /* Comentarios Generales */
@@ -327,13 +303,13 @@ create table plausdh(
 drop table if exists plingm;
 create table plingm(
   cingid  char(10) primary key,
-  cctaid  char(20),
-	cdesc   char(200),
-	cdescsh char(20),
-	nvalue  decimal(10,2),
-	nporctj decimal(10,2),
-	ctype   char(2),
-	cstatus char(2),
+  cctaid  char(20) default '',
+	cdesc   char(200) default '',
+	cdescsh char(20) default '',
+	nvalue  decimal(10,2) default 0.00,
+	nporctj decimal(10,2) default 0.00,
+	ctype   char(2) default '',
+	cstatus char(2) default '',
 	lclear   tinyint(1) default 0, 
 	lvac     tinyint(1) default 0, 
   lIhsApl  tinyint(1) default 0,
@@ -352,7 +328,7 @@ create table plingt(
   cuid     int(15) AUTO_INCREMENT PRIMARY key,
   cctaid   char(20) default '',
   cempno   char(10) default '',
-  dfreday  date not null ,
+  dfreday  date default '0000-00-00',
 	cingid   char(10) default '',
 	cdesc    char(200) default '',
 	nvalue   decimal(10,2) default 0,
@@ -369,19 +345,19 @@ create table plingt(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 /* detalle historico de ingresos de planillas */
-drop table if exists plingt;
-create table plingt(
-  cuid     int(15) ,
-  cctaid   char(20),
-  cplano   char(10),
-  cempno   char(10) ,
-  dfreday  date not null ,
-	cingid   char(10),
-	cdesc    char(200),
-	nvalue   decimal(10,2),
+drop table if exists plingth;
+create table plingth(
+  cuid     int(15)  default 0,
+  cctaid   char(20) default '',
+  cplano   char(10) default '',
+  cempno   char(10)  default '',
+  dfreday  date default '0000-00-00',
+	cingid   char(10) default '',
+	cdesc    char(200) default '',
+	nvalue   decimal(10,2) default 0.00,
 	lapply   tinyint(1) default 0,
 	lclear   tinyint(1) default 0,
-	ctype    char(2),
+	ctype    char(2) default '',
 	cstatus  char(2) default "OP",
 	mnotas   text default "",
 	hora    char(10) not null,
@@ -393,29 +369,23 @@ create table plingt(
 
 
 
-
-
-
-
-
-
-
-
 /* DATA DE INVENTARIO */
   DROP TABLE IF EXISTS arwqty;
   create table arwqty(
     cuid int(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    cwhseno char(10) COLLATE utf8_spanish_ci not null,
-    cservno char(20) COLLATE utf8_spanish_ci not null,
-    nqtymin decimal(10,2) NOT NULL default 0.00,
-    nqtymax decimal(10,2) not null default 0.00,
-    cestante char(50) not null default "",
-    cbinno char(50) not null default ""
+    cwhseno char(10) default '',
+    cservno char(20) default '',
+    nqtymin decimal(10,2) default 0.00,
+    nqtymax decimal(10,2) default 0.00,
+    cestante char(50) default "",
+	mnotas text,
+    cbinno char(50) default ""
   )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 ALTER TABLE arwqty
   ADD KEY `cwhseno` (`cwhseno`),
   ADD KEY `cservno` (`cservno`);
+
 
 DROP TABLE IF EXISTS aradjm;
 CREATE TABLE `aradjm` (
@@ -749,18 +719,6 @@ CREATE TABLE `arserm` (
 ALTER TABLE `arserm`
   ADD PRIMARY KEY (`cservno`);
 
-/* tabla de existencias por bodega que se usa para la configuracion de la ubicacion de los objetos en cada bodega.*/
-DROP TABLE IF EXISTS arwqty;
-CREATE TABLE arwqty(
-  cuid INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-  cwhseno char(10) not null,
-  cservno char(20) not null,
-  nqtymin decimal(10,2) not null default 0.00,
-  nqtymax decimal(10,2) not null default 0.00,
-  cestante char(10) not null,
-  cbinno  char(10) not null,
-  mnotas text not null 
-)
 
 DROP TABLE IF EXISTS arsetup;
 CREATE TABLE `arsetup` (
@@ -896,7 +854,3 @@ ALTER TABLE `arskit`
 
 ALTER TABLE `artran`
   MODIFY `cuid` int(10) NOT NULL AUTO_INCREMENT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

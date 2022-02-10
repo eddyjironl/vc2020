@@ -33,8 +33,8 @@ if($lcaccion=="NEW"){
 	// haciendo la coneccion.
 	//$oConn = get_coneccion("CIA");
 	if (isset($_POST["cworkno"])){
-		$lcdesc  = $_POST["cdesc"];
-		$lmnotas = $_POST["mnotas"];
+		$lcdesc  = mysqli_real_escape_string($oConn,$_POST["cdesc"]);
+		$lmnotas = mysqli_real_escape_string($oConn,$_POST["mnotas"]);
 
 		// verificando que el codigo exista o no 
 		$lcsql   = " select cworkno from plworm where cworkno = '$lcworkno' ";

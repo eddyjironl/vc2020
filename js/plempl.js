@@ -299,7 +299,11 @@ function borrar(){
 	
 function valid_ckeyid(){
 	var lcxkeyvalue = document.getElementById("cempno").value;
-	update_window(lcxkeyvalue,"btccempno");
+
+	if (lcxkeyvalue != ""){	
+		update_window(lcxkeyvalue,"btccempno");
+	}	
+	
 }
 			
 function update_window(pckeyid){

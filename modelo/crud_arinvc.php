@@ -10,20 +10,20 @@
 		// recibiendo el JSON
 		$json = $_POST["json"];
 		$oAjt = json_decode($json,true);
-		$lccustno   = $oAjt["ccustno"];
-		$lcwhseno   = $oAjt["cwhseno"];
-		$lcpaycode  = $oAjt["cpaycode"];
-		$lcrespno   = $oAjt["crespno"];
-		$ldstardate = $oAjt["dstardate"];
-		$ldenddate  = $oAjt["denddate"];
-		$lmnotas    = $oAjt["mnotas"];
-		$lcrefno    = $oAjt["crefno"];
-		$lcdesc     = $oAjt["cdesc"];
-		$lctel      = $oAjt["ctel"];
-		$lntc       = $oAjt["ntc"];
-		$lnefectivo = $oAjt["efectivo"];
-		$ldpay      = $oAjt["dpay"];
-		$lmnotasr   = $oAjt["mnotasr"];
+		$lccustno   = mysqli_real_escape_string($oConn,$oAjt["ccustno"]);
+		$lcwhseno   = mysqli_real_escape_string($oConn,$oAjt["cwhseno"]);
+		$lcpaycode  = mysqli_real_escape_string($oConn,$oAjt["cpaycode"]);
+		$lcrespno   = mysqli_real_escape_string($oConn,$oAjt["crespno"]);
+		$ldstardate = (empty($oAjt["dstardate"]))?"0000-00-00":$oAjt["dstardate"];
+		$ldenddate  = (empty($oAjt["denddate"]))?"0000-00-00":$oAjt["denddate"];
+		$lmnotas    = mysqli_real_escape_string($oConn,$oAjt["mnotas"]);
+		$lcrefno    = mysqli_real_escape_string($oConn,$oAjt["crefno"]);
+		$lcdesc     = mysqli_real_escape_string($oConn,$oAjt["cdesc"]);
+		$lctel      = mysqli_real_escape_string($oConn,$oAjt["ctel"]);
+		$lntc       = mysqli_real_escape_string($oConn,$oAjt["ntc"]);
+		$lnefectivo = mysqli_real_escape_string($oConn,$oAjt["efectivo"]);
+		$ldpay      = (empty($oAjt["dpay"]))?"0000-00-00":$oAjt["dpay"];
+		$lmnotasr   = mysqli_real_escape_string($oConn,$oAjt["mnotasr"]);
 		$ldtrndate  = date("Y-m-d");
 		// configuracion de los saldos de factura.
 		$lnsalesamt   = 0;
@@ -47,7 +47,7 @@
 			if($a == "articulos"){
 				$longitud = count($b);
 				for($i=0; $i<$longitud; $i++) {
-					$lcservno  = $b[$i]["cservno"];
+					$lcservno  = mysqli_real_escape_string($oConn,$b[$i]["cservno"]);
 					//$lnpayamt = $b[$i]["ncost"];
 					$lcsql_ser = "select cdesc , ncost ,ntax from arserm where cservno = '". $lcservno ."'";
 					$lcresult  = mysqli_query($oConn,$lcsql_ser);

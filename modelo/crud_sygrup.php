@@ -24,8 +24,8 @@ if($lcaccion=="REFRESH"){
 	get_detalle($oConn,$lcgrpid);
 }
 if($lcaccion=="REFRESH_PERMISOS"){
-	$lcgrpid = $_POST["cgrpid"];
-	$lciaid  = $_POST["ccompid"];
+	$lcgrpid = mysqli_real_escape_string($oConn,$_POST["cgrpid"]);
+	$lciaid  = mysqli_real_escape_string($oConn,$_POST["ccompid"]);
 	get_permisos($oConn,$lcgrpid,$lciaid);
 }
 // actualizacion de tabla de permisos.
@@ -84,13 +84,13 @@ if ($lcaccion=="DELETE_USER"){
 
 // Ingresando a un nuevo usuario en el grupo.
 if($lcaccion=="NEW_USER"){
-	$lcuid      = $_POST["cuid"];
-	$lcstatus   = $_POST["cstatus"];
-	$lcgrpid    = $_POST["cgrpid"];
-	$lcfullname = $_POST["cfullname"];
-	$lcuserid   = $_POST["cuserid"];
-	$lcpasword  = $_POST["cpasword"];
-	$lcwhseno   = $_POST["cwhseno"];
+	$lcuid      = mysqli_real_escape_string($oConn,$_POST["cuid"]);
+	$lcstatus   = mysqli_real_escape_string($oConn,$_POST["cstatus"]);
+	$lcgrpid    = mysqli_real_escape_string($oConn,$_POST["cgrpid"]);
+	$lcfullname = mysqli_real_escape_string($oConn,$_POST["cfullname"]);
+	$lcuserid   = mysqli_real_escape_string($oConn,$_POST["cuserid"]);
+	$lcpasword  = mysqli_real_escape_string($oConn,$_POST["cpasword"]);
+	$lcwhseno   = mysqli_real_escape_string($oConn,$_POST["cwhseno"]);
 	if($lcuid == ""){
 		$lcsql = " insert into sysuser (cgrpid, cfullname, cuserid,cpasword,cwhseno)
 				   values('$lcgrpid','$lcfullname','$lcuserid','$lcpasword','$lcwhseno')
@@ -199,9 +199,9 @@ if($lcaccion=="NEW_SYPERM"){
 }
 
 if($lcaccion=="NEW"){
-	$lcgrpid  = $_POST["cgrpid"];
-	$lcdesc   = $_POST["cdesc"];
-	$lcstatus = $_POST["cstatus"];
+	$lcgrpid  = mysqli_real_escape_string($oConn,$_POST["cgrpid"]);
+	$lcdesc   = mysqli_real_escape_string($oConn,$_POST["cdesc"]);
+	$lcstatus = mysqli_real_escape_string($oConn,$_POST["cstatus"]);
 	// transacciones de los permisos.
 	$ojson = json_decode($_POST["json"],true);
 	

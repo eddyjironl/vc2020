@@ -60,19 +60,19 @@ if($lcaccion=="MENU"){
 }
 
 if($lcaccion=="NEW"){
-	$lccompid  = $_POST["ccompid"];
-	$lcompdesc = $_POST["compdesc"];
-	$lcstatus  = $_POST["cstatus"];
-	$lctel     = $_POST["ctel"];
-	$lcfax     = $_POST["cfax"];
-	$lmdirecc  = $_POST["mdirecc"];
-	$lcciudad  = $_POST["cciudad"];
-	$lcpais    = $_POST["cpais"];
-	$lnanofisc = $_POST["nanofisc"];
-	$lcuserid  = $_POST["cuser"];
-	$lcpasword = $_POST["ckeyid"];
-	$lchost    = $_POST["chost"];
-	$ldbname   = $_POST["dbname"];
+	$lccompid  = mysqli_real_escape_string($oConn,$_POST["ccompid"]);
+	$lcompdesc = mysqli_real_escape_string($oConn,$_POST["compdesc"]);
+	$lcstatus  = mysqli_real_escape_string($oConn,$_POST["cstatus"]);
+	$lctel     = mysqli_real_escape_string($oConn,$_POST["ctel"]);
+	$lcfax     = mysqli_real_escape_string($oConn,$_POST["cfax"]);
+	$lmdirecc  = mysqli_real_escape_string($oConn,$_POST["mdirecc"]);
+	$lcciudad  = mysqli_real_escape_string($oConn,$_POST["cciudad"]);
+	$lcpais    = mysqli_real_escape_string($oConn,$_POST["cpais"]);
+	$lnanofisc = mysqli_real_escape_string($oConn,$_POST["nanofisc"]);
+	$lcuserid  = mysqli_real_escape_string($oConn,$_POST["cuser"]);
+	$lcpasword = mysqli_real_escape_string($oConn,$_POST["ckeyid"]);
+	$lchost    = mysqli_real_escape_string($oConn,$_POST["chost"]);
+	$ldbname   = mysqli_real_escape_string($oConn,$_POST["dbname"]);
 	$lunicontdat =($_POST["lunicontdat"] == "true" )? 1:0; 
 
 	if(!empty($_POST["cfoto"])){

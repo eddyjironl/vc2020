@@ -37,12 +37,12 @@ if($lcaccion=="DELETE"){
 if($lcaccion=="NEW"){
 	// haciendo la coneccion.
 	if (isset($_POST["cwhseno"])){
-		$lcdesc   = $_POST["cdesc"];
-		$lcstatus = $_POST["cstatus"];
-		$lcrespno = $_POST["crespno"];
-		$lmnotas  = $_POST["mnotas"];
-		$lmdirecc = $_POST["mdirecc"];
-		$lmtel    = $_POST["mtel"];
+		$lcdesc   = mysqli_real_escape_string($oConn,$_POST["cdesc"]);
+		$lcstatus = mysqli_real_escape_string($oConn,$_POST["cstatus"]);
+		$lcrespno = mysqli_real_escape_string($oConn,$_POST["crespno"]);
+		$lmnotas  = mysqli_real_escape_string($oConn,$_POST["mnotas"]);
+		$lmdirecc = mysqli_real_escape_string($oConn,$_POST["mdirecc"]);
+		$lmtel    = mysqli_real_escape_string($oConn,$_POST["mtel"]);
 		// verificando que el codigo exista o no 
 		$lcsql   = " select cwhseno from arwhse where cwhseno ='$lcwhseno' ";
 		$lresult = mysqli_query($oConn,$lcsql);	

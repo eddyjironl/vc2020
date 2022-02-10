@@ -7,7 +7,9 @@
 	margin-left:2px;
 }
 
-
+.contenedor_objetos{
+	padding: 5px;
+}
 
 /*
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -265,7 +267,7 @@ input, select{
 	padding:1px;
 	margin-bottom:3px;
 	border:solid 1px rgb(240,240,240);
-	width:150px;
+	width:200px;
 	display: inline-block;						
 	color:blue;
 	background-color:rgb(240,240,240);
@@ -402,6 +404,23 @@ Botones barra de navegacion principal
 	box-shadow:cyan 5px 5px 15px;
 	color:blue;
 }
+.barra-standar{
+	color:white;
+	background:green;
+	/*border:2px solid gray;
+	margin:0;*/
+	font-family:arial;
+	font-size:19px;
+	height: 40px;
+	top:0px;
+	left:0px;
+	border-radius:10px 10px 0px 0px;    
+	border:solid 2px rgb(136, 122, 122);
+	box-shadow:white 0px 10px 10px;
+	padding:10px 10px;
+	margin-bottom:20;
+} 
+
 #barra_princ{
 	background:green;
 	top:0px;

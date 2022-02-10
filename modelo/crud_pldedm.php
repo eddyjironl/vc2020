@@ -33,13 +33,13 @@ if($lcaccion=="NEW"){
 	// haciendo la coneccion.
 	//$oConn = get_coneccion("CIA");
 	if (isset($_POST["cdedid"])){
-		$lcdesc     = $_POST["cdesc"];
-		$lcstatus   = $_POST["cstatus"];
-		$lcdescsh  = $_POST["cdescsh"];
+		$lcdesc    = mysqli_real_escape_string($oConn,$_POST["cdesc"]);
+		$lcstatus  = mysqli_real_escape_string($oConn,$_POST["cstatus"]);
+		$lcdescsh  = mysqli_real_escape_string($oConn,$_POST["cdescsh"]);
 		$lnvalue   = ($_POST["nvalue"]=="")? 0:$_POST["nvalue"];
-		$lmnotas   = $_POST["mnotas"];
-		$lcctaid_d = $_POST["cctaid_d"];
-		$lcctaid_h = $_POST["cctaid_h"];
+		$lmnotas   = mysqli_real_escape_string($oConn,$_POST["mnotas"]);
+		$lcctaid_d = mysqli_real_escape_string($oConn,$_POST["cctaid_d"]);
+		$lcctaid_h = mysqli_real_escape_string($oConn,$_POST["cctaid_h"]);
 		$lclear    = isset($_POST["lclear"]) ? 1:0;   
 
 		// verificando que el codigo exista o no 

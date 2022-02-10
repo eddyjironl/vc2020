@@ -18,7 +18,8 @@ if(isset($_POST["accion"])){
 }
 
 if (isset($_POST["ccustno"])){
-	$lccustno = $_POST["ccustno"];
+	$lccustno = mysqli_real_escape_string($oConn,$_POST["ccustno"]);
+	
 }
 $lnRowsAfect = 0;
 
@@ -31,7 +32,7 @@ if($lcaccion=="REFRESH"){
 
 if($lcaccion=="PAY_TO_INVOICE"){
 	
-	$lcinvno = $_POST["cinvno"];
+	$lcinvno = mysqli_real_escape_string($oConn,$_POST["cinvno"]);
 	$lcsql   = " select arcash.ccashno,arcasm.ctrnno,
 						arcash.namount,
 						arcasm.dtrndate,
@@ -66,9 +67,9 @@ if($lcaccion=="NEW"){
 	$oPay = json_decode($json,true);
 	//obteniendo el numero de factura.
 	$lccashno = GetNewDoc($oConn,"ARCASM");
-	$lccustno = $oPay['ccustno'];
-	$lcdesc   = $oPay['cdesc'];
-	$lcrefno  = $oPay['crefno'];
+	$lccustno = mysqli_real_escape_string($oConn,$oPay['ccustno']);
+	$lcdesc   = mysqli_real_escape_string($oConn,$oPay['cdesc']);
+	$lcrefno  = mysqli_real_escape_string($oConn,$oPay['crefno']);
 	
 	// -------------------------------------------------------------------------------
 	// A)- insertando los datos del encabezado del pago

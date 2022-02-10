@@ -22,16 +22,16 @@ SET time_zone = "+00:00";
 -- lista de menus estructurados del sistema.
 --
 
-drop table if exists 'ksschgrd';
+drop table if exists ksschgrd;
 create table ksschgrd(
   calias char(10) default "",
   corder char(10) default "",
   cheader char(30) default "",
-  mcolvalue text  default "",
+  mcolvalue text ,
   ncolwidth integer(3) default 0,
   cmodule char(10) default ""
 
-)ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+)ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 -- --------------------------------------------------------
 

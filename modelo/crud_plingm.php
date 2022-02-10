@@ -38,11 +38,11 @@ if($lcaccion=="NEW"){
 	// haciendo la coneccion.
 	//$oConn = get_coneccion("CIA");
 	if (isset($_POST["cingid"])){
-		$lcdesc   = $_POST["cdesc"];
-		$lcstatus = $_POST["cstatus"];
-		$lcdescsh = $_POST["cdescsh"];
-		$lcctaid  = $_POST["cctaid"];
-		$lnvalue  = $_POST["nvalue"];
+		$lcdesc   = mysqli_real_escape_string($oConn,$_POST["cdesc"]);
+		$lcstatus = mysqli_real_escape_string($oConn,$_POST["cstatus"]);
+		$lcdescsh = mysqli_real_escape_string($oConn,$_POST["cdescsh"]);
+		$lcctaid  = mysqli_real_escape_string($oConn,$_POST["cctaid"]);
+		$lnvalue  = mysqli_real_escape_string($oConn,$_POST["nvalue"]);
 		$lvac     = isset($_POST["lvac"]) ? 1:0;   
 		$lIhsApl  = isset($_POST["lIhsApl"]) ? 1:0;
 		$lvecinal = isset($_POST["lvecinal"]) ? 1:0; 

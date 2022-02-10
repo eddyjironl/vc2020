@@ -68,26 +68,27 @@ if($lcaccion=="DELETE_CUID2"){
 if($lcaccion=="NEW"){
 	// haciendo la coneccion.
 	if (isset($_POST["cservno"])){
-		$lcdesc     = $_POST["cdesc"];
-		$lcdesc2    = $_POST["cdesc2"];
-		$lcstatus   = $_POST["cstatus"];
-		$lcrespno   = $_POST["crespno"];
-		$lmnotas    = $_POST["mnotas"];
-		$lctserno   = $_POST["ctserno"];
+		$lcdesc     = mysqli_real_escape_string($oConn,$_POST["cdesc"]);
+		$lcdesc2    = mysqli_real_escape_string($oConn,$_POST["cdesc2"]);
+		$lcstatus   = mysqli_real_escape_string($oConn,$_POST["cstatus"]);
+		$lcrespno   = mysqli_real_escape_string($oConn,$_POST["crespno"]);
+		$lmnotas    = mysqli_real_escape_string($oConn,$_POST["mnotas"]);
+		$lctserno   = mysqli_real_escape_string($oConn,$_POST["ctserno"]);
 		$lncost     = ($_POST["ncost"] == "")?0:$_POST["ncost"];
 		$lntax      = ($_POST["ntax"]  == "")?0:$_POST["ntax"];
 		$lndesc     = ($_POST["ndesc"] == "")?0:$_POST["ndesc"];
 		$lnprice    = ($_POST["nprice"]== "")?0:$_POST["nprice"];
-		$lcctaid    = $_POST["cctaid"];
-		$lcctaid_c  = $_POST["cctaid_c"];
-		$lcctaid_i  = $_POST["cctaid_i"];
-		$lcitemtype = $_POST["citemtype"];
+		$lcctaid    = mysqli_real_escape_string($oConn,$_POST["cctaid"]);
+		$lcctaid_c  = mysqli_real_escape_string($oConn,$_POST["cctaid_c"]);
+		$lcctaid_i  = mysqli_real_escape_string($oConn,$_POST["cctaid_i"]);
+		$lcitemtype = mysqli_real_escape_string($oConn,$_POST["citemtype"]);
 		$lnminonhand = ($_POST["nminonhand"]== "")?0:$_POST["nminonhand"]; 
 		$llallowneg  = isset($_POST["lallowneg"]) ? 1:0; 
 		$llupdateonhand = isset($_POST["lupdateonhand"]) ? 1:0; 
 		if(!empty($_POST["cfoto"])){
-			$lcfoto  = 'cfoto = "../photos/otras/' . $_POST["cfoto"]. '",'; 	
-			$lcfotoI = '../photos/otras/' . $_POST["cfoto"]; 	
+			$lcnamefoto = mysqli_real_escape_string($oConn,$_POST["cfoto"]);
+			$lcfoto  = 'cfoto = "../photos/otras/' . $lcnamefoto. '",'; 	
+			$lcfotoI = '../photos/otras/' . $lcnamefoto; 	
 		}else{
 			$lcfoto  = "";
 			$lcfotoI = "";
@@ -214,13 +215,13 @@ if($lcaccion == "UPD_CUID"){
 }
 // actualizando linea de Arwqty
 if($lcaccion == "UPD_CUID2"){
-	$lcuid     = $_POST["cuid"];
-	$lcbinno   = $_POST["cbinno"];
-	$lcestante = $_POST["cestante"];
-	$lnqtymin  = $_POST["nqtymin"];
-	$lnqtymax  = $_POST["nqtymax"];
-	$lmnotas   = $_POST["mnotas"];
-	$lcservno  = $_POST["cservno"];
+	$lcuid     = mysqli_real_escape_string($oConn,$_POST["cuid"]);
+	$lcbinno   = mysqli_real_escape_string($oConn,$_POST["cbinno"]);
+	$lcestante = mysqli_real_escape_string($oConn,$_POST["cestante"]);
+	$lnqtymin  = mysqli_real_escape_string($oConn,$_POST["nqtymin"]);
+	$lnqtymax  = mysqli_real_escape_string($oConn,$_POST["nqtymax"]);
+	$lmnotas   = mysqli_real_escape_string($oConn,$_POST["mnotas"]);
+	$lcservno  = mysqli_real_escape_string($oConn,$_POST["cservno"]);
 	$lcsql     = "update arwqty set nqtymin  = $lnqtymin,    mnotas = '$lmnotas', nqtymax = $lnqtymax, 
 	                                cestante = '$lcestante' ,cbinno = '$lcbinno'  where cuid = '$lcuid' 
 				 ";
