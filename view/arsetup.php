@@ -85,7 +85,7 @@ if (vc_funciones::Star_session() == 1){
 							get_boton("btcxccls","transacciones.ico","Verificar");
 						</script>
 						<label class="labelnormal" >Cliente Id</label>	
-						<input type="text" id="ccustno" name="ccustno" class="textkey" placeholder="Indique un cliente">
+						<input type="text" id="ccustno1" name="ccustno1" class="textkey" placeholder="Indique un cliente">
 					
 				</fieldset>				
 			</div>

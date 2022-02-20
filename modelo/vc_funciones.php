@@ -1,9 +1,7 @@
 <?PHP
-
 	// mensajes generales de la aplicacion.
 	CONST NOT_DATA_RPT = "<H3>No hay datos que coincidan con estos criterios.</H3>";
 	CONST NOT_ALLOW_USER = "Usuario Denegado el Acceso";
-
 CLASS vc_funciones{
 	// obteniendo listado de menus de cualquier tabla en formato generico.
 	
@@ -16,7 +14,6 @@ CLASS vc_funciones{
 		// convirtiendo este array en archivo jason.
 		return $oArSetup;
 	}
-
 	public static function Star_session(){
 		// iniciando session
 		session_start();
@@ -63,16 +60,20 @@ CLASS vc_funciones{
 			$lcDbb=$oPSys;
 			$oConn = mysqli_connect($gHostId,$gUserId,$gPasWord,$lcDbb);
 		}else{
+			// conectando con la compañia a la cual entro y esta definida en el sistema.
 			$oConn = mysqli_connect($_SESSION["chost"],$_SESSION["cuser"],$_SESSION["ckeyid"],$_SESSION["dbname"]);
 		}
 		//if(!mysqli_connect_errno($oConn)){
 		if(!mysqli_connect_errno()){
 			mysqli_set_charset($oConn,"utf8");
 		}else{
-			echo "Coneccion NO Establecida.";
+			echo "<br><br>";
+			echo "<strong style='color:yellow;'>CONECCION NO ESTABLECIDA.</strong>";
 		}
 		return $oConn;
 	}		
+	
+	
 	public static function get_msg2(){
 		/*
 		var lcbt  = '<button class="btbarra" ';

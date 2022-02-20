@@ -194,7 +194,7 @@ if($lcaccion == "INSERT"){
 	$odata     = mysqli_fetch_assoc($lcresult);
 	$lnqty     = 1; // $_POST["nqty"];
 	$lmnotas   = ""; //$_POST["mnotas"];
-	$lcsql     = " insert into arskit(cservno, cservno1,nqty,ncost,	cuserid)
+	$lcsql     = " insert into arskit(cservno, cservno1,nqty,ncost,	usuario)
    		                       values('$lcservno','$lcservno1',1," . $odata["ncost"] .",'". $_SESSION['cuserid']. "')";	
 	// insertando los datos.
 	$lcresult = mysqli_query($oConn,$lcsql);

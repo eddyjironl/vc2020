@@ -41,18 +41,13 @@ if (vc_funciones::Star_session() == 1){
 					<br>
 					<label class="labelnormal" >Estado </label>
 					<select class="listas" id="cstatus" name="cstatus">
-						<option value=""></option>
 						<option value="">Elija un Estado</option>
 						<option value="OP">Activo</option>
 						<option value="CL">Anulado</option>
 					</select>
 					<br>
 					<label class="labelnormal" >Cuenta por Pagar </label>
-					<select class="listas" id="cctaid" name="cctaid">
-						<option value="  ">Sin Cuenta Especificada</option>
-						<option value="OP">Activo</option>
-						<option value="CL">Anulado</option>
-					</select>
+					<input type="text" id="cctaid" name="cctaid" class="textnormal">
 					<br>
 					<label>Direccion Completa </label><br>
 					<textarea id="mdirecc" name="mdirecc" class="mnotas" rows=3 cols=43> </textarea>
@@ -87,10 +82,7 @@ if (vc_funciones::Star_session() == 1){
 
 			</form>
 		<!-- Presentacion del menu -->
-		<script>
-			get_vmenu();
-			get_xm_menu();
-			get_msg();
-		</script>
+		<script>get_msg();</script>
+		<div id="showmenulist"></div>
 	</body>
 </html>

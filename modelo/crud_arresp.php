@@ -40,7 +40,7 @@ if($lcAccion=="NEW"){
 		$lcctaid    = mysqli_real_escape_string($oConn,$_POST["cctaid"]);
 		$lmdirecc   = mysqli_real_escape_string($oConn,$_POST["mdirecc"]);
 		$lmnotas    = mysqli_real_escape_string($oConn,$_POST["mnotas"]);
-		$lncomision = mysqli_real_escape_string($oConn,$_POST["ncomision"]);
+		$lncomision = mysqli_real_escape_string($oConn,($_POST["ncomision"]=="") ? 0 : $_POST["ncomision"]);
 		//$lndays    	 = isset($_POST["ndays"]) ? $_POST["ndays"]:0;
 		$lndays    	 = empty($_POST["ndays"])?0:$_POST["ndays"];
 		

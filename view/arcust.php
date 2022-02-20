@@ -224,9 +224,8 @@ if (vc_funciones::Star_session() == 1){
 					</fieldset>
 				</section>
 			</section>	
-	
+			<div id="showmenulist"></div>	
 		<!-- Presentacion del menu -->
-		<script>get_xm_menu();</script>
 		<script>get_msg();</script>
 	</body>
 </html>

@@ -11,7 +11,7 @@ function init(){
         get_menu_list("plingm","showmenulist","cingid");
     },false);
 
-    document.getElementById("cingid").addEventListener("blur",valid_key,false);
+    document.getElementById("cingid").addEventListener("change",valid_key,false);
     // ----------------------------------------------------------------------------------------------
 }
 function cerrar_pantalla_principal(){

@@ -1,23 +1,23 @@
 function init(){
-	// TAB - poniendo los botones a la escucha.
-	document.getElementById("tbinfo1").addEventListener("click",tabshow,false);
-	document.getElementById("tbinfo2").addEventListener("click",tabshow,false);
-	document.getElementById("tbinfo3").addEventListener("click",tabshow,false);
 	// Botones barra navegacion.
 	document.getElementById("btquit").addEventListener("click",cerrar_pantalla_arserm,false);	
 	document.getElementById("btnueva").addEventListener("click",clear_view,false);
 	document.getElementById("btdelete").addEventListener("click",borrar,false);
 	document.getElementById("btguardar").addEventListener("click",guardar,false);
-	document.getElementById("btwqty").addEventListener("click",upd_arwqty_config,false);
+
+	// TAB - poniendo los botones a la escucha.
+	document.getElementById("tbinfo1").addEventListener("click",tabshow,false);
+	document.getElementById("tbinfo2").addEventListener("click",tabshow,false);
+	document.getElementById("tbinfo3").addEventListener("click",tabshow,false);
+
 	// poniendo visible el objeto tab del info 
 	document.getElementById("finfo1").style.display = "block";
 	document.getElementById("tbinfo1").setAttribute("class","active");
-	// otros campos
-	document.getElementById("cservno").addEventListener("change",valid_ckeyid,false);
+
+	document.getElementById("btwqty").addEventListener("click",upd_arwqty_config,false);
 	document.getElementById("cfoto").addEventListener("change",show_foto,false);
 	// configurando tab2
 
-	document.getElementById("cservno1").addEventListener("change",upddet,false);
 	document.getElementById("bt_fsalir").addEventListener("click",cerrar_pantalla_actualiza_linea,false);
 	document.getElementById("bt_fupd").addEventListener("click",upd_linea_kit,false);
 	// pantalla de kardex
@@ -27,25 +27,24 @@ function init(){
 	gckeyid   = "cservno";
 	gckeydesc = "cdesc";
 	gcbtkeyid = "btcservno";
+
 	// -----------------------------------------------------------------
 	// CODIGO PARA LOS MENUS INTERACTIVOS.
-	// CADA MENU
-	//document.getElementById("btcservno").addEventListener("click",getmenulist,false);
-	document.getElementById("btcservno").addEventListener("click",show_menu_arserm,false);
-	document.getElementById("btcservno1").addEventListener("click",show_menu_arserm,false);
-	//document.getElementById("bt_m_refresh").addEventListener("click",show_menu_arcust,false);
-	
-	// una funcion de ordenamiento segun el menu que se elija.
-	// Lista de ordenamiento
-	document.getElementById("mx_opc_order").addEventListener("click",get_mx_detalle,false);
-	// opcion de busqueda
-	document.getElementById("mx_cbuscar").addEventListener("input",get_mx_detalle,false);
-	// ------------------------------------------------------------------------
+	//document.getElementById("cservno").addEventListener("blur",valid_ckeyid,false);
+	//document.getElementById("cservno1").addEventListener("blur",upddet,false);
+	document.getElementById("cservno").addEventListener("change",valid_ckeyid,false);
+	document.getElementById("cservno1").addEventListener("blur",upddet,false);
 
+	document.getElementById("btcservno").addEventListener("click",function(){
+        get_menu_list("arserm","showmenulist","cservno");
+    },false);
+
+	document.getElementById("btcservno1").addEventListener("click",function(){
+        get_menu_list("arserm","showmenulist","cservno1","upddet");
+    },false);
 	// cerrando pantalla de edicion de linea.
 	cerrar_pantalla_actualiza_linea();
 	cerrar_pantalla_kardex();
-	
 }
 function upd_arwqty_config(){
 	// ejecutando configuracion de la tabla de cantidades.
@@ -59,100 +58,6 @@ function upd_arwqty_config(){
 	oRequest.send(oDatos);
 	document.getElementById("articulos3").innerHTML = oRequest.response;
 }
-// ----------------------------------------------------------------------
-// MENU DE articulos
-// ----------------------------------------------------------------------
-function show_menu_arserm(e){
-	btorigen_menu = e.target.id;
-	
-	document.getElementById("xm_area_menu").style.display="inline";
-	var o_mx_lista = "";
-	// armando el listado
-	o_mx_lista += '	<select class="listas" id="mx_opc_order"> ';
-	o_mx_lista += ' 	<option value = "cservno">Articulo Id</option> ';
-	o_mx_lista += '		<option value = "cdesc">Descripcion </option> ';
-	o_mx_lista += '		<option value = "nprice">Precio </option> ';
-	o_mx_lista += '		<option value = "nonhand">Existencia</option> ';
-	o_mx_lista += '	</select> ';
-	// armando el encabezado 
-	var o_mx_Header = "";
-	o_mx_Header += ' <table id="mx_head" class="table_det"> ';
-	o_mx_Header += '	<thead> ';
-	o_mx_Header += '		<tr> ';
-	o_mx_Header += '			<td width="70px">Articulo Id </td> ';
-	o_mx_Header += '			<td width="200px">Descripcion</td> ';
-	o_mx_Header += '			<td width="50px">Precio</td> ';
-	o_mx_Header += '			<td width="50px">Existencia</td> ';
-	o_mx_Header += '		</tr> ';
-	o_mx_Header += '	</thead> ';
-	o_mx_Header += '</table> ';
-	// armando detalle de contenidos.
-	// cambiando el encabezado .
-	document.getElementById("mx_head").innerHTML = o_mx_Header;
-	document.getElementById("mx_opc_order").innerHTML = o_mx_lista;
-	get_mx_detalle();
-}
-// obteniendo el detalle de menus.
-function get_mx_detalle(e){
-		// A) filtrando y ordenando el detalle.
-		// ordenamiento por default
-		var lcorder = document.getElementById("mx_opc_order").value;
-		document.getElementById("mx_opc_order").value = lcorder;
-		// filtro de busqueda por defecto
-		var lcwhere = document.getElementById("mx_cbuscar").value;
-
-		// ejecutando la insercion del nuevo usuario.
-		var oRequest = new XMLHttpRequest();
-		// Creando objeto para empaquetado de datos.
-		var oDatos   = new FormData();
-		// adicionando datos en formato CLAVE/VALOR en el objeto datos para enviar como parametro a la consulta AJAX
-		oDatos.append("accion","MENU");
-		oDatos.append("orden", lcorder);
-		oDatos.append("filtro",lcwhere);
-		oRequest.open("POST","../modelo/crud_arserm.php",false); 
-		oRequest.send(oDatos);
-		var odata = JSON.parse(oRequest.response);
-		//cargando los valores de la pantalla.
-		if (odata != null){
-			var lnrows = odata.length;
-			var o_mx_detalles = '<table id="mx_detalle"> ';
-			o_mx_detalles += '<tbody>';
-			for (var i = 0; lnrows > i; ++i){
-				o_mx_detalles += '<tr class="xm_row_menu"> ';
-				o_mx_detalles += '	<td width="70px"> '+ odata[i]["cservno"] + '</td> ';
-				o_mx_detalles += '	<td width="200px">'+ odata[i]["cdesc"]   + '</td> ';
-				o_mx_detalles += '	<td width="50px"> '+ odata[i]["nprice"]  + '</td> ';
-				o_mx_detalles += '	<td width="50px"> '+ odata[i]["nonhand"] + '</td> ';
-				o_mx_detalles += '</tr> ';
-			}
-			o_mx_detalles += '</tbody> ';
-		}else{
-			o_mx_detalles = "<h1>No hay datos en el archivo</h1>";
-		}
-		document.getElementById("mx_detalle").innerHTML = o_mx_detalles;
-		// aplicando el llamado de la funcion de seleccion
-		var oRowDet = document.querySelectorAll("#mx_detalle tr");
-		lnRows = oRowDet.length;
-		for (var i=0; lnRows >i; ++i){
-			oRowDet[i].addEventListener("click",select_xkey,false);
-		}		
-	}
-function select_xkey(e){
-	var lckey  = e.currentTarget.cells[0].innerText;
-	var lcdesc = e.currentTarget.cells[1].innerText;
-	// dependiendo de que boton llamo el menu asi configura.
-	if (btorigen_menu == "btcservno1"){
-		document.getElementById("cservno1").value = lckey;
-		//document.getElementById("cservno1").focus();
-		upddet();
-	}else{
-		document.getElementById("cservno").value = lckey;
-		update_window(lckey);
-	}
-	cerrar_mx_view();
-}
-// -----------------------------------------------------------------------
-
 function get_pantalla_kardex(){
 	// haciendo request que devuelva el detalle de movimientos.
 	var oRequest = new XMLHttpRequest();
@@ -189,11 +94,9 @@ function get_pantalla_kardex(){
 	oRequest.send(oDatos);
 	document.getElementById("kardex_bodega").innerHTML = oRequest.response;
 }
-
 function cerrar_pantalla_kardex(){
 	document.getElementById("area_bloqueo").style.display="none";
 }
-
 function upd_linea_kit(){
 	// haciendo request que devuelva el contenido de la fila en formato JSON.
 	var oRequest = new XMLHttpRequest();
@@ -243,13 +146,11 @@ function cerrar_pantalla_actualiza_linea(){
 function cerrar_pantalla_arserm(){
 	arserm.style.display="none";
 }
-
 function show_foto(){
 	//"../photos/"+odata.cfoto
 	var lcfoto = document.getElementById("cfoto").value;
 	document.getElementById("cfoto1").setAttribute("src",lcfoto) ;
 }
-
 function guardar(){
 	var oform = document.getElementById("arserm");
 	// validaciones de campos obligatorios.
@@ -271,7 +172,6 @@ function guardar(){
 	}
 	oform.submit();
 }
-
 function borrar(){
 	var xkeyid = document.getElementById("cservno").value;
 	if(xkeyid != ""){
@@ -289,7 +189,7 @@ function borrar(){
 		oRequest.open("POST","../modelo/crud_arserm.php",false); 
 		oRequest.send(oDatos);
 		var lcmsg = oRequest.responseText;
-		if (lcmsg.length > 0){
+		if (lcmsg.length > 0  && lcmsg != "\t"){
 			getmsgalert(lcmsg);			
 		}else{
 			get_clear_view();
@@ -301,34 +201,12 @@ function borrar(){
 	}
 }
 	// este procedimiento utiliza la vupdate_window(pckeyid,pcmenuid)entana de menu y la despliega y rellena los contenidos con el request.		;
-function getmenulist(pcmenuid){
-	var menuid  = pcmenuid.target.id;
-	var oMenu   = document.getElementById("vmenu");
-	var oLista  = document.getElementById("vlista");
-	var oMhead  = document.getElementById("vcolumnas");
-	var oRequest = new XMLHttpRequest();
-	// Creando objeto para empaquetado de datos.
-	var oDatos   = new FormData();
-	// adicionando datos en formato CLAVE/VALOR en el objeto datos para enviar como parametro a la consulta AJAX
-	oDatos.append("accion","PANTALLA_MENU");
-	// obteniendo el menu
-	oRequest.open("POST","../modelo/crud_arserm.php",false); 
-	oRequest.send(oDatos);
-	// desplegando pantalla de menu con su informacion.
-	oLista.innerHTML = oRequest.responseText;
-	oRequest.open("POST","../modelo/crud_arserm.php",false); 
-	oDatos.append("opcion","H");
-	oRequest.send(oDatos);
-	oMhead.innerHTML = oRequest.responseText;
-	// habriendo el menu con los datos requeridos.
-	oMenu.style.display = "block";
-}
-	
 function valid_ckeyid(){
-	var lcrespno = document.getElementById("cservno").value;
-	update_window(lcrespno);
-}
-			
+	var lcservno = document.getElementById("cservno").value;
+	if (lcservno !=""){
+		update_window(lcservno);
+	}
+}	
 function update_window(pckeyid){
 	// --------------------------------------------------------------------------------------
 	// Con esta funcion se hace una peticion al servidor para obtener un JSON, con los 
@@ -377,7 +255,6 @@ function update_window(pckeyid){
 		ck_new_key();
 	}
 }
-			
 function tabshow(e){
 	// evitando que el tipo de boton haga un submit por defecto y recargue la pagina.
 	e.preventDefault();
@@ -410,11 +287,16 @@ function tabshow(e){
 // inserta en el detalle este articulo
 function upddet(){
 	var llcont = document.getElementById("cservno").value;
-	if (!llcont){
+	var llcont2 = document.getElementById("cservno1").value;
+	if (llcont ==""){
 		getmsgalert("No ha indicado el codigo del articulo compuesto");
 		document.getElementById("cservno1").value="";
 		document.getElementById("cservno").focus();
 		return ;
+	}
+
+	if (llcont2 == ""){
+		return ;		
 	}
 	var oRequest = new XMLHttpRequest();
 	// Creando objeto para empaquetado de datos.
@@ -468,7 +350,6 @@ function refresh_det(){
 	// cargando el detalle.
 	document.getElementById("articulos").innerHTML = oRequest.response;
 }
-
 function eliminarFila(pcuid){
 	var oRequest = new XMLHttpRequest();
 	// Creando objeto para empaquetado de datos.
@@ -542,6 +423,5 @@ function editarFila2(pcuid){
 	var odata = JSON.parse(oRequest.response); 
 	document.getElementById("articulos3").innerHTML = oRequest.response;
 }
-
 // actualiza los cambios en la linea de detalle.
 window.onload=init;

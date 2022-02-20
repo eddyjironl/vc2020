@@ -78,7 +78,7 @@ if($lcaccion=="NEW"){
 	// -------------------------------------------------------------------------------
 	// A)- insertando los datos del encabezado del requisa
 	// -------------------------------------------------------------------------------
-	$lcsql = "insert into aradjm(cadjno,crefno, ccateno, crespno, dtrndate,mnotas,cwhseno, ntc, cuserid)
+	$lcsql = "insert into aradjm(cadjno,crefno, ccateno, crespno, dtrndate,mnotas,cwhseno, ntc, usuario)
 			  values('$lcadjno','" . $oAjt['crefno'] . "','". $oAjt['ccateno'] ."','" .$oAjt['crespno']."','".$oAjt['dtrndate'].
 					"','".$lcmnotas."','".$oAjt['cwhseno']."',".$oAjt['ntc'].",'" . $_SESSION["cuserid"]. "')";
 	// -------------------------------------------------------------------------------
@@ -97,7 +97,7 @@ if($lcaccion=="NEW"){
 				$lcresult  = mysqli_query($oConn,$lcsql_ser);
 				$ldata     = mysqli_fetch_assoc($lcresult);
 				if ($lnveces == 1){
-					$lcsql_d = "insert into aradjt(cadjno,cservno,cdesc, ncost,ncostu,nqty,cuserid)
+					$lcsql_d = "insert into aradjt(cadjno,cservno,cdesc, ncost,ncostu,nqty,usuario)
 					            values ('$lcadjno','". $b[$i]["cservno"] ."','". $ldata["cdesc"] ."',". $b[$i]["ncost"] .",". $ldata["ncost"] .",$lnfactor * ". $b[$i]["nqty"] .",'".$_SESSION["cuserid"]."')";
 					$lnveces = 2;
 				}else{
@@ -141,7 +141,7 @@ if($lcaccion=="NEW"){
 		// -------------------------------------------------------------------------------
 		// C)- insertando los datos del encabezado del requisa
 		// -------------------------------------------------------------------------------
-		$lcsql1 = "insert into aradjm(cadjno,crefno, ccateno, crespno, dtrndate,mnotas,cwhseno, ntc, cuserid)
+		$lcsql1 = "insert into aradjm(cadjno,crefno, ccateno, crespno, dtrndate,mnotas,cwhseno, ntc, usuario)
 				values('$lcadjno1','" . $oAjt['crefno'] . "','". $oAjt['ccateno1'] ."','" .$oAjt['crespno']."','".$oAjt['dtrndate'].
 						"','".$lcmnotas."','".$oAjt['cwhseno1']."',".$oAjt['ntc'].",'" . $_SESSION["cuserid"]. "')";
 		// -------------------------------------------------------------------------------
@@ -160,7 +160,7 @@ if($lcaccion=="NEW"){
 					$lcresult  = mysqli_query($oConn,$lcsql_ser);
 					$ldata     = mysqli_fetch_assoc($lcresult);
 					if ($lnveces == 1){
-						$lcsql_d1 = "insert into aradjt(cadjno,cservno,cdesc, ncost,ncostu,nqty,cuserid)
+						$lcsql_d1 = "insert into aradjt(cadjno,cservno,cdesc, ncost,ncostu,nqty,usuario)
 									values ('$lcadjno1','". $b[$i]["cservno"] ."','". $ldata["cdesc"] ."',". $b[$i]["ncost"] .",". $ldata["ncost"] .",$lnfactor1 * ". $b[$i]["nqty"] .",'".$_SESSION["cuserid"]."')";
 						$lnveces = 2;
 					}else{

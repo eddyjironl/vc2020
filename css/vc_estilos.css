@@ -11,6 +11,76 @@
 	padding: 5px;
 }
 
+
+/* CONFIGURACION NUEVO MENU DEL SISTEMA.*/
+/* ------------------------------------------------------------------*/
+.menu_area_bloqueo{
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	/*transition: opacity 400ms ease-in;*/
+}
+.form_menu{
+	background-color:rgba(202,202,202,1);
+	box-shadow:black 7px 7px 10px;
+	padding:2px;
+	border-radius:10px 10px 0px 0px;
+	width:fit-content;
+	height:fit-content;
+	display:inline-block;
+	margin:5% 10%;
+}
+.menu_barra{
+    /* formato en verde.*/
+	font-size:11px;
+	font-family:arial;
+	background:green;  
+	color:yellow;
+	box-shadow:white 0px 10px 10px;
+    top:0px;
+	left:0px;
+	padding:10px;
+	border-radius:10px 10px 0px 0px;
+}
+.menu_area_detalles{
+	height:300px;	
+	overflow: auto;
+	margin-left:5px;
+	margin-right: 5px;
+	border-bottom: solid 3px gray;
+}
+.menu_detalles{
+	font-size:11px;
+	font-family:arial;
+	text-align: left;
+    margin-left:6px;
+	margin-right:6px;
+	color:cyan;
+	background: black;
+}
+.menu_encabezado{	
+	background-color:rgb(77, 75, 75); /* #dcdcdc;*/
+	color:white; /* #000000;*/
+	border: solid 3px gray;
+	text-align: left;
+	font-size:11px;
+	font-family:arial;
+    margin-left:10px;
+	margin-top:10px;
+	margin-right: 10px;
+}
+.menu_detalles tr:hover{
+	color:white;
+	box-shadow:white 0px 10px 10px;
+	background-color:green;
+	cursor:hand;
+}
+
+/* ------------------------------------------------------------------*/
+
+
 /*
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 Estilos del View Menu 
@@ -24,26 +94,32 @@ Estilos del View Menu
 	left: 0;
 	/*transition: opacity 400ms ease-in;*/
 }
-#form_menu{
-	margin:5% 10%;
-}
+
+
 .mx_barra_sencilla{
     /* formato en verde.*/
-	background:green;
+	background:green;  
 	color:yellow;
 	box-shadow:white 0px 10px 10px;
-    
-    /* formato en blanco.
-		background:rgb(240,240,240);
-		color:black;
-		box-shadow:black 0px 10px 10px;
-	*/
-
-	top:0px;
+    top:0px;
 	left:0px;
-	padding:5px;
+	padding:10px;
 	border-radius:10px 10px 0px 0px;
 }
+
+.mx_formato_datos{	
+	background-color:#dcdcdc;
+	color: #000000;
+	font-size:11px;
+	font-family:arial;
+}
+
+.mx_area_encabezado{
+	color:blue;
+	margin:auto 10px;
+}
+
+
 #mx_detalle tr:hover{
 	color:black;
 	box-shadow:cyan 0px 10px 10px;
@@ -54,16 +130,7 @@ Estilos del View Menu
 	color:blue;
 	cursor:hand;
 }
-.mx_formato_datos{	
-	background-color:#dcdcdc;
-	color:#000000;
-	font-size:11px;
-	font-family:arial;
-}
-.mx_area_encabezado{
-	color:blue;
-	margin:auto 10px;
-}
+
 .mx_area_detalles{
 	height:300px;	
 	color:blue;

@@ -47,9 +47,7 @@ if (vc_funciones::Star_session() == 1){
 				<textarea id="mnotas" name="mnotas" class="mnotas" rows=9 cols=55> </textarea>
 			</fieldset>
 		</form>
-		<script>
-			get_xm_menu();
-			get_msg();
-		</script>
+		<script>get_msg();</script>
+		<div id="showmenulist"></div>
 	</body>
 </html>

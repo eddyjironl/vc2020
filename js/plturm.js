@@ -11,7 +11,7 @@ function init(){
         get_menu_list("plturm","showmenulist","cturno");
     },false);
 
-    document.getElementById("cturno").addEventListener("blur",valid_key,false);
+    document.getElementById("cturno").addEventListener("change",valid_key,false);
     // ----------------------------------------------------------------------------------------------
 }
 function cerrar_pantalla_principal(){

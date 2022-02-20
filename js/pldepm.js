@@ -11,7 +11,7 @@ function init(){
         get_menu_list("pldept","showmenulist","cdeptno");
     },false);
 
-    document.getElementById("cdeptno").addEventListener("blur",valid_key,false);
+    document.getElementById("cdeptno").addEventListener("change",valid_key,false);
     // ----------------------------------------------------------------------------------------------
 }
 function cerrar_pantalla_principal(){

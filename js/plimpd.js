@@ -5,7 +5,7 @@ function init(){
     },false);
 
 
-    document.getElementById("cplano").addEventListener("blur",valid_key,false);
+    document.getElementById("cplano").addEventListener("change",valid_key,false);
 
     document.getElementById("add").addEventListener("click",show_screen_plmast_add,false);
     document.getElementById("quit").addEventListener("click",cerrar_pantalla,false);

@@ -31,7 +31,7 @@ if (vc_funciones::Star_session() == 1){
 					<button  class="tablinks" id="tbinfo2" >Componentes</button>
 					<button  class="tablinks" id="tbinfo3" >Bodegas</button>
 				</div>	
-
+				
 			</fieldset>	
 			<div id="finfo1" class="tabcontent">
 				<fieldset class= "fieldset">
@@ -260,11 +260,7 @@ if (vc_funciones::Star_session() == 1){
 				   
 				</section>
 			</section>	
-		
-		<script>
-			get_msg();
-			get_xm_menu();
-			//get_vmenu();
-		</script>
+		<div id="showmenulist"></div>
+		<script>get_msg();</script>
 	</body>
 </html>

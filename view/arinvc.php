@@ -112,10 +112,8 @@ if ($lcStarSession == 1){
 				<input type="text" name="ntotamt" id="ntotamt" class="sayamt" readonly >
 				</fieldset>
 			</form>
-		<script>
-			get_msg();
-			get_xm_menu();
-			</script>
+		<script>get_msg();</script>
+		<div id="showmenulist"> </div>
 		<form id="pantalla_pago" target="_blank" name="pantalla_pago" method="post" action="../reports/rpt_arinvc_tiquete.php" >	
 				<section id="fpago" class="form2"  name="fpago">
 					<div id="div1">

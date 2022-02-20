@@ -40,7 +40,7 @@ if($_POST["program"]== "get_menu_list"){
 	$lcTitle   = "";
 	$lcBtQuit  = "";
 	//configuracion del boton de salida del menu
-	$lcid        = "bt_menu_salir";
+	$lcid        = "bt_menu_salir2";
 	$pcpicture   = "../photos/salir.ico";
 	$pcDescShort = "cerrar";
 
@@ -57,9 +57,9 @@ if($_POST["program"]== "get_menu_list"){
 	if($lcresult->num_rows> 0){
 
 		// creando lista de menu ordemnamientos y encabezados de tabla.
-		$lcselect = '<select class="listas" id="mx_opc_order">';
+		$lcselect = '<select class="listas" id="mx_opc_order2">';
 		// creando encabezado de la tabla.
-		$lctableheader = '<table id="mx_head" class="mx_formato_datos"> <tr>';
+		$lctableheader = '<table class="menu_encabezado"> <tr>';
 		// hacemos un lup buscando los datos necesarios.
 		$lnveces = 1;
 		while($oHtml = mysqli_fetch_assoc($lcresult)){
@@ -77,7 +77,7 @@ if($_POST["program"]== "get_menu_list"){
 				// cargando la lista y encabezado de tabla.
 				$lcselect = $lcselect. '<option value = "'. $oHtml["mcolvalue"] .'"> '. $oHtml["cheader"].' </option>';
 				// caargando las columnas del encabezado.
-				$lctableheader = $lctableheader . '<th width='.$oHtml["ncolwidth"].'> '. $oHtml["cheader"] .'</th>';		
+				$lctableheader = $lctableheader . '<th width="'.$oHtml["ncolwidth"].'"> '. $oHtml["cheader"] .'</th>';		
 			}
 		}
 		$lcselect = $lcselect . '</select>';
@@ -89,7 +89,7 @@ if($_POST["program"]== "get_menu_list"){
 		// $lctabledetail = getMenuDetail();
 
 		$oConn1 = vc_funciones::get_coneccion("CIA");		
-		$lctabledetail = '<table id="mx_detalle" class="mx_formato_datos">';
+		$lctabledetail = '<table class="menu_detalles" id="menu_detalles">';
 		$lcresult = mysqli_query($oConn1, $lcsqlcmd);
 		// numero de registros a presentar en la tabla de detalles.
 		$lnReccnos = count($afields);
@@ -106,38 +106,37 @@ if($_POST["program"]== "get_menu_list"){
 				}
 				$lctabledetail = $lctabledetail  .'</tr>';
 			}
-			$lctabledetail = $lctabledetail . "</table";
+			$lctabledetail = $lctabledetail . "</table>";
 
 		}else{
-			$lctabledetail = "Tabla ". $lcTitle . "Se encuentra Vacia";
+			$lctabledetail = " <br><br><strong> Tabla ". $lcTitle . " <br> Se Encuentra Vacia </strong>";
 		}
 		// pintando la pantalla
-		$oFormMenu = '	<section class="mx_area_bloqueo" id="xm_area_menu">
-						<section class="form2" id="form_menu">
-							<div class="mx_barra_sencilla" id="mx_barra_sencilla">
-								<strong id="mx_titulo">'. $lcTitle.'</strong>
-								<br>
-								<label class="labelnormal">Ordenado por </label>
-									'.$lcselect.'
-								<br>				
-								<label class="labelnormal">Buscar</label>
-								<input type="text" id="mx_cbuscar" name="mx_cbuscar" class="textnormal">
-							</div>
-							<br>
-							<div= class="mx_area_encabezado">'
-								.$lctableheader. '
-							</div=>
-							<br>
-							<div class="mx_area_detalles">
-								'.$lctabledetail.'
-							</div>
-							<div class= "mx_area_encabezado">
-								'.$lcbt.'
-							</div>
-						</section>
-					</section>';
-
-		echo $oFormMenu;
+	
+      echo'	<div class="menu_area_bloqueo" id="menu_area_bloqueo"> ';
+      echo'	<div class="form_menu"> ';
+      echo'		<div class="menu_barra" id="mx_barra_sencilla"> ';
+      echo'			<strong id="mx_titulo">'. $lcTitle.'</strong> ';
+      echo'			<br> ';
+      echo'			<label class="labelnormal">Ordenado por </label> ';
+      echo 		    $lcselect;
+      echo'			<br>				 ';
+      echo'            <label class="labelnormal">Buscar</label> ';
+      echo'			<input type="text" id="mx_cbuscar2" name="mx_cbuscar2" class="textnormal"> ';
+      echo'		</div> ';
+      echo'        <br> ';
+      echo'        <div> ';
+      echo 		   $lctableheader ;
+      echo'		</div> ';
+      echo'		<div class="menu_area_detalles"> ';
+      echo 			$lctabledetail;
+      echo'		</div> ';
+      echo'        <div class="contenedor_objetos">     ';
+      echo            $lcbt;
+      echo'        </div> ';
+      echo'	</div> ';
+      echo' </div> ';
+	
 		
 	}else{
 		echo "Menu no configurado";
@@ -147,7 +146,7 @@ if($_POST["program"]== "get_menu_list"){
 if($_POST["program"]=="get_mx_detalle"){
 	// el where no siempre viene incluido
 	$oConn1 = vc_funciones::get_coneccion("CIA");		
-	$lctabledetail = '<table id="mx_detalle" class="mx_formato_datos">';
+	$lctabledetail = '<table class="menu_detalles">';
 	$tabla   = $_POST["tabla"];
 	$lcwhere = "";
 	// ordenamiento del reporte siempre debe estar lleno.	

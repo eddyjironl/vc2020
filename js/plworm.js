@@ -11,7 +11,7 @@ function init(){
         get_menu_list("plworm","showmenulist","cworkno");
     },false);
 
-    document.getElementById("cworkno").addEventListener("blur",valid_key,false);
+    document.getElementById("cworkno").addEventListener("change",valid_key,false);
     // ----------------------------------------------------------------------------------------------
 }
 function cerrar_pantalla_principal(){

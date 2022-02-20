@@ -32,27 +32,11 @@ function arsetup_init(){
 	// desplegando pantalla de menu con su informacion.
 	oArSetup = JSON.parse(oRequest.response);
 }
-
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
 // A)- listados de catalogos unificado nuevo. iniciado el 1/1/2022 terminado el 4/1/2022
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
-
 /* obtiene la funcion de lista de menu automatico.*/
-function get_menu_list(pcmenuid,pcShowIn,pckeyshow ){
-	// mas que indicar en que parte del DOM se mostrara la venta deberia indicar en que campo el valor seleccionado
-	// se mostrara en el DOM.
-	/*
-		Descripcion.
-		---------------------------------------
-		pcmenuid: Id del listado de menu que se 
-				  desea desplegar en pantalla.
-	
-		pcShowIn: Nombre del elemento HTML que se
-	    	      usara para presentar el window del
-				  menu solicitado. 
-
-		*/
-
+function get_menu_list(pcmenuid,pcShowIn,pckeyshow,pcfunction){
 	var oRequest = new XMLHttpRequest();
 	var oDatos = new FormData();
 	oDatos.append("program","get_menu_list");
@@ -62,29 +46,77 @@ function get_menu_list(pcmenuid,pcShowIn,pckeyshow ){
 	oRequest.open("POST","../modelo/symodule.php",false);
 	oRequest.send(oDatos);
 	document.getElementById(pcShowIn).innerHTML = oRequest.responseText;
-	document.getElementById("xm_area_menu").style.display="inline";
+	document.getElementById("menu_area_bloqueo").style.display="inline";
 	// configurando apariencia del menu y comportamiento.
-	set_config_menu(pckeyshow,pcmenuid);
+	set_config_menu(pckeyshow,pcmenuid,pcShowIn,pcfunction);
 }
-function set_config_menu(pckeyshow,pcmenuid){
+function set_config_menu(pckeyshow,pcmenuid,pcShowIn,pcfunction){
     // configurando la salida del boton de menu
-    document.getElementById("bt_menu_salir").addEventListener("click",cerrar_mx_view,false);
+    document.getElementById("bt_menu_salir2").addEventListener("click",cerrar_menu_view,false);
 	// a)- Configurando comportamiento de la lista de ordenamiento
 	// Lista de ordenamiento
-	document.getElementById("mx_opc_order").addEventListener("click",function(){get_mx_detalle(pcmenuid);},false);
+	document.getElementById("mx_opc_order2").addEventListener("change",function(){get_menu_detalle(pcShowIn,pcmenuid,pckeyshow);},false);
 	// b)- Configurando el comportamiento del texto de busqueda.
 	// opcion de busqueda
-	document.getElementById("mx_cbuscar").addEventListener("input",function(){get_mx_detalle(pcmenuid);},false);
+	document.getElementById("mx_cbuscar2").addEventListener("input",function(){get_menu_detalle(pcShowIn,pcmenuid,pckeyshow);},false);
 	// c)- Configurando el selector de registro en el menu.
 	// aplicando el llamado de la funcion de seleccion
-	var oRowDet = document.querySelectorAll("#mx_detalle tr");
+	var oRowDet = document.querySelectorAll(".menu_detalles tr");
 	lnRows = oRowDet.length;
 	for (var i=0; lnRows >i; ++i){
 		//oRowDet[i].addEventListener("click",select_xkey,false);
 		oRowDet[i].addEventListener("click",function(){
-			select_xkey_x(this,pckeyshow);
+			menu_select_xkey_x(this,pckeyshow,pcfunction);
 		},false);
 	}		
+}
+function menu_select_xkey_x(e,pcobjshow,pcfunction){
+	//	var lckey  = e.currentTarget.cells[0].innerText;
+	//	var lcdesc = e.currentTarget.cells[1].innerText;
+		var lckey  = e.cells[0].innerText;
+		var lcdesc = e.cells[1].innerText;
+		// funcion por defecto que deberia ejecutar el procedimiento y debe existir 
+		// en cada js de cada vista.
+		var ofunction = "valid_ckeyid";
+		cerrar_menu_view();
+		document.getElementById(pcobjshow).value = lckey;
+		document.getElementById(pcobjshow).focus();
+		// metodos de ejecutar funciones pasadas por string.
+		if (typeof(pcfunction) != "undefined"){
+			ofunction = pcfunction;
+		}
+		window[ofunction]();
+	//	eval(lcfunction);
+}
+// Cerrando ventana de menu.
+function cerrar_menu_view(){
+	document.getElementById("menu_area_bloqueo").style.display="none";
+}
+function get_menu_detalle(pcShowIn,pcmenuid,pckeyshow){
+	// Se encarga de refrescar el detalle de la pantalla de menu segun los parametros de la lista de menu
+	// no recarga la pantalla completa solo la parte del detalle.
+	// actualiza la parte datos del menu de lista segun su ordenamiento o filtro.
+	var oRequest = new XMLHttpRequest();
+	var oDatos = new FormData();
+	oDatos.append("program","get_mx_detalle");
+	// campos que contienen los valores de busqueda y ordenamiento.
+	lcorder = document.getElementById("mx_opc_order2").value;
+	lcseek  = document.getElementById("mx_cbuscar2").value;
+
+	oDatos.append("orden" ,lcorder);
+	oDatos.append("filtro",lcseek);
+	oDatos.append("tabla" ,pcmenuid);
+	//oRequest.open("POST","../modelo/armodule.php",false);
+	oRequest.open("POST","../modelo/symodule.php",false);
+	oRequest.send(oDatos);
+	document.getElementById("menu_detalles").innerHTML = oRequest.responseText;
+	set_config_menu(pckeyshow,pcmenuid,pcShowIn);
+}
+// -----------------------------------------------------------------------------------
+// viejas funciones de menu version 1.0
+// -----------------------------------------------------------------------------------
+function cerrar_mx_view(){
+	document.getElementById("xm_area_menu").style.display="none";
 }
 function select_xkey_x(e,pcobjshow){
 	//	var lckey  = e.currentTarget.cells[0].innerText;
@@ -94,31 +126,41 @@ function select_xkey_x(e,pcobjshow){
 		cerrar_mx_view();
 		document.getElementById(pcobjshow).value = lckey;
 		document.getElementById(pcobjshow).focus();
-		
 }
-// Se encarga de refrescar el detalle de la pantalla de menu segun los parametros de la lista de menu
-// no recarga la pantalla completa solo la parte del detalle.
-// actualiza la parte datos del menu de lista segun su ordenamiento o filtro.
-function get_mx_detalle(pcmenuid){
-	var oRequest = new XMLHttpRequest();
-	var oDatos = new FormData();
-	oDatos.append("program","get_mx_detalle");
-	// campos que contienen los valores de busqueda y ordenamiento.
-	lcorder = document.getElementById("mx_opc_order").value;
-	lcseek  = document.getElementById("mx_cbuscar").value;
-
-	oDatos.append("orden" ,lcorder);
-	oDatos.append("filtro",lcseek);
-	oDatos.append("tabla" ,pcmenuid);
-	//oRequest.open("POST","../modelo/armodule.php",false);
-	oRequest.open("POST","../modelo/symodule.php",false);
-	oRequest.send(oDatos);
-	document.getElementById("mx_detalle").innerHTML = oRequest.responseText;
-
+function get_xm_menu(){
+	// dibujando pantalla de menu.
+	var oMenu = '<section class="mx_area_bloqueo" id="xm_area_menu">';
+		oMenu +='	<section class="form2" id="form_menu">';
+		oMenu +='		<div class="mx_barra_sencilla" id="mx_barra_sencilla">';
+		oMenu +='			<strong id="mx_titulo">Listado de Tabla</strong>';
+		oMenu +='			<br>';
+		oMenu +='			<label class="labelnormal">Ordenado por </label>';
+		oMenu +='			<select class="listas" id="mx_opc_order"></select>';
+		oMenu +='			<br>';					
+		oMenu +='			<label class="labelnormal">Buscar</label>';
+		oMenu +='			<input type="text" id="mx_cbuscar" name="mx_cbuscar" class="textnormal">';
+		oMenu +='		</div>';
+		oMenu +='		<br>';
+		oMenu +='		<div class="mx_area_encabezado">';
+		oMenu +='			<table id="mx_head" class="mx_formato_datos"></table>';
+		oMenu +='		</div>';
+		oMenu +='		<br>'; 
+		oMenu +='		<div class="mx_area_detalles">';
+		oMenu +='			<table id="mx_detalle" class="mx_formato_datos"></table>';
+		oMenu +='		</div>';
+		oMenu +='		<div class= "mx_area_encabezado">';
+		oMenu +='			<script>';
+		oMenu +='				get_boton("bt_menu_salir","salir.ico","Cerrar");';	
+		oMenu +='			</script>';
+		oMenu +='		</div>';
+		oMenu +='	</section>';
+		oMenu +='</section>';
+	// escribiendo la ventana.
+	document.write(oMenu);
+	document.getElementById("bt_menu_salir").addEventListener("click",cerrar_mx_view,false);
+	document.getElementById("xm_area_menu").style.display="none";
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
-
-
 function get_lista_artran(){
 	var oRequest = new XMLHttpRequest();
 	oRequest.open("GET","../menu/menu_artran.php",false); // Genera una lista de clientes.
@@ -143,7 +185,6 @@ function get_lista_artser(){
 	oRequest.send(oDatos);
 	document.write(oRequest.responseText);
 }
-
 function get_lista_arwhse(pcName){
 	var oRequest = new XMLHttpRequest();
 
@@ -378,43 +419,6 @@ function get_vmenu(){
 	oMenu.style.display="none";
 }	
 // funcion para dibujar menu vista.
-function get_xm_menu(){
-	// dibujando pantalla de menu.
-	var oMenu = '<section class="mx_area_bloqueo" id="xm_area_menu">';
-		oMenu +='	<section class="form2" id="form_menu">';
-		oMenu +='		<div class="mx_barra_sencilla" id="mx_barra_sencilla">';
-		oMenu +='			<strong id="mx_titulo">Listado de Tabla</strong>';
-		oMenu +='			<br>';
-		oMenu +='			<label class="labelnormal">Ordenado por </label>';
-		oMenu +='			<select class="listas" id="mx_opc_order"></select>';
-		oMenu +='			<br>';					
-		oMenu +='			<label class="labelnormal">Buscar</label>';
-		oMenu +='			<input type="text" id="mx_cbuscar" name="mx_cbuscar" class="textnormal">';
-		oMenu +='		</div>';
-		oMenu +='		<br>';
-		oMenu +='		<div class="mx_area_encabezado">';
-		oMenu +='			<table id="mx_head" class="mx_formato_datos"></table>';
-		oMenu +='		</div>';
-		oMenu +='		<br>'; 
-		oMenu +='		<div class="mx_area_detalles">';
-		oMenu +='			<table id="mx_detalle" class="mx_formato_datos"></table>';
-		oMenu +='		</div>';
-		oMenu +='		<div class= "mx_area_encabezado">';
-		oMenu +='			<script>';
-		oMenu +='				get_boton("bt_menu_salir","salir.ico","Cerrar");';	
-		oMenu +='			</script>';
-		oMenu +='		</div>';
-		oMenu +='	</section>';
-		oMenu +='</section>';
-	// escribiendo la ventana.
-	document.write(oMenu);
-	document.getElementById("bt_menu_salir").addEventListener("click",cerrar_mx_view,false);
-	document.getElementById("xm_area_menu").style.display="none";
-}
-// Cerrando ventana de menu.
-function cerrar_mx_view(){
-	document.getElementById("xm_area_menu").style.display="none";
-}
 // BOTONES.
 function set_url(pcobj,pcurl){
 	document.getElementById(pcobj).setAttribute("href",pcurl);
@@ -500,19 +504,29 @@ function get_bthelp(pcDesc){
   	oBtMenu = "<img id='helpview' name='helpview' src='../photos/vc2009.ico' title='" + lcDesc + "' class='bthelp' alt='x'/>";
 	document.write(oBtMenu);
 }
-
 function get_clear_view(){
 	// -------------------------------------------------------------------------------
 	// modificacion 07/01/2020
 	// reconfigurando los elementos inputs de la vista 
 	// -------------------------------------------------------------------------------
 	var oinput = document.querySelectorAll("input[type='text']");
-	var oinput_number = document.querySelectorAll("input[type='numeric']");
-	var oinput_chek   = document.querySelectorAll("input[type='checkbox']");
+	var oinput_number   = document.querySelectorAll("input[type='numeric']");
+	var oinput_chek     = document.querySelectorAll("input[type='checkbox']");
+	
+	var oinput_types = document.querySelectorAll("input");
+	var oinput_password = document.querySelectorAll("input[type='password']");
+	var oinput_url      = document.querySelectorAll("input[type='url']");
+	var oinput_tel      = document.querySelectorAll("input[type='tel']");
+	var oinput_email    = document.querySelectorAll("input[type='email']");
 	// -------------------------------------------------------------------------------
 	var olista = document.querySelectorAll("select");
 	var oTexta = document.querySelectorAll("Textarea");
 	var oImg   = document.querySelectorAll("img");
+
+		for (var i=0; i<oinput_types.length; i++){
+			oinput_types[i].value = "";
+		}
+
 
 		for (var i=0; i<oinput.length; i++){
 			oinput[i].value = "";
@@ -535,7 +549,6 @@ function get_clear_view(){
 		}
 		estado_key("A");
 }
-
 // habilita o desabilita el objeto key ID de cada catalogo master.
 function estado_key(pcaction){
 	// obteniendo el estado de 
@@ -558,7 +571,6 @@ function estado_key(pcaction){
 		document.getElementById(gckeydesc).focus();
 	}
 }
-
 // hace la pregunta de si se quiere adicionar un nuevo registro de no encontrar
 // el codigo escrito en el keyid
 function ck_new_key() {
@@ -577,7 +589,6 @@ function ck_new_key() {
 	}
 	document.getElementById(gckeyid).value = lckey;
 }
-
 // cierra la pantalla del menu de forma general.
 // pasar objeto e para que identifiquemos el ID 
 // Y segun ese id saber si es la pantalla de menu o boxmsg
@@ -585,19 +596,16 @@ function ck_new_key() {
 function cerrar(e){
 	document.getElementById("vmenu").style.display = "none";	
 }
-
 // cerrar la ventana de mensajes del sistema.
 function cerrar_msg(){
 	document.getElementById("getmsgalert").style.display = "none";	
 }
-
 // manda a refrescar la pantalla principal del menu.
 function refres_window(e,pckeyid,pcmenuid){
 	cerrar(e);
 	// esta funcion se debe crear en la pantalla local
 	update_window(pckeyid,pcmenuid);
 }
-
 // barra de botones Standar para catalogos.
 // Existen tres tipos de botones en Visual Control 
 function get_btprinc(pcboton_name,pcid){

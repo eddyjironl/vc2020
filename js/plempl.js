@@ -36,7 +36,7 @@ function init(){
         get_menu_list("pldedm","showmenulist","cdedid1");
     },false);
 
-	document.getElementById("cempno").addEventListener("blur",valid_ckeyid,false);
+	document.getElementById("cempno").addEventListener("change",valid_ckeyid,false);
 	document.getElementById("cdedid1").addEventListener("blur",valid_deduction,false);
 	document.getElementById("cingid").addEventListener("blur",valid_ingresos,false);
 	

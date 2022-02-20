@@ -15,7 +15,7 @@ function init(){
         get_menu_list("pldept","showmenulist","cdeptno");
     },false);
 
-    document.getElementById("cplano").addEventListener("blur",valid_key,false);
+    document.getElementById("cplano").addEventListener("change",valid_key,false);
     document.getElementById("plmast_add").style.display="none";
 	document.getElementById("add2").addEventListener("click",add_new_dept,false);
 	document.getElementById("cdeptno").addEventListener("blur",valid_dept,false);

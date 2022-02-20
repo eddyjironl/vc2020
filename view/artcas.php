@@ -66,11 +66,9 @@ if (vc_funciones::Star_session() == 1){
 			</fieldset>
 		
 		</form>
-	
+		<div id = "showmenulist"></div>		
 		<script>
-			get_vmenu();
 			get_msg();
-			get_xm_menu();
 		</script>
 	</body>
 </html>

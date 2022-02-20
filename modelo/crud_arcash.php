@@ -74,8 +74,8 @@ if($lcaccion=="NEW"){
 	// -------------------------------------------------------------------------------
 	// A)- insertando los datos del encabezado del pago
 	// -------------------------------------------------------------------------------
-	$lcsql = "insert into arcasm(ccashno,crefno,cdesc, ccustno, ctype, dtrndate,mnotas,namount,ctypedoc, ntc, fecha)
-			values('$lccashno','$lcrefno','$lcdesc','" . $oPay['ccustno'] ."','" .$oPay['ctype']."','".$oPay['dtrndate']."','".$oPay['mnotas']."',".$oPay['npayamt'].",'".$oPay['ctypedoc']."',33,'BUU')";
+	$lcsql = "insert into arcasm(ccashno,crefno,cdesc, ccustno, ctype, dtrndate,mnotas,namount,ctypedoc, ntc)
+			values('$lccashno','$lcrefno','$lcdesc','" . $oPay['ccustno'] ."','" .$oPay['ctype']."','".$oPay['dtrndate']."','".$oPay['mnotas']."',".$oPay['npayamt'].",'".$oPay['ctypedoc']."',".$oPay['ntc'].")";
 
 	// -------------------------------------------------------------------------------
     // B)- insertando los detalles

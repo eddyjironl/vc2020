@@ -11,7 +11,7 @@ function init(){
         get_menu_list("pljusm","showmenulist","cjusno");
     },false);
 
-    document.getElementById("cjusno").addEventListener("blur",valid_key,false);
+    document.getElementById("cjusno").addEventListener("change",valid_key,false);
     // ----------------------------------------------------------------------------------------------
 }
 function cerrar_pantalla_principal(){

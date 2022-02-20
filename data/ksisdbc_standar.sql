@@ -3,13 +3,6 @@ SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
--- drop database if EXISTS ksisdbc;
--- create database ksisdbc;
--- use ksisdbc;
-
-
-/* detalle de planillas*/
 drop table if exists plmast;
   CREATE TABLE plmast (cplano char(10) PRIMARY KEY NOT NULL ,
 	cdesc   char(200) default '',
@@ -22,8 +15,8 @@ drop table if exists plmast;
 	tstar   DATE null,
 	tend    date null ,
 	hora    char(8) null ,
-  fecha    date null,
-  usuario  char(10) DEFAULT ''
+	fecha    date DEFAULT CURRENT_DATE,
+	usuario  char(10) DEFAULT ''
   )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
   
@@ -66,9 +59,9 @@ create table plturm(
   cturno  char(10) primary key default '',
   cdesc   char(200) default '',
   mnotas  text default '',
-  hora    char(10) NOT NULL,
-  fecha   date NOT NULL, 
-  usuario char(10) NOT NULL
+  hora    char(10) DEFAULT CURRENT_TIME,
+  fecha   date DEFAULT CURRENT_DATE, 
+  usuario char(10) default ''
   )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 drop table if exists pldepd;
@@ -76,8 +69,8 @@ create table pldepd(
   cuid    int(10) AUTO_INCREMENT UNIQUE,
   cdeptno char(10) default '',
   cplano  char(10) default '',
-  hora    char(10) NULL,
-  fecha   date  NULL, 
+  hora    char(10) DEFAULT CURRENT_TIME,
+  fecha   date DEFAULT CURRENT_DATE, 
   usuario char(10)  default ''
   )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
@@ -86,8 +79,8 @@ create table pljusm(
   cjusno  char(10) primary key default '',
   cdesc   char(200) default '',
   mnotas  text default '',
-  hora    char(10) NOT NULL,
-  fecha   date NOT NULL, 
+  hora    char(10) DEFAULT CURRENT_TIME,
+  fecha   date DEFAULT CURRENT_DATE, 
   usuario char(10) NOT NULL
   )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
@@ -108,9 +101,9 @@ create table pljusm(
     lapply    tinyint(1) default 0,
     cstatus   char(2) default 'OP',
     mnotas    text default '',
-    hora      char(10) NOT NULL,
-    fecha     date NOT NULL, 
-    usuario   char(10) NOT NULL
+    hora      char(10) default CURRENT_TIME,
+    fecha     date  DEFAULT CURRENT_DATE, 
+    usuario   char(10) NOT NULL DEFAULT ''
     )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
   
 
@@ -130,9 +123,9 @@ create table pljusm(
     ctype   char(2) default '' ,
     cstatus char(2) default 'OP' ,
     mnotas  text  default '' ,
-    hora    char(10) NOT NULL,
-    fecha   date NOT NULL, 
-    usuario char(10) NOT NULL
+    hora    char(10)  DEFAULT CURRENT_TIME,
+    fecha   date DEFAULT CURRENT_DATE, 
+    usuario char(10) NOT NULL DEFAULT ''
     )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
     
     
@@ -153,9 +146,9 @@ create table pljusm(
     ctype   char(2) default '' ,
     cstatus char(2) default 'OP' ,
     mnotas  text  default '' ,
-    hora    char(10) NOT NULL,
-    fecha   date NOT NULL, 
-    usuario char(10) NOT NULL
+    hora    char(10)  DEFAULT CURRENT_DATE,
+    fecha   date  DEFAULT CURRENT_TIME, 
+    usuario char(10) NOT NULL DEFAULT ''
     )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
     
   
@@ -170,9 +163,9 @@ create table pljusm(
     cempno char(10),         /* Codigo de empleados*/
     mnotas text,             /* detalles del permiso*/
     ccateno char(10),        /* Tipo de Justificacion de  */
-    hora char(10) not null,
-    fecha date not null,
-    usuario char(10) not null 
+    hora char(10)  DEFAULT CURRENT_TIME,
+    fecha date  DEFAULT CURRENT_DATE,
+    usuario char(10) not null DEFAULT '' 
   )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
   
 
@@ -181,9 +174,9 @@ create table pljusm(
   create table plpedf(
     cpermno char(10) KEY ,
     dtrndate date not null,
-    hora char(10) not null,
-    fecha date not null,
-    usuario char(10) not null 
+    hora char(10)  DEFAULT CURRENT_TIME,
+    fecha date  DEFAULT CURRENT_DATE,
+    usuario char(10) default '' 
   )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
   
   /*tabla de rango de impuestos*/
@@ -194,9 +187,9 @@ create table pljusm(
     nend decimal(10,2),                   /*Rango mayor */
     nrate decimal(10,2),  /* impuesto del tramo */
     npayamt decimal(10,2), /*monto del impuesto para el tramo*/
-    hora char(10) not null,
-    fecha date not null,
-    usuario char(10) not null 
+    hora char(10) DEFAULT CURRENT_TIME,
+    fecha date DEFAULT CURRENT_DATE,
+    usuario char(10) default '' 
 
   )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
@@ -231,9 +224,9 @@ create table pljusm(
     ndays      int(3) default 0,
     ncomi1     decimal(10,4)  default 0.0000,
     ncomi2     decimal(10,4) default 0.0000,
-    hora char(10) not null,
-    fecha date not null,
-    usuario char(10) not null 
+    hora char(10) DEFAULT CURRENT_TIME,
+    fecha date DEFAULT CURRENT_DATE,
+    usuario char(10) default '' 
 
   )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
@@ -243,10 +236,9 @@ create table pldept(
   cdeptno  char(10) PRIMARY KEY ,
   cdesc    char(200) DEFAULT '',
   mnotas   text default '',     
-  hora char(10) not null,
-  fecha date not null,
-  usuario char(10) not null 
-	    
+  hora char(10) DEFAULT CURRENT_TIME,
+  fecha date DEFAULT CURRENT_DATE,
+  usuario char(10) default '' 	    
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 /* Puestos de trabajo */
@@ -255,9 +247,9 @@ create table plworm(
   cworkno  char(10) ,
   cdesc    char(200),
   mnotas   text,     
-	hora char(10) not null,
-  fecha date not null,
-  usuario char(10) not null 
+    hora char(10) DEFAULT CURRENT_TIME,
+    fecha date DEFAULT CURRENT_DATE,
+    usuario char(10) default '' 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 /* ausentismo */
@@ -272,12 +264,12 @@ create table plausd(
 	nhrext    DECIMAL(10,2) default 0, /* horas Extras*/
 	nhwork    DECIMAL(10,2) default 0, /* horas que debio trabajar*/
 	dtrndate  date default '0000-00-00',          /* Fecha de ausencia del trabajo.*/
-	ccateno   char(10) not null,      /* justificacion de la ausencia*/
+	ccateno   char(10) default '',      /* justificacion de la ausencia*/
 	ldeleted  tinyint(1) default 0,    /* Indica si el registro esta borrado o no*/
-	mnotas    text,          /* Comentarios Generales */
-	hora    char(10) not null,
-  fecha   date not null,
-  usuario char(10) not null 
+	mnotas    text default '',          /* Comentarios Generales */
+    hora char(10) DEFAULT CURRENT_TIME,
+    fecha date DEFAULT CURRENT_DATE,
+    usuario char(10) default '' 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 /* ausentismos historico*/
 
@@ -295,9 +287,9 @@ create table plausdh(
 	ccateno   char(10) not null,      /* justificacion de la ausencia*/
 	ldeleted  tinyint(1) default 0,    /* Indica si el registro esta borrado o no*/
 	mnotas    text,          /* Comentarios Generales */
-	hora    char(10) not null,
-  fecha   date not null,
-  usuario char(10) not null 
+    hora char(10) DEFAULT CURRENT_TIME,
+    fecha date DEFAULT CURRENT_DATE,
+    usuario char(10) default '' 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 drop table if exists plingm;
@@ -316,10 +308,9 @@ create table plingm(
   lvecinal tinyint(1) default 0,  /* indica si paga impuesto vecinal o no */
   l1314avo tinyint(1) default 0,  /* indica si entra en el calculo del 13avo y 14avo */
   lprest   tinyint(1) default 0,  /* indica si entra en cualculo de prestaciones */
-	hora    char(10) not null,
-  fecha   date not null,
-  usuario char(10) not null 
-
+  hora char(10) DEFAULT CURRENT_TIME,
+  fecha date DEFAULT CURRENT_DATE,
+  usuario char(10) default '' 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 /* detalle de ingresos de planillas*/
@@ -337,11 +328,9 @@ create table plingt(
 	ctype    char(2) default '',
 	cstatus  char(2) default "OP",
 	mnotas   text default "",
-	hora    char(10) not null,
-  fecha   date not null,
-  usuario char(10) not null 
-	
-
+    hora char(10) DEFAULT CURRENT_TIME,
+    fecha date DEFAULT CURRENT_DATE,
+    usuario char(10) default '' 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 /* detalle historico de ingresos de planillas */
@@ -360,10 +349,9 @@ create table plingth(
 	ctype    char(2) default '',
 	cstatus  char(2) default "OP",
 	mnotas   text default "",
-	hora    char(10) not null,
-  fecha   date not null,
-  usuario char(10) not null 
-	
+    hora char(10) DEFAULT CURRENT_TIME,
+    fecha date DEFAULT CURRENT_DATE,
+    usuario char(10) default '' 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 /* detalle de planillas.*/
 
@@ -378,301 +366,248 @@ create table plingth(
     nqtymin decimal(10,2) default 0.00,
     nqtymax decimal(10,2) default 0.00,
     cestante char(50) default "",
-	mnotas text,
-    cbinno char(50) default ""
-  )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
-ALTER TABLE arwqty
-  ADD KEY `cwhseno` (`cwhseno`),
-  ADD KEY `cservno` (`cservno`);
-
+	mnotas text default '',
+    cbinno char(50) default "",
+    hora char(10) DEFAULT CURRENT_TIME,
+    fecha date DEFAULT CURRENT_DATE,
+    usuario char(10) default '' 
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 DROP TABLE IF EXISTS aradjm;
-CREATE TABLE `aradjm` (
-  `cadjno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `dtrndate` date NOT NULL,
-  `ccateno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `crespno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cwhseno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cmodule` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1' COMMENT '1- requisas , 2- compras',
-  `ctrnno` char(10) COLLATE utf8_spanish_ci NOT NULL COMMENT 'asiento de diario',
-  `mnotasv` text COLLATE utf8_spanish_ci NOT NULL COMMENT 'Comentarios sobre anulacion',
-  `lvoid` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'indica si esta anulada o no en convinacion del estado',
-  `cstatus` char(2) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'OP',
-  `crefno` char(50) COLLATE utf8_spanish_ci NOT NULL,
-  `ntc` decimal(10,4) NOT NULL DEFAULT '1.0000',
-  `nbuyamt` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `ndescamt` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `ntaxamt` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `nbalance` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `nebuyamt` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `nedescamt` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `netaxamt` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `nebalance` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `mnotas` text COLLATE utf8_spanish_ci NOT NULL,
-  `cuserid` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha` date NOT NULL
+CREATE TABLE aradjm (
+  cadjno char(10) PRIMARY KEY NOT NULL,
+  dtrndate date default '0000-00-00',
+  ccateno char(10) default '',
+  crespno char(10) default '',
+  cwhseno char(10) default '',
+  cmodule char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1' COMMENT '1- requisas , 2- compras',
+  ctrnno char(10) COLLATE utf8_spanish_ci NOT NULL  default '' COMMENT 'asiento de diario',
+  mnotasv text COLLATE utf8_spanish_ci NOT NULL  default '' COMMENT 'Comentarios sobre anulacion',
+  lvoid tinyint(1) NOT NULL DEFAULT '0' COMMENT 'indica si esta anulada o no en convinacion del estado',
+  cstatus char(2) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'OP',
+  crefno char(50) COLLATE utf8_spanish_ci NOT NULL default '',
+  ntc decimal(10,4) NOT NULL DEFAULT '1.0000',
+  nbuyamt decimal(10,2) NOT NULL DEFAULT '0.00',
+  ndescamt decimal(10,2) NOT NULL DEFAULT '0.00',
+  ntaxamt decimal(10,2) NOT NULL DEFAULT '0.00',
+  nbalance decimal(10,2) NOT NULL DEFAULT '0.00',
+  nebuyamt decimal(10,2) NOT NULL DEFAULT '0.00',
+  nedescamt decimal(10,2) NOT NULL DEFAULT '0.00',
+  netaxamt decimal(10,2) NOT NULL DEFAULT '0.00',
+  nebalance decimal(10,2) NOT NULL DEFAULT '0.00',
+  mnotas text COLLATE utf8_spanish_ci NOT NULL default '',
+  hora char(10) DEFAULT CURRENT_TIME,
+  fecha date DEFAULT CURRENT_DATE,
+  usuario char(10) default '' 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
-ALTER TABLE `aradjm`
-  ADD PRIMARY KEY (`cadjno`),
-  ADD KEY `cwhseno` (`cwhseno`),
-  ADD KEY `ccateno` (`ccateno`),
-  ADD KEY `crespno` (`crespno`),
-  ADD KEY `dtrndate` (`dtrndate`);
 
 DROP TABLE IF EXISTS aradjt;
 
-CREATE TABLE `aradjt` (
-  `cuid` int(10) NOT NULL,
-  `cadjno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cservno` char(20) COLLATE utf8_spanish_ci NOT NULL,
-  `cdesc` char(200) COLLATE utf8_spanish_ci NOT NULL,
-  `ncost` decimal(10,4) NOT NULL DEFAULT '0.0000',
-  `ncostu` decimal(10,4) NOT NULL DEFAULT '0.0000',
-  `nqty` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `ntax` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `ndesc` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `mnotas` text COLLATE utf8_spanish_ci NOT NULL,
-  `fecha` date NOT NULL,
-  `cuserid` char(10) COLLATE utf8_spanish_ci NOT NULL
+CREATE TABLE aradjt (
+  cuid int(10) AUTO_INCREMENT UNIQUE,
+  cadjno char(10) default '',
+  cservno char(20) COLLATE utf8_spanish_ci default '',
+  cdesc char(200) COLLATE utf8_spanish_ci  default '',
+  ncost decimal(10,4) NOT NULL DEFAULT  '0.0000',
+  ncostu decimal(10,4) NOT NULL DEFAULT '0.0000',
+  nqty decimal(10,2) NOT NULL DEFAULT  '0.00',
+  ntax decimal(10,2) NOT NULL DEFAULT  '0.00',
+  ndesc decimal(10,2) NOT NULL DEFAULT '0.00',
+  mnotas text default '',
+    hora char(10) DEFAULT CURRENT_TIME,
+    fecha date DEFAULT CURRENT_DATE,
+    usuario char(10) default '' 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
-ALTER TABLE `aradjt`
-  ADD UNIQUE KEY `cuid` (`cuid`),
-  ADD KEY `cadjno` (`cadjno`);
-
 
 DROP TABLE IF EXISTS arcash;
-CREATE TABLE `arcash` (
-  `cuid` int(10) NOT NULL,
-  `ccashno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cinvno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `namount` decimal(10,2) NOT NULL,
-  `fecha` date NOT NULL,
-  `hora` time(6) NOT NULL,
-  `cuserid` char(10) COLLATE utf8_spanish_ci NOT NULL
+CREATE TABLE arcash (
+  cuid int(10) primary key AUTO_INCREMENT,
+  ccashno char(10) default '',
+  cinvno char(10) default '',
+  namount decimal(10,2) default 0.00,
+    hora char(10) DEFAULT CURRENT_TIME,
+    fecha date DEFAULT CURRENT_DATE,
+    usuario char(10) default '' 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-ALTER TABLE `arcash`
-  ADD PRIMARY KEY (`cuid`);
 
 DROP TABLE IF EXISTS arcasm;
-CREATE TABLE `arcasm` (
-  `ccashno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `ccustno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `ctrnno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cdesc` char(100) COLLATE utf8_spanish_ci NOT NULL,
-  `crefno` char(50) COLLATE utf8_spanish_ci NOT NULL,
-  `ctype` char(2) COLLATE utf8_spanish_ci NOT NULL DEFAULT '',
-  `cstatus` char(2) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'OP',
-  `dtrndate` date NOT NULL,
-  `mnotas` text COLLATE utf8_spanish_ci NOT NULL,
-  `namount` decimal(10,2) NOT NULL,
-  `ctypedoc` char(2) COLLATE utf8_spanish_ci NOT NULL,
-  `ntc` decimal(10,4) NOT NULL,
-  `cuserid` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha` date NOT NULL,
-  `hora` char(6) COLLATE utf8_spanish_ci NOT NULL
+CREATE TABLE arcasm (
+  ccashno char(10) primary key,
+  ccustno char(10) default '',
+  ctrnno char(10) default '',
+  cdesc char(100) default '',
+  crefno char(50) default '',
+  ctype char(2) default '' '',
+  cstatus char(2)  DEFAULT 'OP',
+  dtrndate date default '0000-00-00',
+  mnotas text default '',
+  namount decimal(10,2) default 0.00,
+  ctypedoc char(2) default '',
+  ntc decimal(10,4) default 0.0000,
+    hora char(10) DEFAULT CURRENT_TIME,
+    fecha date DEFAULT CURRENT_DATE,
+    usuario char(10) default '' 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
-ALTER TABLE `arcasm`
-  ADD PRIMARY KEY (`ccashno`);
 
 DROP TABLE IF EXISTS arcate;
-CREATE TABLE `arcate` (
-  `ccateno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cdesc` char(200) COLLATE utf8_spanish_ci NOT NULL,
-  `cstatus` char(2) COLLATE utf8_spanish_ci NOT NULL,
-  `ctypeadj` char(1) COLLATE utf8_spanish_ci NOT NULL COMMENT 'E= entrada, S = salida ,indica si es de entrada o salida',
-  `ctypecate` char(2) COLLATE utf8_spanish_ci NOT NULL,
-  `cctaid` char(20) COLLATE utf8_spanish_ci NOT NULL,
-  `cctaid_tax` char(20) COLLATE utf8_spanish_ci NOT NULL,
-  `lctaresp` tinyint(1) NOT NULL,
-  `lexpcont` tinyint(1) NOT NULL,
-  `lupdcost` tinyint(1) NOT NULL,
-  `mnotas` text COLLATE utf8_spanish_ci NOT NULL,
-  `cuserid` char(10) COLLATE utf8_spanish_ci NOT NULL
+CREATE TABLE arcate (
+  ccateno char(10) primary key,
+  cdesc char(200) default '',
+  cstatus char(2) default '',
+  ctypeadj char(1)  default '' COMMENT 'E= entrada, S = salida ,indica si es de entrada o salida',
+  ctypecate char(2) default '',
+  cctaid char(20) default '',
+  cctaid_tax char(20)  default '',
+  lctaresp tinyint(1) ,
+  lexpcont tinyint(1) ,
+  lupdcost tinyint(1) ,
+  mnotas text default '',
+    hora char(10) DEFAULT CURRENT_TIME,
+    fecha date DEFAULT CURRENT_DATE,
+    usuario char(10) default '' 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-ALTER TABLE `arcate`
-  ADD PRIMARY KEY (`ccateno`);
 
 DROP TABLE IF EXISTS arcust;
-CREATE TABLE `arcust` (
-  `ccustno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cname` char(100) COLLATE utf8_spanish_ci NOT NULL,
-  `ctel` char(15) COLLATE utf8_spanish_ci NOT NULL,
-  `cpasword` char(50) COLLATE utf8_spanish_ci NOT NULL,
-  `nlimcrd` decimal(10,2) NOT NULL,
-  `mnotas` text COLLATE utf8_spanish_ci NOT NULL,
-  `ctype` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `nbbalance` decimal(10,2) NOT NULL,
-  `nebalance` decimal(10,2) NOT NULL,
-  `nbsalestot` decimal(10,2) NOT NULL,
-  `nesalestot` decimal(10,2) NOT NULL,
-  `cuserid` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha` date NOT NULL,
-  `hora` time(6) NOT NULL,
-  `cctaid` char(20) COLLATE utf8_spanish_ci NOT NULL,
-  `crespno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cwhseno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cpaycode` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cstatus` char(2) COLLATE utf8_spanish_ci NOT NULL,
-  `cfoto` text COLLATE utf8_spanish_ci NOT NULL,
-  `ccateno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `mdirecc` text COLLATE utf8_spanish_ci NOT NULL,
-  `cweb` char(100) COLLATE utf8_spanish_ci NOT NULL,
-  `cemail` char(50) COLLATE utf8_spanish_ci NOT NULL,
-  `dstar` date NOT NULL COMMENT 'fecha en que inicio el cliente',
-  `cubino` char(10) COLLATE utf8_spanish_ci NOT NULL
+CREATE TABLE arcust (
+  ccustno char(10) primary key ,
+  cname char(100) default '',
+  ctel char(15)  default '',
+  cpasword char(50)  default '',
+  nlimcrd decimal(10,2)  default 0.00,
+  mnotas text  default '',
+  ctype char(10)  default '',
+  nbbalance decimal(10,2) default 0.00,
+  nebalance decimal(10,2) default 0.00,
+  nbsalestot decimal(10,2) default 0.00,
+  nesalestot decimal(10,2) default 0.00,
+  cctaid char(20)  default '',
+  crespno char(10)  default '',
+  cwhseno char(10)  default '',
+  cpaycode char(10) default '',
+  cstatus char(2)  default '',
+  cfoto text  default '',
+  ccateno char(10)  default '',
+  mdirecc text  default '',
+  cweb char(100)  default '',
+  cemail char(50)  default '',
+  dstar date  default '0000-00-00' COMMENT 'fecha en que inicio el cliente',
+  cubino char(10)  default '',
+  hora char(10) DEFAULT CURRENT_TIME,
+  fecha date DEFAULT CURRENT_DATE,
+  usuario char(10) default '' 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-ALTER TABLE `arcust`
-  ADD PRIMARY KEY (`ccustno`);
 
 DROP TABLE IF EXISTS arinvc;
 CREATE TABLE `arinvc` (
-  `cinvno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `dstar` date NOT NULL,
-  `dend` date NOT NULL,
-  `ccustno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cstatus` char(2) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'OP',
-  `lvoid` tinyint(1) NOT NULL DEFAULT '0',
-  `cpaycode` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `ctrnno` char(20) COLLATE utf8_spanish_ci NOT NULL,
-  `cwhseno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `crespno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cdesc` char(200) COLLATE utf8_spanish_ci NOT NULL,
-  `ctel` char(10) COLLATE utf8_spanish_ci,
-  `crefno` char(20) COLLATE utf8_spanish_ci NOT NULL,
-  `mnotas` text COLLATE utf8_spanish_ci NOT NULL,
-  `nsalesamt` decimal(10,2) NOT NULL,
-  `ntaxamt` decimal(10,2) NOT NULL,
-  `ndesamt` decimal(10,2) NOT NULL,
-  `nbalance` decimal(10,2) NOT NULL,
-  `nefectivo` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `ntc` decimal(10,2) NOT NULL,
-  `cuserid` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha` date NOT NULL,
-  `hora` time(6) NOT NULL
+  `cinvno` char(10) PRIMARY KEY,
+  `dstar` date DEFAULT '0000-00-00',
+  `dend` date default '0000-00-00',
+  `ccustno` char(10) COLLATE utf8_spanish_ci ,
+  `cstatus` char(2) COLLATE utf8_spanish_ci DEFAULT 'OP',
+  `lvoid` tinyint(1)  DEFAULT '0',
+  `cpaycode` char(10) COLLATE utf8_spanish_ci default '',
+  `ctrnno`  char(20) COLLATE utf8_spanish_ci  default '',
+  `cwhseno` char(10) COLLATE utf8_spanish_ci default '',
+  `crespno` char(10) COLLATE utf8_spanish_ci default '',
+  `cdesc` char(200) COLLATE utf8_spanish_ci default '',
+  `ctel` char(10) COLLATE utf8_spanish_ci default '',
+  `crefno` char(20) COLLATE utf8_spanish_ci default '',
+  `mnotas` text COLLATE utf8_spanish_ci default '',
+  `nsalesamt` decimal(10,2)  default 0.00,
+  `ntaxamt` decimal(10,2)  default 0.00,
+  `ndesamt` decimal(10,2)  default 0.00,
+  `nbalance` decimal(10,2)  default 0.00,
+  `nefectivo` decimal(10,2) DEFAULT 0.00,
+  `ntc` decimal(10,2) default 0.00,
+  `usuario` char(10) COLLATE utf8_spanish_ci default '',
+  `fecha` date default CURRENT_DATE,
+  `hora` time(6) default CURRENT_TIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-ALTER TABLE `arinvc`
-  ADD PRIMARY KEY (`cinvno`),
-  ADD KEY `ccustno` (`ccustno`),
-  ADD KEY `cpaycode` (`cpaycode`),
-  ADD KEY `ctrnno` (`ctrnno`),
-  ADD KEY `cwhseno` (`cwhseno`),
-  ADD KEY `crespno` (`crespno`);
-
 
 DROP TABLE IF EXISTS arinvt;
 CREATE TABLE `arinvt` (
-  `cuid` int(10) NOT NULL,
-  `cinvno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cservno` char(20) COLLATE utf8_spanish_ci NOT NULL,
-  `cdesc` char(200) COLLATE utf8_spanish_ci NOT NULL,
-  `nqty` int(10) NOT NULL,
-  `nprice` decimal(10,2) NOT NULL,
-  `ncost` decimal(10,4) NOT NULL,
-  `mnotas` text COLLATE utf8_spanish_ci NOT NULL,
-  `ntax` decimal(10,2) NOT NULL,
-  `ndesc` decimal(10,2) NOT NULL,
-  `cuserid` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha` date NOT NULL,
-  `hora` time(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-ALTER TABLE `arinvt`
-  ADD PRIMARY KEY (`cuid`),
-  ADD KEY `cinvno` (`cinvno`),
-  ADD KEY `cservno` (`cservno`(20));
+  `cuid` int(10) primary key AUTO_INCREMENT,
+  `cinvno` char(10) default '',
+  `cservno` char(20) COLLATE utf8_spanish_ci  default '',
+  `cdesc` char(200) COLLATE utf8_spanish_ci  default '',
+  `nqty` int(10)  default 0,
+  `nprice` decimal(10,2) default 0.00,
+  `ncost` decimal(10,4)  default 0.00,
+  `mnotas` text COLLATE utf8_spanish_ci  default '',
+  `ntax` decimal(10,2)  default 0.00,
+  `ndesc` decimal(10,2)  default 0.00,
+  `usuario` char(10) COLLATE utf8_spanish_ci default '',
+  `fecha` date default CURRENT_DATE,
+  `hora` time(6) default CURRENT_TIME
+ ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
-
-DROP TABLE IF EXISTS arinvt_tmp;
-CREATE TABLE `arinvt_tmp` (
-  `cuid` int(11) NOT NULL,
-  `cinvno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cservno` char(20) COLLATE utf8_spanish_ci NOT NULL,
-  `cdesc` char(200) COLLATE utf8_spanish_ci NOT NULL,
-  `ncost` decimal(10,2) NOT NULL,
-  `nprice` decimal(10,2) NOT NULL,
-  `nqty` decimal(10,0) NOT NULL,
-  `mnotas` text COLLATE utf8_spanish_ci NOT NULL,
-  `ntax` decimal(10,2) NOT NULL,
-  `ndesc` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-ALTER TABLE `arinvt_tmp`
-  ADD PRIMARY KEY (`cuid`);
 
 DROP TABLE IF EXISTS armedm;
+
 CREATE TABLE `armedm` (
-  `cmedno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cdesc` char(100) COLLATE utf8_spanish_ci NOT NULL,
-  `csigno` char(20) COLLATE utf8_spanish_ci NOT NULL,
-  `mnotas` text COLLATE utf8_spanish_ci NOT NULL
+  `cmedno` char(10) primary key ,
+  `cdesc` char(100) COLLATE utf8_spanish_ci default '',
+  `csigno` char(20) COLLATE utf8_spanish_ci default '',
+  `mnotas` text COLLATE utf8_spanish_ci default '',
+  `usuario` char(10) COLLATE utf8_spanish_ci default '',
+  `fecha` date default CURRENT_DATE,
+  `hora` time(6) default CURRENT_TIME  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-ALTER TABLE `armedm`
-  ADD PRIMARY KEY (`cmedno`);
 
 DROP TABLE IF EXISTS armone;
 CREATE TABLE `armone` (
-  `cuid` int(10) NOT NULL,
-  `dtrndate` date NOT NULL,
+  `cuid` int(10) primary key AUTO_INCREMENT,
+  `dtrndate` date default '0000-00-00',
   `ntc` decimal(10,4) NOT NULL DEFAULT '0.0000',
-  `cuserid` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha` date NOT NULL,
-  `hora` time(6) NOT NULL
+  `usuario` char(10) COLLATE utf8_spanish_ci default '',
+  `fecha` date default CURRENT_DATE,
+  `hora` time(6) default CURRENT_TIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-ALTER TABLE `armone`
-  ADD PRIMARY KEY (`cuid`);
 
 DROP TABLE IF EXISTS arpedm;
 CREATE TABLE `arpedm` (
-  `cpedno` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cdesc` varchar(200) COLLATE utf8_spanish_ci NOT NULL,
-  `clotno` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cstatus` varchar(2) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'OP',
-  `mnotas` text COLLATE utf8_spanish_ci NOT NULL,
-  `ccustno` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
-  `dtrndate` date NOT NULL,
-  `cpaycode` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
-  `crespno` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
-  `ntc` decimal(10,2) NOT NULL DEFAULT '1.00',
-  `cuserid` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha` date NOT NULL,
-  `hora` varchar(10) COLLATE utf8_spanish_ci NOT NULL
+  `cpedno` varchar(10) primary key ,
+  `cdesc` varchar(200) default '',
+  `clotno` varchar(10) default '',
+  `cstatus` varchar(2) DEFAULT 'OP',
+  `mnotas` text default '',
+  `ccustno` varchar(10) default '',
+  `dtrndate` date default '0000-00-00',
+  `cpaycode` varchar(10) default '',
+  `crespno` varchar(10) default '',
+  `ntc` decimal(10,2)  DEFAULT '1.00',
+  `usuario` char(10) COLLATE utf8_spanish_ci default '',
+  `fecha` date default CURRENT_DATE,
+  `hora` time(6) default CURRENT_TIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-ALTER TABLE `arpedm`
-  ADD PRIMARY KEY (`cpedno`);
 
 DROP TABLE IF EXISTS arpedt;
 CREATE TABLE `arpedt` (
-  `cuid` int(10) NOT NULL,
-  `cpedno` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cservno` varchar(20) COLLATE utf8_spanish_ci NOT NULL,
-  `cdesc` text COLLATE utf8_spanish_ci NOT NULL,
-  `mnotas` text COLLATE utf8_spanish_ci NOT NULL,
+  `cuid` int(10) unique AUTO_INCREMENT,
+  `cpedno` varchar(10) default '',
+  `cservno` varchar(20) default '',
+  `cdesc` text  default '',
+  `mnotas` text  default '',
   `nqty` decimal(10,2) NOT NULL DEFAULT '0.00',
   `nprice` decimal(10,2) NOT NULL DEFAULT '0.00',
   `ntax` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `cuserid` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha` date NOT NULL,
-  `hora` time NOT NULL
+  `usuario` char(10) COLLATE utf8_spanish_ci default '',
+  `fecha` date default CURRENT_DATE,
+  `hora` time(6) default CURRENT_TIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-ALTER TABLE `arpedt`
-  ADD UNIQUE KEY `cuid` (`cuid`),
-  ADD KEY `cpedno` (`cpedno`),
-  ADD KEY `cservno` (`cservno`);
 
 DROP TABLE IF EXISTS arresp;
 CREATE TABLE `arresp` (
-  `crespno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cfullname` char(100) COLLATE utf8_spanish_ci NOT NULL,
-  `cstatus` char(2) COLLATE utf8_spanish_ci NOT NULL,
-  `mdirecc` text COLLATE utf8_spanish_ci NOT NULL,
-  `mnotas` text COLLATE utf8_spanish_ci NOT NULL,
-  `mtels` text COLLATE utf8_spanish_ci NOT NULL,
-  `cctaid` char(20) COLLATE utf8_spanish_ci NOT NULL,
-  `cruc` char(20) COLLATE utf8_spanish_ci NOT NULL,
-  `cfoto` char(200) COLLATE utf8_spanish_ci NOT NULL,
-  `nbalance` decimal(10,2) NOT NULL,
+  `crespno` char(10) primary key default '',
+  `cfullname` char(100) COLLATE utf8_spanish_ci NOT NULL  default '',
+  `cstatus` char(2) COLLATE utf8_spanish_ci NOT NULL default '',
+  `mdirecc` text COLLATE utf8_spanish_ci NOT NULL default '',
+  `mnotas` text COLLATE utf8_spanish_ci NOT NULL default '',
+  `mtels` text COLLATE utf8_spanish_ci NOT NULL default '',
+  `cctaid` char(20) COLLATE utf8_spanish_ci NOT NULL default '',
+  `cruc` char(20) COLLATE utf8_spanish_ci NOT NULL default '',
+  `cfoto` char(200) COLLATE utf8_spanish_ci NOT NULL default '',
+  `nbalance` decimal(10,2)  default 0.00,
   `ncomision` decimal(10,2) not null default '0.00',
   `nbuyamt` decimal(10,2) NOT NULL DEFAULT '0.00',
   `ndays` int(3) NOT NULL DEFAULT '0',
@@ -683,174 +618,146 @@ CREATE TABLE `arresp` (
   `lviernes` tinyint(1) NOT NULL DEFAULT '0',
   `lsabado` tinyint(1) NOT NULL DEFAULT '0',
   `ldomingo` tinyint(1) NOT NULL DEFAULT '0',
-  `fecha` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `hora` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cuserid` char(10) COLLATE utf8_spanish_ci NOT NULL
+  `usuario` char(10) COLLATE utf8_spanish_ci default '',
+  `fecha` date default CURRENT_DATE,
+  `hora` time(6) default CURRENT_TIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-ALTER TABLE `arresp`
-  ADD PRIMARY KEY (`crespno`);
 
 DROP TABLE IF EXISTS arserm;
-CREATE TABLE `arserm` (
-  `cservno` char(20) COLLATE utf8_spanish_ci NOT NULL,
-  `cdesc` char(200) COLLATE utf8_spanish_ci NOT NULL,
-  `cdesc2` char(100) COLLATE utf8_spanish_ci NOT NULL,
-  `ncost` decimal(10,2) NOT NULL,
-  `nlastcost` decimal(10,2) NOT NULL,
-  `nprice` decimal(10,2) NOT NULL,
-  `nprice1` decimal(10,2) NOT NULL,
-  `nprice2` decimal(10,2) NOT NULL,
-  `ntax` decimal(10,2) NOT NULL,
-  `ndesc` decimal(10,2) NOT NULL,
-  `ctserno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cstatus` char(2) COLLATE utf8_spanish_ci NOT NULL,
-  `cmedno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `crespno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cctaid` char(20) COLLATE utf8_spanish_ci NOT NULL,
-  `cctaid_c` char(20) COLLATE utf8_spanish_ci NOT NULL,
-  `cctaid_i` char(20) COLLATE utf8_spanish_ci NOT NULL,
-  `citemtype` char(2) COLLATE utf8_spanish_ci NOT NULL,
-  `mnotas` text COLLATE utf8_spanish_ci NOT NULL,
-  `cfoto` text COLLATE utf8_spanish_ci NOT NULL,
-  `lallowneg` tinyint(1) NOT NULL,
-  `lupdateonhand` tinyint(1) NOT NULL,
-  `nminonhand` decimal(10,2) NOT NULL
+CREATE TABLE arserm (
+  cservno char(20) PRIMARY KEY,
+  cdesc char(200)  NOT NULL default '',
+  cdesc2 char(100) NOT NULL default '',
+  ncost decimal(10,2) NOT NULL default 0.00,
+  nlastcost decimal(10,2) NOT NULL default 0.00,
+  nprice decimal(10,2) default 0.00,
+  nprice1 decimal(10,2)  default 0.00,
+  nprice2 decimal(10,2)  default 0.00,
+  ntax decimal(10,2)  default 0.00,
+  ndesc decimal(10,2)  default 0.00,
+  ctserno char(10) NOT NULL default '',
+  cstatus char(2) nOT NULL default '',
+  cmedno char(10)  NOT NULL default '',
+  crespno char(10) NOT NULL default '',
+  cctaid char(20)  NOT NULL default '',
+  cctaid_c char(20) NOT NULL default '',
+  cctaid_i char(20) nOT NULL default '',
+  citemtype char(2) NOT NULL default '',
+  mnotas text NOT NULL default '',
+  cfoto text NOT NULL default '',
+  lallowneg tinyint(1) NOT null  default 0,
+  lupdateonhand tinyint(1) NOT NULL default 0,
+  nminonhand decimal(10,2) NOT NULL default 0.00,
+  `usuario` char(10) COLLATE utf8_spanish_ci default '',
+  `fecha` date default CURRENT_DATE,
+  `hora` time(6) default CURRENT_TIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-ALTER TABLE `arserm`
-  ADD PRIMARY KEY (`cservno`);
-
 
 DROP TABLE IF EXISTS arsetup;
 CREATE TABLE `arsetup` (
-  `ninvno` int(10) NOT NULL,
-  `nrecno` int(10) NOT NULL,
-  `nadjno` int(10) NOT NULL,
-  `nncno` int(10) NOT NULL,
-  `nndno` int(10) NOT NULL,
-  `ncotno` int(10) NOT NULL,
-  `npedno` int(10) NOT NULL,
-  `ncashno` int(10) NOT NULL,
-  `cwhseno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `minvno` text COLLATE utf8_spanish_ci NOT NULL,
-  `mestados` text COLLATE utf8_spanish_ci NOT NULL,
-  `mcoti` text COLLATE utf8_spanish_ci NOT NULL,
-  `ccustno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cpaycode` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `ccateno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `carsetup` char(1) COLLATE utf8_spanish_ci NOT NULL,
-  `ctypcost` char(2) COLLATE utf8_spanish_ci NOT NULL,
-  `ctaxproc` char(2) COLLATE utf8_spanish_ci NOT NULL,
-  `linvno` tinyint(1) NOT NULL,
-  `lestados` tinyint(1) NOT NULL,
-  `lcoti` tinyint(1) NOT NULL,
-  `ninvlinmax` int(2) NOT NULL,
-  `ncashamt` decimal(10,2) NOT NULL
+  `ninvno` int(10) default 0,
+  `nrecno` int(10) default 0,
+  `nadjno` int(10) default 0,
+  `nncno` int(10)  default 0,
+  `nndno` int(10) default 0,
+  `ncotno` int(10) default 0,
+  `npedno` int(10) default 0,
+  `ncashno` int(10) default 0,
+  `cwhseno` char(10) COLLATE utf8_spanish_ci  default '',
+  `minvno` text COLLATE utf8_spanish_ci NOT NULL default '',
+  `mestados` text COLLATE utf8_spanish_ci NOT NULL default '',
+  `mcoti` text COLLATE utf8_spanish_ci NOT NULL default '',
+  `ccustno` char(10) COLLATE utf8_spanish_ci NOT NULL default '',
+  `cpaycode` char(10) COLLATE utf8_spanish_ci NOT NULL default '',
+  `ccateno` char(10) COLLATE utf8_spanish_ci NOT NULL default '',
+  `carsetup` char(1) COLLATE utf8_spanish_ci NOT NULL default '',
+  `ctypcost` char(2) COLLATE utf8_spanish_ci NOT NULL default '',
+  `ctaxproc` char(2) COLLATE utf8_spanish_ci NOT NULL default '',
+  `linvno` tinyint(1) NOT NULL default 0,
+  `lestados` tinyint(1) NOT NULL default 0,
+  `lcoti` tinyint(1) NOT NULL default 0,
+  `ninvlinmax` int(2) NOT NULL default 0,
+  `ncashamt` decimal(10,2) NOT NULL default 0,
+  `usuario` char(10) COLLATE utf8_spanish_ci default '',
+  `fecha` date default CURRENT_DATE,
+  `hora` time(6) default CURRENT_TIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 DROP TABLE IF EXISTS arskit;
-CREATE TABLE `arskit` (
-  `cuid` int(10) NOT NULL,
-  `cservno1` char(20) COLLATE utf8_spanish_ci NOT NULL,
-  `cservno` char(20) COLLATE utf8_spanish_ci NOT NULL,
-  `nqty` decimal(10,2) NOT NULL,
-  `ncost` decimal(10,2) NOT NULL,
-  `mnotas` text COLLATE utf8_spanish_ci NOT NULL,
-  `cuserid` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha` date NOT NULL,
-  `time` time(6) NOT NULL
+CREATE TABLE arskit(
+  cuid int(10) AUTO_INCREMENT UNIQUE,
+  cservno CHAR(20) NOT NULL default '' ,
+  cservno1 CHAR(20) NOT NULL default '' ,
+  nqty DECIMAL(10,2) NOT NULL DEFAULT 0.00 ,
+  ncost DECIMAL(10,2) NOT NULL DEFAULT 0.00 ,
+  hora    char(10) default CURRENT_TIME,
+  fecha   date default CURRENT_DATE,
+  usuario char(10) default ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-ALTER TABLE `arskit`
-  ADD UNIQUE KEY `cuid` (`cuid`);
 
 DROP TABLE IF EXISTS artcas;
 CREATE TABLE `artcas` (
-  `cpaycode` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cdesc` char(100) COLLATE utf8_spanish_ci NOT NULL,
-  `cstatus` char(2) COLLATE utf8_spanish_ci NOT NULL,
-  `cctaid1` char(20) COLLATE utf8_spanish_ci NOT NULL,
-  `cctaid2` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cctaid3` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cctaid4` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cctaid5` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `nday` int(3) NOT NULL,
-  `lvalidcrd` tinyint(1) NOT NULL,
-  `lqtypay` tinyint(1) NOT NULL,
-  `mnotas` text COLLATE utf8_spanish_ci NOT NULL
+  `cpaycode` char(10) primary key ,
+  `cdesc` char(100) COLLATE utf8_spanish_ci NOT NULL default '',
+  `cstatus` char(2) COLLATE utf8_spanish_ci NOT NULL default '',
+  `cctaid1` char(20) COLLATE utf8_spanish_ci NOT NULL default '',
+  `cctaid2` char(10) COLLATE utf8_spanish_ci NOT NULL default '',
+  `cctaid3` char(10) COLLATE utf8_spanish_ci NOT NULL default '',
+  `cctaid4` char(10) COLLATE utf8_spanish_ci NOT NULL default '',
+  `cctaid5` char(10) COLLATE utf8_spanish_ci NOT NULL default '',
+  `nday` int(3) NOT NULL default 0,
+  `lvalidcrd` tinyint(1) NOT NULL default 0,
+  `lqtypay` tinyint(1) NOT NULL default 0,
+  `mnotas` text COLLATE utf8_spanish_ci NOT NULL default '',
+  `usuario` char(10) COLLATE utf8_spanish_ci default '',
+  `fecha` date default CURRENT_DATE,
+  `hora` time(6) default CURRENT_TIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-ALTER TABLE `artcas`
-  ADD PRIMARY KEY (`cpaycode`);
 
 DROP TABLE IF EXISTS artran;
 CREATE TABLE `artran` (
-  `cuid` int(10) NOT NULL,
-  `ccustno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `dtrndate` date NOT NULL,
-  `namount` decimal(10,2) NOT NULL,
-  `mnotas` text COLLATE utf8_spanish_ci NOT NULL,
+  `cuid` int(10) unique AUTO_INCREMENT,
+  `ccustno` char(10) COLLATE utf8_spanish_ci NOT NULL default '',
+  `dtrndate` date NOT NULL default '0000-00-00',
+  `namount` decimal(10,2) NOT NULL default 0.00,
+  `mnotas` text COLLATE utf8_spanish_ci NOT NULL default '',
   `ctype` varchar(2) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'IN',
   `cstatus` varchar(2) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'OP',
-  `cuserid` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha` date NOT NULL,
-  `hora` time(6) NOT NULL
+  `usuario` char(10) COLLATE utf8_spanish_ci default '',
+  `fecha` date default CURRENT_DATE,
+  `hora` time(6) default CURRENT_TIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-ALTER TABLE `artran`
-  ADD UNIQUE KEY `cuid` (`cuid`);
 
 DROP TABLE IF EXISTS artser;
 CREATE TABLE `artser` (
-  `ctserno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cdesc` char(100) COLLATE utf8_spanish_ci NOT NULL,
-  `cstatus` char(2) COLLATE utf8_spanish_ci NOT NULL,
-  `mnotas` text COLLATE utf8_spanish_ci NOT NULL
+  `ctserno` char(10) PRIMARY KEY NOT NULL,
+  `cdesc` char(100) COLLATE utf8_spanish_ci NOT NULL default '',
+  `cstatus` char(2) COLLATE utf8_spanish_ci NOT NULL default '',
+  `mnotas` text COLLATE utf8_spanish_ci NOT NULL default '',
+  `usuario` char(10) COLLATE utf8_spanish_ci default '',
+  `fecha` date default CURRENT_DATE,
+  `hora` time(6) default CURRENT_TIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-ALTER TABLE `artser`
-  ADD PRIMARY KEY (`ctserno`);
 
 DROP TABLE IF EXISTS arubim;
 CREATE TABLE `arubim` (
-  `cubino` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cdesc` text COLLATE utf8_spanish_ci NOT NULL,
-  `hora` time NOT NULL,
-  `fecha` date NOT NULL,
-  `cuserid` varchar(10) COLLATE utf8_spanish_ci NOT NULL
+  `cubino` varchar(10) primary key,
+  `cdesc` text COLLATE utf8_spanish_ci NOT NULL default '',
+  `usuario` char(10) COLLATE utf8_spanish_ci default '',
+  `fecha` date default CURRENT_DATE,
+  `hora` time(6) default CURRENT_TIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-ALTER TABLE `arubim`
-  ADD PRIMARY KEY (`cubino`);
 
 DROP TABLE IF EXISTS arwhse;
 CREATE TABLE `arwhse` (
-  `cwhseno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cdesc` char(100) COLLATE utf8_spanish_ci NOT NULL,
-  `crespno` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `mdirecc` text COLLATE utf8_spanish_ci NOT NULL,
-  `mtel` text COLLATE utf8_spanish_ci NOT NULL,
-  `mnotas` text COLLATE utf8_spanish_ci NOT NULL,
-  `cstatus` char(2) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'OP'
+  `cwhseno` char(10) primary key,
+  `cdesc` char(100) COLLATE utf8_spanish_ci NOT NULL default '',
+  `crespno` char(10) COLLATE utf8_spanish_ci NOT NULL default '',
+  `mdirecc` text COLLATE utf8_spanish_ci NOT NULL default '',
+  `mtel` text COLLATE utf8_spanish_ci NOT NULL default '',
+  `mnotas` text COLLATE utf8_spanish_ci NOT NULL default '',
+  `cstatus` char(2) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'OP',
+  `usuario` char(10) COLLATE utf8_spanish_ci default '',
+  `fecha` date default CURRENT_DATE,
+  `hora` time(6) default CURRENT_TIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-ALTER TABLE `arwhse`
-  ADD PRIMARY KEY (`cwhseno`);
-
--- AUTO_INCREMENT de las tablas volcadas
-ALTER TABLE `aradjt`
-  MODIFY `cuid` int(10) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `arcash`
-  MODIFY `cuid` int(10) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `arinvt`
-  MODIFY `cuid` int(10) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `arinvt_tmp`
-  MODIFY `cuid` int(11) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `armone`
-  MODIFY `cuid` int(10) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `arpedt`
-  MODIFY `cuid` int(10) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `arskit`
-  MODIFY `cuid` int(10) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `artran`
-  MODIFY `cuid` int(10) NOT NULL AUTO_INCREMENT;

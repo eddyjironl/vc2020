@@ -19,10 +19,10 @@ function verificar_cxc(){
 	var oRequest = new XMLHttpRequest();
 	var oDatos   = new FormData();
 	oDatos.append("program","conf_cxc");
-	oDatos.append("ccustno",document.getElementById("ccustno").value);
+	oDatos.append("ccustno",document.getElementById("ccustno1").value);
 	oRequest.open("POST","../modelo/armodule.php");
 	oRequest.send(oDatos);
-	document.getElementById("ccustno").value = "";
+	document.getElementById("ccustno1").value = "";
 	alert("Proceso Concluido");
 }
 

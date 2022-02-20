@@ -119,10 +119,7 @@ if ($lcStarSession == 1){
 					</div>
 			</form>
 		</section>
-					
-		<script>
-			get_xm_menu();
-			get_msg();
-		</script>
+		<div id="showmenulist"></div>			
+		<script>get_msg();</script>
 	</body>
 </html>

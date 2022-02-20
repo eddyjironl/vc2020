@@ -11,7 +11,7 @@ function init(){
         get_menu_list("pldedm","showmenulist","cdedid");
     },false);
 
-    document.getElementById("cdedid").addEventListener("blur",valid_key,false);
+    document.getElementById("cdedid").addEventListener("change",valid_key,false);
     // ----------------------------------------------------------------------------------------------
 }
 function cerrar_pantalla_principal(){

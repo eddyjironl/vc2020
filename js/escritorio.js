@@ -7,17 +7,13 @@ function init(){
 	// CADA MENU
 	document.getElementById("btcias").addEventListener("click",show_menu_sycomp,false);
 	document.getElementById("btcias_samall").addEventListener("click",show_menu_sycomp,false);
-	
 	//document.getElementById("bt_m_refresh").addEventListener("click",show_menu_arcust,false);
 	document.getElementById("xm_area_menu").style.display="none";
-
 	// una funcion de ordenamiento segun el menu que se elija.
 	// Lista de ordenamiento
 	document.getElementById("mx_opc_order").addEventListener("click",get_mx_detalle,false);
 	// opcion de busqueda
 	document.getElementById("mx_cbuscar").addEventListener("input",get_mx_detalle,false);
-	
-	
 // CONFIGURACION SMALL
 	// ------------------------------------------------------------------------
 	// opciones del menu SMALL
@@ -32,6 +28,10 @@ function init(){
 	document.getElementById("close_info").addEventListener("click",extends_barra_small,false);
 	document.getElementById("logo_min").addEventListener("click",extends_barra_small,false);
 	document.getElementById("info_small").style.display = "none";
+
+	document.getElementById("cmodule_select").value = "AR";
+	change_module();
+
 	extends_barra_small();
 }	
 function extends_barra_small(){
