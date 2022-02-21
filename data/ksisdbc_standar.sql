@@ -1,4 +1,4 @@
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = ""; /* "NO_AUTO_VALUE_ON_ZERO";*/
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -761,3 +761,6 @@ CREATE TABLE `arwhse` (
   `fecha` date default CURRENT_DATE,
   `hora` time(6) default CURRENT_TIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+
+COMMIT;
