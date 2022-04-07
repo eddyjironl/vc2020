@@ -157,6 +157,16 @@ class PDF extends FPDF{
 				$this->cell(30,5,"Estante",0,0,"L",true);  
 				$this->cell(30,5,"Bin",0,1,"L",true);   
 				break;		
+			case "rpt_arcdex":
+				$this->cell(20,5,"Bodega",0,0,"L",true);   					
+				$this->cell(20,5,"Origen",0,0,"L",true);   
+				$this->cell(20,5,"Fecha",0,0,"L",true);   	
+				$this->cell(20,5,"Factura",0,0,"L",true);   	
+				$this->cell(50,5,"Descripcion del Movimiento",0,0,"L",true);   
+				$this->cell(20,5,"Entrada",0,0,"R",true);  
+				$this->cell(20,5,"Salida",0,0,"R",true);  
+				$this->cell(20,5,"Saldo ",0,1,"R",true);   
+				break;		
 			default:
 				# code...
 				break;

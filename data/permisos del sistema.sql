@@ -128,8 +128,6 @@ delete from ksschgrd;
     ("PLMAST","04","Fecha Pago","dpay",100,"PL");
 
 
-
-
 /*  PERMISOS */
 insert into symenu(cmenuid,cdesc,cmodule,cgppmod)
     values("sy001","configuracion de la compañia","SYS","TRN"),
@@ -157,6 +155,7 @@ insert into symenu(cmenuid,cdesc,cmodule,cgppmod)
     ("rp010","Movimientos de Inventario Valorisados AD","AR","RPT"),
     ("rp011","Maximos y Minimos ","AR","RPT"),
     ("rp012","Reimpresion Formato Factura","AR","RPT"),
+    ("rp014","Analisis de Kardex","AR","RPT"),
     /* CATALOGOS*/
     ("ca001","Catalogo de Clientes","AR","CAT"),
     ("ca002","Condiciones de Pago","AR","CAT"),

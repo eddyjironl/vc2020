@@ -1,0 +1,7 @@
+modificaciones a visual control
+
+en escritorio 
+
+hacer base de modulos.
+hacer base de opciones de menu segun el id para reducir los todas las llamadas a procedimientos 
+pre establecidos.

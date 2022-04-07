@@ -200,7 +200,7 @@ function change_module(){
 					'		</ul>'+
 					'	</li>'+
 					' </ul>'
-					omenu_in =  '<ul id="menu"> '+
+		omenu_in =  '<ul id="menu"> '+
 					'	<li><a>Transacciones</a>'+
 					'		<ul>'+
 					'			<li><a id="tr004"> Entradas y Salidas de Inventario </a></li>'+
@@ -215,6 +215,7 @@ function change_module(){
 					'			<li><a id="rp008"> Entradas y Salidas</a></li>'+
 					'			<li><a id="rp010"> Movimientos de Inventario Valorisados AD</a></li>'+
 					'			<li><a id="rp011"> Maximos y Minimos </a></li>'+
+					'			<li><a id="rp014"> Analisis de Kardex </a></li>'+					
 					'		</ul>'+
 					'	</li>'+
 					'	<li><a>Catalogos</a>'+
@@ -547,6 +548,7 @@ function upd_inmenu(){
 	document.getElementById("rp008").addEventListener("click",rp008,false);
 	document.getElementById("rp010").addEventListener("click",rp010,false);
 	document.getElementById("rp011").addEventListener("click",rp011,false);
+	document.getElementById("rp014").addEventListener("click",rp014,false);
 
 	document.getElementById("mod002").addEventListener("click",mod002,false);
 	document.getElementById("mod001").addEventListener("click",mod001,false);
@@ -767,6 +769,16 @@ function rp013(){
 	if (llcont){
 		// vencimiento de cartera
 		document.getElementById("ventana").setAttribute("src","../view/arinvt2_r.php");
+	}else{
+		getmsgalert("Usuario no tiene derecho de acceso");
+	}
+}
+function rp014(){
+	// Maximos y Minimos
+	var llcont = doform("rp014");
+	if (llcont){
+		// vencimiento de cartera
+		document.getElementById("ventana").setAttribute("src","../view/arcdex_r.php");
 	}else{
 		getmsgalert("Usuario no tiene derecho de acceso");
 	}
