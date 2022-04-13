@@ -1,9 +1,25 @@
 /* Listado de permisos del sistema. */
+delete from symodu;
+delete from symenh;
 delete from symenu ;
 delete from sysuser;
 delete from syscomp;
 delete from sygrup;
 delete from ksschgrd;
+delete from syperm;
+
+/* modulo de administracion-*/
+ SET @lcSelect = " select ccompid,compdesc from syscomp  ";
+  INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
+    VALUES("SYSCOMP","00","Listado de Empresas",@lcSelect,0,"SY"),
+    ("SYSCOMP","01","Compania Id","ccompid",100,"SY"),
+    ("SYSCOMP","02","Descripcion ","compdesc",200,"SY");
+
+ SET @lcSelect = " select cgrpid, cdesc from sygrup  ";
+  INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
+    VALUES("SYGRUP","00","Listado de Grupos administrativos",@lcSelect,0,"SY"),
+    ("SYGRUP","01","Grupo Id","cgrpid",100,"SY"),
+    ("SYGRUP","02","Descripcion ","cdesc",200,"SY");
 
 /*listas del modulo cuentas por cobrar*/
 
@@ -73,8 +89,6 @@ delete from ksschgrd;
 
 
 /* modulo de planillas-*/
-
-
  SET @lcSelect = " select cingid , cdesc from plingm  ";
   INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
     VALUES("PLINGM","00","SELECT",@lcSelect,0,"PL"),
@@ -128,64 +142,100 @@ delete from ksschgrd;
     ("PLMAST","04","Fecha Pago","dpay",100,"PL");
 
 
-/*  PERMISOS */
-insert into symenu(cmenuid,cdesc,cmodule,cgppmod)
-    values("sy001","configuracion de la compañia","SYS","TRN"),
-    ("sy002","Grupos de Trabajo","SYS","TRN"),
-    /* TRANSACCIONES*/
-    ("tr001","Facturacion y Notas de Debito","AR","TRN"),
-    ("tr002","Recibos de Dinero","AR","TRN"),
-    ("tr003","Cotizaciones","AR","TRN"),
-    ("tr004","Entradas y Salidas de Inventario","AR","TRN"),
-    ("tr007","Preventa de Clientes","AR","TRN"),
-    ("tr008","Anulacion de Facturas","AR","TRN"),
-    ("tr009","Anulacion de Recibos","AR","TRN"),
-    ("tr010","Anulacion Requisas","AR","TRN"),
-    /* REPORTES*/
-    ("rp001","Resumen de Ventas (Moneda)","AR","RPT"),
-    ("rp013","Resumen de Ventas (Articulos)","AR","RPT"),
-    ("rp002","Cuentas por Cobrar","AR","RPT"),
-    ("rp009","Vencimiento de Cartera","AR","RPT"),
-    ("rp003","Estado de Cuentas","AR","RPT"),
-    ("rp004","Resumen de Cobros","AR","RPT"),
-    ("rp005","Lista de Precios","AR","RPT"),
-    ("rp006","Resumen de Uilidades y Costos","AR","RPT"),
-    ("rp007","Formato de Requisas","AR","RPT"),
-    ("rp008","Reporte de Movimiento de Inventario (Entradas y Salidas)","AR","RPT"),
-    ("rp010","Movimientos de Inventario Valorisados AD","AR","RPT"),
-    ("rp011","Maximos y Minimos ","AR","RPT"),
-    ("rp012","Reimpresion Formato Factura","AR","RPT"),
-    ("rp014","Analisis de Kardex","AR","RPT"),
-    /* CATALOGOS*/
-    ("ca001","Catalogo de Clientes","AR","CAT"),
-    ("ca002","Condiciones de Pago","AR","CAT"),
-    ("ca003","Maestro de Inventarios","AR","CAT"),
-    ("ca004","Tipos de Inventarios","AR","CAT"),
-    ("ca005","Proveedores","AR","CAT"),
-    ("ca006","Tipos de Requisas / Entradas y Salidas","AR","CAT"),
-    ("ca007","Bodegas","AR","CAT"),
-    ("ca008","Tipos de Cambio","AR","CAT"),
-    /* Modulo de Planillas */
-    ("pltr001","Definir Planilla","PL","TRN"),
-    ("pltr002","Generar Planilla","PL","TRN"),
-    ("pltr003","Modificar Planilla","PL","TRN"),
 
-    ("plca001","Catalogo de Empleados","PL","CAT"),
-    ("plca002","Catalogo de Ingresos","PL","CAT"),
-    ("plca003","Catalogo de Ingresos","PL","CAT"),
-    ("plca004","Cuadro impuesto sobre Renta","PL","CAT"),
-    ("plca005","Puestos de Trabajo","PL","CAT"),
-    ("plca006","Departamentos de la Empresa","PL","CAT"),
-    ("plca007","Tipos de Justificaciones","PL","CAT"),
-    ("plca008","Turnos de Trabajo","PL","CAT"),
+
+/*  Configuracion del menu del sistema */
+
+insert into symodu(cmodule, cdesc,cstatus)
+values("AR","Facturacion y Cuentas por Cobrar","OP"),
+      ("IN","Control de Inventarios y Cuentas por Pagar","OP"),
+      ("CT","Contabilidad General","OP"),
+      ("PL","Planillas","OP"),
+      ("SY","Administracion del Sistema","OP");
+
+insert into symenh(cmenhid,cdesc, cmodule,cstatus,ctype)
+      /*FACTURACION Y CUENTAS POR COBRAR*/
+values("AR01","Transacciones","AR","OP","TRN"),
+      ("AR02","Reportes     ","AR","OP","RPT"),
+      ("AR03","Catalogos    ","AR","OP","CAT"),
+      ("AR04","Herramientas ","AR","OP","MOD"),
+      /* INVENTARIOS */
+      ("IN01","Transacciones","IN","OP","TRN"),
+      ("IN02","Reportes     ","IN","OP","RPT"),
+      ("IN03","Catalogos    ","IN","OP","CAT"),
+      ("IN04","Herramientas ","IN","OP","MOD"),
+      /* CONTABILIDAD */
+      ("CT01","Transacciones","CT","OP","TRN"),
+      ("CT02","Reportes     ","CT","OP","RPT"),
+      ("CT03","Catalogos    ","CT","OP","CAT"),
+      ("CT04","Herramientas ","CT","OP","MOD"),
+      /* PLANILLAS */
+      ("PL01","Transacciones","PL","OP","TRN"),
+      ("PL02","Reportes     ","PL","OP","RPT"),
+      ("PL03","Catalogos    ","PL","OP","CAT"),
+      ("PL04","Herramientas ","PL","OP","MOD"),
+      /* ADMINISTRACION */
+      ("SY01","Transacciones","SY","OP","TRN");
+
+
+insert into symenu(cmenuid,cdesc,cmodule,cgppmod,cmenhid,cstatus,cview)
+    values("sy001","configuracion de la compañia","SYS","TRN","SY01","OP","../view/sycomp.php"),
+    ("sy002","Grupos de Trabajo","SYS","TRN","SY01","OP","../view/sygrup.php"),
+    /* TRANSACCIONES*/
+    ("tr001","Facturacion y Notas de Debito","AR","TRN","AR01","OP","../view/arinvc.php"),
+    ("tr002","Recibos de Dinero","AR","TRN","AR01","OP","../view/arcash.php"),
+    ("tr003","Cotizaciones","AR","TRN","AR01","OP","../view/arcotm.php"),
+    ("tr004","Entradas y Salidas de Inventario","AR","TRN","IN01","OP","../view/aradjm.php"),
+    ("tr007","Preventa de Clientes","AR","TRN","AR01","OP","../view/arpodvm.php"),
+    ("tr008","Anulacion de Facturas","AR","TRN","AR01","OP","../view/arvinv.php"),
+    ("tr009","Anulacion de Recibos","AR","TRN","AR01","OP","../view/arvcas.php"),
+    ("tr010","Anulacion Requisas","AR","TRN","IN01","OP","../view/arvadj.php"),
+    /* REPORTES*/
+    ("rp001","Resumen de Ventas (Moneda)    ","AR","RPT","AR02","OP","../view/arinvt_r.php"),
+    ("rp013","Resumen de Ventas (Articulos) ","AR","RPT","AR02","OP","../view/arinvt2_r.php"),
+    ("rp002","Cuentas por Cobrar","AR","RPT ","AR02","OP","../view/arcash1_r.php"),
+    ("rp009","Vencimiento de Cartera        ","AR","RPT","AR02","OP","../view/arcash2_r.php"),
+    ("rp003","Estado de Cuentas             ","AR","RPT","AR02","OP","../view/arcustb_r.php"),
+    ("rp004","Resumen de Cobros             ","AR","RPT","AR02","OP","../view/arcash_r.php"),
+    ("rp005","Lista de Precios              ","IN","RPT","IN02","OP","../view/arserm_r.php"),
+    ("rp006","Resumen de Uilidades y Costos ","AR","RPT","AR02","OP","../view/arinvt1_r.php"),
+    ("rp007","Formato de Requisas           ","IN","RPT","IN02","OP","../view/aradjm_r.php"),
+    ("rp008","Reporte de Movimiento de Inventario (Entradas y Salidas)","IN","RPT","IN02","OP","../view/aradjt_r.php"),
+    ("rp010","Movimientos de Inventario Valorisados AD                ","IN","RPT","IN02","OP","../view/arserm1_r.php"),
+    ("rp011","Maximos y Minimos             ","IN","RPT","IN02","OP","../view/arserm2_r.php"),
+    ("rp012","Reimpresion Formato Factura   ","AR","RPT","AR02","OP","../view/arinvc_r.php"),
+    ("rp014","Analisis de Kardex","IN","RPT ","IN02","OP","../view/arcdex_r.php"),
+    /* CATALOGOS*/
+    ("ca001","Catalogo de Clientes                   ","AR","CAT","AR03","OP","../view/arcust.php"),
+    ("ca002","Condiciones de Pago                    ","AR","CAT","AR03","OP","../view/artcas.php"),
+    ("ca003","Maestro de Inventarios                 ","AR","CAT","AR03","OP","../view/arserm.php"),
+    ("ca004","Tipos de Inventarios                   ","AR","CAT","AR03","OP","../view/artser.php"),
+    ("ca005","Proveedores                            ","AR","CAT","AR03","OP","../view/arresp.php"),
+    ("ca006","Tipos de Requisas / Entradas y Salidas ","AR","CAT","IN03","OP","../view/arcate.php"),
+    ("ca007","Bodegas                                ","AR","CAT","AR03","OP","../view/arwhse.php"),
+    ("ca008","Tipos de Cambio                        ","AR","CAT","AR03","OP","../view/armone.php"),
+    /* Modulo de Planillas */
+    ("pltr001","Definir Planilla","PL","TRN","PL01","OP","../view/plmast.php"),
+    ("pltr002","Generar Planilla","PL","TRN","PL01","OP","../view/plimpd.php"),
+    ("pltr003","Modificar Planilla","PL","TRN","PL01","OP","../view/plmasd.php"),
+
+    ("plca001","Catalogo de Empleados","PL","CAT","PL03","OP","../view/plempl.php"),
+    ("plca002","Catalogo de Ingresos","PL","CAT","PL03","OP","../view/plingm.php"),
+    ("plca003","Catalogo de Ingresos","PL","CAT","PL03","OP","../view/pldedm.php"),
+    ("plca004","Cuadro impuesto sobre Renta","PL","CAT","PL03","OP","../view/plrent.php"),
+    ("plca005","Puestos de Trabajo","PL","CAT","PL03","OP","../view/plworm.php"),
+    ("plca006","Departamentos de la Empresa","PL","CAT","PL03","OP","../view/pldepm.php"),
+    ("plca007","Tipos de Justificaciones","PL","CAT","PL03","OP","../view/pljusm.php"),
+    ("plca008","Turnos de Trabajo","PL","CAT","PL03","OP","../view/plturm.php"),
     
     /* HERRAMIENTAS*/
-    ("mod001","Configuracion VC-2020","AR","MOD"),
-    ("mod002","Importacion de datos","AR","MOD"),
-    ("mod003","Ajuste de Cartera","AR","MOD");
+    ("mod001","Configuracion VC-2020","AR","MOD","AR04","OP","../view/arsetup.php"),
+    ("mod002","Importacion de datos","AR","MOD","AR04","OP","../view/import_data.php"),
+    ("mod003","Ajuste de Cartera","AR","MOD","AR04","OP","../view/arclear.php");
     
+
+
 /* B)- Usuario estandar del sistema.. */
-    
 insert into sysuser(cgrpid,cfullname,cuserid,cstatus,cpasword) 
 values("00","Supervisor General","SUPERVISOR","OP","2505");
 

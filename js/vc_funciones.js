@@ -71,8 +71,6 @@ function set_config_menu(pckeyshow,pcmenuid,pcShowIn,pcfunction){
 	}		
 }
 function menu_select_xkey_x(e,pcobjshow,pcfunction){
-	//	var lckey  = e.currentTarget.cells[0].innerText;
-	//	var lcdesc = e.currentTarget.cells[1].innerText;
 		var lckey  = e.cells[0].innerText;
 		var lcdesc = e.cells[1].innerText;
 		// funcion por defecto que deberia ejecutar el procedimiento y debe existir 

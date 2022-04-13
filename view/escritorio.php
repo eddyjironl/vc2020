@@ -18,7 +18,11 @@ if (vc_funciones::Star_session() == 1){
 	</head>
 	
 	<!-- background="../photos/fondo3.png" -->
-
+	<style>
+  		#helps{
+    		display: inline-block;
+  		}
+	</style>
 	<body id="espacio"  background="fondo3.png">
 		<iframe id="ventana"> </iframe>	
 
@@ -44,11 +48,15 @@ if (vc_funciones::Star_session() == 1){
 				<br>
 				<label class="labelnormal">Modulos</label>
 				<select class="listas" id="cmodule_select_small">
-						<option value=""> Elija un Modulo de trabajo</option>
-						<option value="SY"> Administracion</option>
-						<option value="AR"> Facturacion y Cuentas por cobrar</option>
-						<option value="IN"> Control de inventario y Cuentas por pagar</option>
-						<option value="CT"> Contabilidad General</option>
+					<option value=""> Elija un Modulo de trabajo</option>
+					<?php
+						$lcsqlcmd = "select cmodule, cdesc from symodu where cstatus = 'OP'";
+						$oConn = vc_funciones::get_coneccion("SYS");
+						$lcresult = mysqli_query($oConn,$lcsqlcmd);
+						while ($row = mysqli_fetch_assoc($lcresult)){
+							echo "<option value='" . $row["cmodule"] . "'>" . $row["cdesc"] . "</option>";
+						}
+					?>	
 				</select>
 				<br>
 				<H1>    ATENCION.....!!!</H1>
@@ -87,6 +95,7 @@ if (vc_funciones::Star_session() == 1){
 			<!-- <label class="labeltitle">Compañia de pruebas</label> -->
 			<input type="text" id="cia_desc"  readonly value=" <?php ECHO  $_SESSION["compdesc"] ?>">
 			<script>get_btmenu("btcias","Listado de Compañias");</script>
+
 			<br>
 			<label class="labelnormal">Usuario</label>
 			<!-- <label class="labeltitle">Compañia de pruebas</label> -->
@@ -94,18 +103,23 @@ if (vc_funciones::Star_session() == 1){
 			<br>
 			<label class="labelnormal">Modulos del Sistema</label>
 			<select class="listas" id="cmodule_select">
-					<option value=""> Elija un Modulo de trabajo</option>
-					<option value="SY"> Administracion</option>
-					<option value="AR"> Facturacion y Cuentas por cobrar</option>
-					<option value="IN"> Control de inventario y Cuentas por pagar</option>
-					<option value="PL"> Recursos Humanos</option>
-					<option value="CT"> Contabilidad General</option>
-				</select>
+				<option value=""> Elija un Modulo de trabajo</option>
+				<?php
+					$lcsqlcmd = "select cmodule, cdesc from symodu where cstatus = 'OP'";
+					$oConn = vc_funciones::get_coneccion("SYS");
+					$lcresult = mysqli_query($oConn,$lcsqlcmd);
+					while ($row = mysqli_fetch_assoc($lcresult)){
+						echo "<option value='" . $row["cmodule"] . "'>" . $row["cdesc"] . "</option>";
+					}
+				?>	
+			</select>
+			
+			<div id="helps" class="contenedor_objetos">
+				<a href="../manuales.pdf" target="_blank" placeholder = "Descarga los manuales actualizados del sistema"><strong>Manual del sistema</strong></a>
+			
+			</div>
 		</footer>
-		<script>
-			get_xm_menu();
-			get_msg();
-
-		</script>
+		<script>get_msg();</script>
+		<div id="showmenulist"></div>
 	</body>
 </html>

@@ -32,6 +32,7 @@ if($_POST["program"]== "get_menu_list"){
 
 	$pcmenu   = $_POST["menu"];
 	$pcShowIn = $_POST["window"];
+	$lcmodule = "";
 	// definiendo las variables.
 	$oConn     = vc_funciones::get_coneccion("SYS");		
 	$lcsqlcmd  = "select * from ksschgrd where calias= '$pcmenu' ";
@@ -79,6 +80,7 @@ if($_POST["program"]== "get_menu_list"){
 				// caargando las columnas del encabezado.
 				$lctableheader = $lctableheader . '<th width="'.$oHtml["ncolwidth"].'"> '. $oHtml["cheader"] .'</th>';		
 			}
+			$lcmodule = $oHtml["cmodule"];
 		}
 		$lcselect = $lcselect . '</select>';
 		$lctableheader = $lctableheader . '</tr></table>';
@@ -87,8 +89,11 @@ if($_POST["program"]== "get_menu_list"){
 		// Obteniendo datos del sistema.
 		// -----------------------------------------------------------------------------------------------------------------------------------
 		// $lctabledetail = getMenuDetail();
-
-		$oConn1 = vc_funciones::get_coneccion("CIA");		
+		if ($lcmodule == "SY"){
+			$oConn1 = vc_funciones::get_coneccion("SYS");		
+		}else{
+			$oConn1 = vc_funciones::get_coneccion("CIA");		
+		}
 		$lctabledetail = '<table class="menu_detalles" id="menu_detalles">';
 		$lcresult = mysqli_query($oConn1, $lcsqlcmd);
 		// numero de registros a presentar en la tabla de detalles.
@@ -198,8 +203,6 @@ if($_POST["program"]=="get_mx_detalle"){
 	echo $lctabledetail;
 }
 // --------------------------------------------------------------------------------------------------------------
-
-
 // Verificando si un usuario tiene derecho de acceso o no.
 if ($_POST["program"]== "permiso_de_acceso"){
 	$lcmenuid = $_POST["cmenuid"];
@@ -228,7 +231,6 @@ if ($_POST["program"]== "permiso_de_acceso"){
 	}
 	
 }
-
 if ($_POST["program"]== "entry_cia_work"){
 	$lccompid = $_POST["ccompid"];
 	// ubicando datos de la compañia
@@ -252,6 +254,50 @@ if ($_POST["program"]== "entry_cia_work"){
 	}
 
 }
-// esta funcion devuelve una estructura array con los datos de la estructura del menu.
+// Funcion que devuelve los menus del sistema en el escritorio.
+if($_POST["program"]== "get_module_menu"){
+	$lcmodule = $_POST["cmodule"];
+	// obteniendo los detalles del SYMENH
+	$lcsqlcmd   = " select cmenhid, cdesc from symenh where cmodule = '". $lcmodule ."' and cstatus = 'OP' ";
+	$lcres_menh = mysqli_query($oConn,$lcsqlcmd);
+	if($lcres_menh->num_rows > 0){
+		// recorriendo cada item del encabezado para motar el header
+		echo '<ul id="menu"> ';
+		while($row_header = mysqli_fetch_assoc($lcres_menh)){
+			$lcmenhid = $row_header["cmenhid"];
+			echo '<li><a>'. $row_header["cdesc"] .'</a>';
+			// leyendo los detalles de cada header
+			$lcsql = " select cmenuid, cdesc,cview from symenu where cmenhid = '". $lcmenhid  ."' and cstatus = 'OP' ";
+			$lcres_menu = mysqli_query($oConn,$lcsql);
+			if($lcres_menu->num_rows > 0){
+				echo '<ul>';
+				while($row_menu = mysqli_fetch_assoc($lcres_menu)){
+					// echo '<li><a id="'. $row_menu["cmenuid"] .'" onclick="ckviewallow("'. $row_menu['cmenuid'] .'","'. $row_menu['cview'] .'")">'. $row_menu['cdesc'] .'</a></li>';
+					//echo '<li><a id="'. $row_menu["cmenuid"] .'" onclick="ckviewallow('. $row_menu['cmenuid'] .','. $row_menu['cview'] .')">'. $row_menu['cdesc'] .'</a></li>';
+					echo '<li><a id="'. $row_menu["cmenuid"] .'" >'. $row_menu['cdesc'] .'</a></li>';
+				}
+				echo "</ul>";	
+			}		
+			// cerrando linea del header correspondiente.
+			echo '</li>';
+		}
+		echo '</ul>';
+	}else{
+		echo "Encabezados no definidos para este modulo";
+	}
+}
+// obteniendo todos los IDS de los menus registrados y poniendo sus pantallas a la escucha.
+if($_POST["program"]== "get_menu_id"){
+	$lcmenu   = [];
+	$lcmodule = $_POST["cmodule"];
+	$lcsqlcmd = "select symenu.cmenuid , symenu.cview from symenu 
+	             left outer join symenh on symenh.cmenhid = symenu.cmenhid 
+				 where symenu.cstatus = 'OP' and symenh.cmodule = '". $lcmodule ."' ";
+	$lcresult = mysqli_query($oConn,$lcsqlcmd);
 
+	for($i=0;$i < $lcresult->num_rows; $i++){
+		$lcmenu[$i] = mysqli_fetch_assoc($lcresult);
+	}
+	echo json_encode($lcmenu); 
+}
 ?>

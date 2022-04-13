@@ -58,18 +58,48 @@ CREATE TABLE IF NOT EXISTS `sygrup` (
   `hora` time(6) default CURRENT_TIME
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
-DROP TABLE IF EXISTS symenu;
-CREATE TABLE IF NOT EXISTS symenu (
-  cmenuid    char(10)  default '',
-  cdesc      char(100) default '',
-  cdescshort char(100) default '',
-  cmodule    char(10)  default "ND",
-  cgppmod    char(10)  default "ND",
-  cview      char(100) default "",
+
+/*Configuracion de los encabezados del menu por modulo*/
+DROP TABLE IF EXISTS symodu;
+CREATE TABLE IF NOT EXISTS symodu (
+  cmodule    char(10)  default '' primary KEY,
+  cdesc      char(200) default '',
+  cdescshort char(200) default '',
+  cstatus    char(2)   default "OP",
   usuario    char(10)  default '',
   fecha      date      default CURRENT_DATE,
   hora       time(6)   default CURRENT_TIME
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+/*Configuracion de los encabezados del menu por modulo*/
+
+DROP TABLE IF EXISTS symenh;
+CREATE TABLE IF NOT EXISTS symenh (
+  cmenhid    char(10)  default '' primary KEY,
+  cdesc      char(100) default '',
+  cdescshort char(100) default '',
+  cmodule    char(10)  default "",
+  ctype      char(3)   default "",  
+  cstatus    char(2)   default "" , 
+  usuario    char(10)  default '',
+  fecha      date      default CURRENT_DATE,
+  hora       time(6)   default CURRENT_TIME
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+DROP TABLE IF EXISTS symenu;
+CREATE TABLE IF NOT EXISTS symenu (
+  cmenuid    char(10)  default '' primary KEY,
+  cmenhid    char(10)  default '',
+  cgppmod    char(10)  default '',
+  cmodule    char(10)  default '',
+  cdesc      char(100) default '',
+  cdescshort char(100) default '',
+  cstatus    char(2)   default "",
+  cview      char(200) default "",
+  usuario    char(10)  default '',
+  fecha      date      default CURRENT_DATE,
+  hora       time(6)   default CURRENT_TIME
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
 
 DROP TABLE IF EXISTS `syperm`;
 CREATE TABLE IF NOT EXISTS `syperm` (
@@ -102,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `syscomp` (
   `nanofisc` int(4) default 2009,
   `ntaxratg` decimal(10,2) default 0,
   `lunicontdat` tinyint(1) default 0,
-  `dnextclear` date default '0000-00-00',
+  `dnextclear` date default CURRENT_DATE,
   `dbname` char(200) COLLATE latin1_spanish_ci default "ksisdbc",
   `chost` char(200) COLLATE latin1_spanish_ci default "localhost",
   `ckeyid` char(200) COLLATE latin1_spanish_ci default "",
