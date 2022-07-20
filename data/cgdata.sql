@@ -94,23 +94,24 @@ create table cgmonm(
     cmonid   char(10) primary key,
     cdesc    char(200) , 
     csimbolo char(10),
-    cmetodo  char(1),
+    mnotas    text default'' ,			 /* Comentarios generales del documento */
+	cmetodo  char(1),
     hora     char(10) DEFAULT CURRENT_TIME,
     fecha    date DEFAULT CURRENT_DATE,
     usuario  char(10) default '' 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
 drop table if exists cgmond;
 create table cgmond(
     cuid     integer(10) AUTO_INCREMENT PRIMARY KEY ,
     cmonid   char(10) ,
     dtrndate date default CURRENT_DATE ,
-    nfactor  decimal(10,4) default 0.0000, 
-    csimbolo char(10),
-    cmetodo  char(1),
+    ntc  decimal(10,4) default 0.0000, 
     hora     char(10) DEFAULT CURRENT_TIME,
     fecha    date DEFAULT CURRENT_DATE,
     usuario  char(10) default '' 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
 drop table if exists cgmast_1;
 create table cgmast_1(
     ctrnno    char(10),
@@ -206,6 +207,7 @@ create table cgbanm(
     fecha   date DEFAULT CURRENT_DATE,
     usuario char(10) default '' 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
 drop table if exists cgband;
 create table cgband(
     cuid int(10) AUTO_INCREMENT primary key,
@@ -219,6 +221,7 @@ create table cgband(
     fecha   date DEFAULT CURRENT_DATE,
     usuario char(10) default '' 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
 drop table if exists cgctas;
 create table cgctas(
     cctaid    char(20),        /* Codigo del Cuenta Contable */
@@ -296,6 +299,16 @@ create table cgmic5(
     usuario char(10) default '' 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+drop table if exists cgresp;
+create table cgresp(
+    crespno char(10) primary key, 
+    cdesc   char(200) default '',
+    mnotas  text default '',
+    hora    char(10) DEFAULT CURRENT_TIME,
+    fecha   date DEFAULT CURRENT_DATE,
+    usuario char(10) default '' 
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
 
 /*
     Listados Maestros.
@@ -356,6 +369,12 @@ INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
         ("CGMIC5","01","Grupo # 5","cmic5no",100,"CG"),
         ("CGMIC5","02","Descripcion","cdesc",200,"CG");
 
+SET @lcSelect = " select crespno, cdesc  from cgresp ";
+INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
+  VALUES("CGRESP","00","Listado de responsables",@lcSelect,0,"CG"),
+        ("CGRESP","01","Resp id","crespno",100,"CG"),
+        ("CGRESP","02","Descripcion","cdesc",200,"CG");
+
 /*
     Permisos
 */
@@ -398,19 +417,21 @@ insert into symenu(cmenuid,cdesc,cmodule,cgppmod,cmenhid,cstatus,cview)
 insert into symenu(cmenuid,cdesc,cmodule,cgppmod,cmenhid,cstatus,cview)
     values("CGCA01","Catalogo Contable Ctas Operativas","CG","CAT","CG03","OP","../view/cgctas.php");
 insert into symenu(cmenuid,cdesc,cmodule,cgppmod,cmenhid,cstatus,cview)
-    values("CGCA02","Agrupacion 1 ","CG","CAT","CG03","OP","../view/cgmic1.php");
+    values("CGCA02","Agrupacion 1 ","CG","CAT","CG03","OP","../view/cgmicx.php?cid=1");
 insert into symenu(cmenuid,cdesc,cmodule,cgppmod,cmenhid,cstatus,cview)
-    values("CGCA03","Agrupacion 2 ","CG","CAT","CG03","OP","../view/cgmic2.php");
+    values("CGCA03","Agrupacion 2 ","CG","CAT","CG03","OP","../view/cgmicx.php?cid=2");
 insert into symenu(cmenuid,cdesc,cmodule,cgppmod,cmenhid,cstatus,cview)
-    values("CGCA04","Agrupacion 3 ","CG","CAT","CG03","OP","../view/cgmic3.php");
+    values("CGCA04","Agrupacion 3 ","CG","CAT","CG03","OP","../view/cgmicx.php?cid=3");
 insert into symenu(cmenuid,cdesc,cmodule,cgppmod,cmenhid,cstatus,cview)
-    values("CGCA05","Agrupacion 4 ","CG","CAT","CG03","OP","../view/cgmic4.php");
+    values("CGCA05","Agrupacion 4 ","CG","CAT","CG03","OP","../view/cgmicx.php?cid=4");
 insert into symenu(cmenuid,cdesc,cmodule,cgppmod,cmenhid,cstatus,cview)
-    values("CGCA06","Agrupacion 5 ","CG","CAT","CG03","OP","../view/cgmic5.php");
+    values("CGCA06","Agrupacion 5 ","CG","CAT","CG03","OP","../view/cgmicx.php?cid=5");
 insert into symenu(cmenuid,cdesc,cmodule,cgppmod,cmenhid,cstatus,cview)
     values("CGCA07","Bancos","CG","CAT","CG03","OP","../view/cgbanm.php");
 insert into symenu(cmenuid,cdesc,cmodule,cgppmod,cmenhid,cstatus,cview)
     values("CGCA08","Digitadores de Partidas","CG","CAT","CG03","OP","../view/cgresp.php");
+insert into symenu(cmenuid,cdesc,cmodule,cgppmod,cmenhid,cstatus,cview)
+    values("CGCA09","Moneda y Tipos de Cambio","CG","CAT","CG03","OP","../view/cgmonm.php");
 /* configuraciones especiales del modulo.*/
 insert into symenu(cmenuid,cdesc,cmodule,cgppmod,cmenhid,cstatus,cview)
     values("CGMOD01","Definicion de Periodos contables","CG","MOD","CG04","OP","../view/cgsetup.php");

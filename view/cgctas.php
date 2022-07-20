@@ -16,14 +16,7 @@ if ($lcStarSession == 1){
 		<link rel="stylesheet" href="../css/vc_estilos.css?v1">
 		<script src="../js/vc_funciones.js?v1"></script>
         <script src="../js/cgctas.js?v1"></script>
-		<!--
-		 Required meta tags 
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        -->
-        <!-- Bootstrap CSS 
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-        -->
+		
   </head>
   
   <body>
@@ -63,22 +56,27 @@ if ($lcStarSession == 1){
             <label class="labelnormal" >Grupo 1</label>
             <input type="text" class="ckey" name="cmic1no" id="cmic1no">
             <script>get_btmenu("btcmic1no","Listado de Agrupacion 1");</script>
+            <input type="text" id="cdescmic1" class="textcdescreadonly">
             <br>
             <label class="labelnormal" >Grupo 2</label>
             <input type="text" class="ckey" name="cmic2no" id="cmic2no">
             <script>get_btmenu("btcmic2no","Listado de Agrupacion 2");</script>
+            <input type="text" id="cdescmic2" class="textcdescreadonly">
             <br>
             <label class="labelnormal" >Grupo 3</label>
             <input type="text" class="ckey" name="cmic3no" id="cmic3no">
             <script>get_btmenu("btcmic3no","Listado de Agrupacion 3");</script>
+            <input type="text" id="cdescmic3" class="textcdescreadonly">
             <br>
             <label class="labelnormal" >Grupo 4</label>
             <input type="text" class="ckey" name="cmic4no" id="cmic4no">
             <script>get_btmenu("btcmic4no","Listado de Agrupacion 4");</script>
+            <input type="text" id="cdescmic4" class="textcdescreadonly">
             <br>
             <label class="labelnormal" >Grupo 5</label>
             <input type="text" class="ckey" name="cmic5no" id="cmic5no">
             <script>get_btmenu("btcmic5no","Listado de Agrupacion 5");</script>
+            <input type="text" id="cdescmic5" class="textcdescreadonly">
 
         </div>    
         <div class="contenedor_objetos" style="float:left;">

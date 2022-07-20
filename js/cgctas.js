@@ -13,11 +13,11 @@ function init(){
     },false);
 
 	document.getElementById("btcmic1no").addEventListener("click",function(){
-        get_menu_list("cgmic1","showmenulist","cmic1no","valid_mic1no");
+        get_menu_list("cgmic1","showmenulist","cmic1no","valid_mi1xno");
     },false);
 
 	document.getElementById("btcmic2no").addEventListener("click",function(){
-        get_menu_list("cgmic2","showmenulist","cmic2no","valid_mic2no");
+        get_menu_list("cgmic2","showmenulist","cmic2no","valid_mi2xno");
     },false);
 	document.getElementById("btcmic3no").addEventListener("click",function(){
         get_menu_list("cgmic3","showmenulist","cmic3no","valid_mi3xno");
@@ -36,6 +36,34 @@ function init(){
 	document.getElementById("cmic4no").addEventListener("change",valid_mi4xno,false);
 	document.getElementById("cmic5no").addEventListener("change",valid_mi5xno,false);
 
+	document.getElementById("cgrupid").addEventListener("change",updtype,false);
+
+}
+function updtype(){
+	/*
+	<option Value = "A">Activo</option>
+	<option Value = "B">Pasivo</option>
+	<option Value = "C">Capital</option>
+	<option Value = "D">Ingresos</option>
+	<option Value = "E">Gastos</option>
+	<option Value = "F">Cta de Orden Deudor</option>
+	<option Value = "X">Cta de Orden Acreedor</option>
+	*/
+	var lcvalue = document.getElementById("cgrupid").value;
+	switch (lcvalue) {
+		case "A":
+			document.getElementById("ctype").value = "D";
+			break;
+		case "F":
+			document.getElementById("ctype").value = "D";
+			break;
+		case "E":
+			document.getElementById("ctype").value = "D";
+			break;
+		default:
+			document.getElementById("ctype").value = "H";
+		break;
+	}
 }
 function cerrar_pantalla_principal(){
 	document.getElementById("cgctas").style.display="none";
@@ -128,7 +156,13 @@ function update_window(pckeyid){
 	oRequest.open("POST","../modelo/crud_cgctas.php",false); 
 	oRequest.send(oDatos);
 	// desplegando pantalla de menu con su informacion.
-	var odata = JSON.parse(oRequest.response);
+	let lxvalor = oRequest.response;
+
+	//if (typeof(lxvalor) == "undefined" || typeof(lxvalor) == 'string' || typeof(lxvalor) == null ){
+	//	var odata = null;
+	//}else{
+		var odata = JSON.parse(lxvalor);
+	//}
 	//cargando los valores de la pantalla.
 	if (odata != null){
 		document.getElementById("cctaid").value  = odata.cctaid;
@@ -136,13 +170,28 @@ function update_window(pckeyid){
 		document.getElementById("ctype").value   = odata.ctype;
 		document.getElementById("cgrupid").value = odata.cgrupid;
 		document.getElementById("cmic1no").value = odata.cmic1no;
-		document.getElementById("cmic2no").value = odata.cmic3no;
+		document.getElementById("cmic2no").value = odata.cmic2no;
 		document.getElementById("cmic3no").value = odata.cmic3no;
 		document.getElementById("cmic4no").value = odata.cmic4no;
 		document.getElementById("cmic5no").value = odata.cmic5no;
 		document.getElementById("mnotas").value  = odata.mnotas;
 		document.getElementById("lpost").checked = (odata.lpost == "1")? true:false;
 		document.getElementById("lapplyir").checked = (odata.lapplyir == "1")? true:false;
+		document.getElementById("ndebe").value  = odata.ndebe;
+		document.getElementById("nhaber").value = odata.nhaber;
+		document.getElementById("namount").value = odata.namount;
+
+		document.getElementById("ndebe_d").value  = odata.ndebe_d;
+		document.getElementById("nhaber_d").value = odata.nhaber_d;
+		document.getElementById("namount_d").value = odata.namount_d;
+
+		document.getElementById("cdescmic1").value = (odata.cdesc1 == null)?"":odata.cdesc1;
+		document.getElementById("cdescmic2").value = (odata.cdesc2 == null)?"":odata.cdesc2;
+		document.getElementById("cdescmic3").value = (odata.cdesc3 == null)?"":odata.cdesc3;
+		document.getElementById("cdescmic4").value = (odata.cdesc4 == null)?"":odata.cdesc4;
+		document.getElementById("cdescmic5").value = (odata.cdesc5 == null)?"":odata.cdesc5;
+		
+
 		estado_key("I");
 	}else{
 		ck_new_key();
@@ -160,9 +209,12 @@ function valid_cmicxno(pcvalue, pcobject, pcuid){
 	oRequest.open("POST","../modelo/crud_cgctas.php",false); 
 	oRequest.send(oDatos);
 	// desplegando pantalla de menu con su informacion.
-	var odata = oRequest.response;
+	var odata = JSON.parse(oRequest.response);
 	//cargando los valores de la pantalla.
-	if (odata == 0){
+	if (odata != null){
+		lcdescmicx = "cdescmic"+pcuid;
+		document.getElementById(lcdescmicx).value = odata.cdesc;
+	}else{ 
 		alert("Agrupacion "+ pcuid + " no definida.");
 	}
 }

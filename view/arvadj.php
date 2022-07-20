@@ -19,7 +19,6 @@ if ($lcStarSession == 1){
     <script>
         function init(){
             document.getElementById("btquit").addEventListener("click",salir,false)
-
         }
         function salir(){
              document.getElementById("arvadj").style.display="none"
@@ -28,17 +27,14 @@ if ($lcStarSession == 1){
     </script>
 
     <script src="../js/vc_funciones.js"></script> 
- 	<!-- Bootstrap CSS -->
+ 	<!-- Bootstrap CSS 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ" crossorigin="anonymous"></script>
+    -->
     <title>Anulacion de Facturas</title>
   </head>
   <body>
    <style>
-       #arvadj{
-           padding: 5px 10px;
-           margin: 5px;
-       }
        #msg{
            color:red;
        }
@@ -48,19 +44,22 @@ if ($lcStarSession == 1){
 
 
     <form id="arvadj" class="form2" method="post" action="../modelo/crud_aradjm.php">
-        <h2>Anulacion de Requisas</h2>
-        <label name="anular" class="labelnormal" >Ajuste id</label>
-        <input type="text" class="textkey" name="cadjno" id="cadjno">
-        <input type="hidden" name="accion" id="accion" value="ANULAR">
-        <?php  if (isset($_GET["msg"])){ ?>
-                <br>
-                <strong id="msg"> <?php   echo $_GET["msg"];  ?> </strong>
-        <?php } ?>
-        <br>
-      
-        <br><br><br>
-        <button type="submit"> anular</button>
-        <input type="button"  id="btquit" value="Salir">
+        <div class="barra_info">
+            <strong>Anulacion de Requisas</strong>
+        </div>
+        <div class="contenedor_objetos">
+            <label name="anular" class="labelnormal" >Ajuste id</label>
+            <input type="text" class="textkey" name="cadjno" id="cadjno">
+            <input type="hidden" name="accion" id="accion" value="ANULAR">
+            <?php  if (isset($_GET["msg"])){ ?>
+                    <br>
+                    <strong id="msg"> <?php   echo $_GET["msg"];  ?> </strong>
+            <?php } ?>
+        </div>
+        <div class="contenedor_objetos">
+            <button type="submit"> anular</button>
+            <input type="button"  id="btquit" value="Salir">
+        </div>
     </form>
 
 

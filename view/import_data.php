@@ -15,11 +15,11 @@
 
 	</head>
 	<body>
-            <form action="../modelo/import_data.php" method="post" enctype="multipart/form-data" id="filesForm" class="form" >
-                <div>
-                     <h3>Importacion de Catalogos del Sistema </h3>
+            <form action="../modelo/import_data.php" method="post" id="filesForm" class="form2" >
+                <div class="barra_info">
+                     <strong>Importacion de Catalogos del Sistema </strong>
                 </div>
-                <div >
+                <div class="contenedor_objetos">
                     <label class="labelnormal"> Tipo de Importacion </label>
                     <select class="listas" id="coption">
                         <option value ="">Elija una Accion</option>
@@ -28,7 +28,7 @@
                     </select>
                     <br>
                     <input type="file" name="fileContacts" >
-                    <div class="btn-food">
+                    <div class="contenedor_objetos">
                         <button type="button" onclick="uploadContacts()"  id="btcargar" >Cargar</button>
                         <!-- class="btn btn-primary form-control" -->
                         <button type="button" onclick="closescreen()" >Cerrar</button>

@@ -24,7 +24,7 @@ if (vc_funciones::Star_session() == 1){
   		}
 	</style>
 	<body id="espacio"  background="fondo3.png">
-		<iframe id="ventana"> </iframe>	
+		<iframe id="ventana" name="ventana"> </iframe>	
 
 		<div id="barra_small">
 			<img src="../photos/vc2009.ico" id="logo_min">

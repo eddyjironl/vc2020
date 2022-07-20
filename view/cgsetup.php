@@ -37,8 +37,8 @@ if ($lcStarSession == 1){
     </style>    
     <body>
         <form name="cgsetup" id="cgsetup" class="form2" method="post" action="../modelo/crud_cgsetup?accion=NEW">
-            <div class="barra-standar"> 
-                <p> Configuracion del Modulo Contable</p>
+            <div class="barra_info"> 
+                <strong> Configuracion del Modulo Contable</strong>
             </div>
             <br><br>
             <div class="tab">
