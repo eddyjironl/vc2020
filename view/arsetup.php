@@ -11,21 +11,25 @@ if (vc_funciones::Star_session() == 1){
 	<head>
 		<title>Configuracion Modulo VC2019 WEB</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="../css/arsetup.css">
 		<link   rel="stylesheet" href="../css/vc_estilos.css?v1">
 		<script src="../js/vc_funciones.js"></script>
 		<script src="../js/arsetup.js"></script>
 	</head>
 	
 	<body >
-		<form method="post" action="../modelo/arsetup_crud.php?accion=SAVE" name="arsetup" id= "arsetup" class="form">
+		<form method="post" action="../modelo/arsetup_crud.php?accion=SAVE" name="arsetup" id= "arsetup" class="form2">
+
+			<div class="barra_info">
+				Configuracion Modulo POS
+			</div>
 
 			<div class="tab">
 				<button  class="tablinks" id="tbinfo1" >Informacion General</button>
 				<button  class="tablinks" id="tbinfo2" >Reportes</button>
-			</div>		
+			</div>	
+			
 			<div id="finfo1" class="tabcontent">
-				<fieldset>
+				<div class="contenedor_objetos">
 					<label class="labeltitle">Configuracion de Consecutivos</label><br>
 					<label for="ninvno" class="labelnormal" >No Factura</label>
 					<input class="textqty" type="number" id="ninvno" name="ninvno"></input><br>
@@ -39,9 +43,9 @@ if (vc_funciones::Star_session() == 1){
 					<input class="textqty" type="number" id="nndno" name="nndno"></input><br>
 					<label for="ncotno" class="labelnormal" >No Cotizacion</label>	
 					<input class="textqty" type="number" id="ncotno" name="ncotno"></input><br>
-				</fieldset>	
+				</div>	
 				
-				<fieldset>
+				<div class="contenedor_objetos">
 						<label class="labeltitle">Configuracion predeterminada de Facturacion</label><br>
 						<label class="labelnormal" >Cliente </label>	
 						<script>get_lista_arcust();</script>
@@ -71,6 +75,14 @@ if (vc_funciones::Star_session() == 1){
 							<option value="UL">Ultimo Costo Recibido</option>
 						</select>
 						<br>
+						<label class="labelnormal" >Tipo de Descuento</label>	
+						<SELECT class="listas" id="ctypdesc" name="ctypdesc" >
+							<option value="">No definido</option>
+							<option value="P">Porcentual</option>
+							<option value="M">En Moneda</option>
+						</select>
+						<br>
+						
 						<label class="labelnormal" >IVA en el Costo</label>	
 						<SELECT class="listas" id="ctaxproc" name="ctaxproc" >
 							<option value="">No definido</option>
@@ -78,20 +90,21 @@ if (vc_funciones::Star_session() == 1){
 							<option value="EX">No Incluir el IVA en el costo del articulo</option>
 						</select>
 						<br>
-
-						<label class="labeltitle" >Mantenimiento de Cartera</label>	
-						<br>
-						<script>
-							get_boton("btcxccls","transacciones.ico","Verificar");
-						</script>
-						<label class="labelnormal" >Cliente Id</label>	
-						<input type="text" id="ccustno1" name="ccustno1" class="textkey" placeholder="Indique un cliente">
-					
-				</fieldset>				
+				</div>	
+							
+				<div class="contenedor_objetos">
+					<label class="labeltitle" >Mantenimiento de Cartera</label>	
+					<br>
+					<script>
+						get_boton("btcxccls","transacciones.ico","Verificar");
+					</script>
+					<label class="labelnormal" >Cliente Id</label>	
+					<input type="text" id="ccustno1" name="ccustno1" class="textkey" placeholder="Indique un cliente">
+				</div>
 			</div>
 			
 			<div id="finfo2" class="tabcontent">
-				<fieldset>
+				<div class="contenedor_objetos">
 					<label class="labeltitle">Configuracion de Comentarios</label>
 					<br>
 					<input type="checkbox" id="linvno"  name="linvno">Aplicar Comentarios en Facturas</input>
@@ -111,10 +124,10 @@ if (vc_funciones::Star_session() == 1){
 					<label class="labeltitle"> Comentarios al pie de las Cotizaciones </label>
 					<br>
 					<textarea id="mcoti" name="mcoti" rows="5" cols="43"></textarea>
-				</fieldset>
+				</div>
 			</div>
 
-			<div id="div_botones">
+			<div class="contenedor_objetos">	
 				<script>
 					get_btprinc("btquit","btquit");
 					get_btprinc("btsave","btsave");

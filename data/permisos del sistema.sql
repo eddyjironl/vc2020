@@ -87,6 +87,27 @@ delete from syperm;
     ("ARSERM","04","Desc Maximo","ndesc",100,"AR"),
     ("ARSERM","05","Impuesto","ntax",100,"AR");
 
+ SET @lcSelect = " select aradjm.cadjno, 
+                           aradjm.crefno, 
+                           if(aradjm.cstatus='OP','Activa','Anulada') as cstatus ,
+		                       arcate.cdesc,
+                           aradjm.dtrndate,
+                           arwhse.cdesc as cdescwh,
+                           aradjm.usuario
+                    from aradjm
+                    left outer join arcate on arcate.ccateno = aradjm.ccateno
+                    left outer join arwhse on arwhse.cwhseno = aradjm.cwhseno ";
+
+  INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
+    VALUES("ARADJM","00","Listado de Requisas",@lcSelect,0,"AR"),
+    ("ARADJM","01","Requisa No","cadjno",60,"AR"),
+    ("ARADJM","02","Referencia","crefno",150,"AR"),
+    ("ARADJM","03","Estado","cstatus",60,"AR"),
+    ("ARADJM","04","Tipo Requisa","cdesc",150,"AR"),
+    ("ARADJM","05","Fecha","dtrndate",60,"AR"),
+    ("ARADJM","06","Bodega","cdescwh",100,"AR"),
+    ("ARADJM","07","Usuario","usuario",100,"AR");
+
 
 /* modulo de planillas-*/
  SET @lcSelect = " select cingid , cdesc from plingm  ";
@@ -141,15 +162,12 @@ delete from syperm;
     ("PLMAST","03","Estado","cstatus",80,"PL"),
     ("PLMAST","04","Fecha Pago","dpay",100,"PL");
 
-
-
-
 /*  Configuracion del menu del sistema */
 
 insert into symodu(cmodule, cdesc,cstatus)
 values("AR","Facturacion y Cuentas por Cobrar","OP"),
       ("IN","Control de Inventarios y Cuentas por Pagar","OP"),
-      ("CT","Contabilidad General","OP"),
+      ("CG","Contabilidad General","OP"),
       ("PL","Planillas","OP"),
       ("SY","Administracion del Sistema","OP");
 
@@ -165,10 +183,10 @@ values("AR01","Transacciones","AR","OP","TRN"),
       ("IN03","Catalogos    ","IN","OP","CAT"),
       ("IN04","Herramientas ","IN","OP","MOD"),
       /* CONTABILIDAD */
-      ("CT01","Transacciones","CT","OP","TRN"),
-      ("CT02","Reportes     ","CT","OP","RPT"),
-      ("CT03","Catalogos    ","CT","OP","CAT"),
-      ("CT04","Herramientas ","CT","OP","MOD"),
+      ("CG01","Transacciones","CG","OP","TRN"),
+      ("CG02","Reportes     ","CG","OP","RPT"),
+      ("CG03","Catalogos    ","CG","OP","CAT"),
+      ("CG04","Herramientas ","CG","OP","MOD"),
       /* PLANILLAS */
       ("PL01","Transacciones","PL","OP","TRN"),
       ("PL02","Reportes     ","PL","OP","RPT"),

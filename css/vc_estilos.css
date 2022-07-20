@@ -10,6 +10,46 @@
 .contenedor_objetos{
 	padding: 5px;
 }
+.barra_info{
+	background:green;
+	top:0px;
+	left:0px;
+	box-shadow:white 0px 10px 10px;
+	color:yellow;
+	text-align:center;
+	padding:1px;
+	margin-bottom:5px;
+	border-radius:10px 10px 0px 0px;
+}
+/* CUADRICULAS O GRID CON TABLAS */
+/* Configuracion para las cuadriculas en general estilos para 
+		1-	Encabezado de la cuadricula una Tabla.
+		2-	Detalle de la Cuadricula otra tabla 
+		3-	area de expacion maxima del detalle de la cuadricula aca solo se configura
+			que sea expansible a nivel del codigo html se le indica cuanto mide con la 
+			propiedad style.
+*/
+.grid_header {
+    height:25px;
+    text-align: left;
+    background: darkseagreen; /* darkslategrey darkseagreen */
+    color: black;
+  }
+.grid_detail{
+    text-align:left;
+    color:blue;
+  }
+.grid_detail:hover{
+	color:black;
+	box-shadow:cyan 0px 10px 10px;
+	background-color:orange;
+	cursor:hand;
+}
+
+.grid_area_detalles{
+    margin-bottom:10px;
+    overflow: auto;
+  }
 
 
 /* CONFIGURACION NUEVO MENU DEL SISTEMA.*/
@@ -218,7 +258,7 @@ input, select{
 	padding:1px;
 	border:solid 1px rgb(240,240,240);
 	display:inline-block;	
-	width:250px;
+	width:300px;
 
 }
 .textcdescreadonly{
@@ -226,7 +266,7 @@ input, select{
 	border:solid 1px rgb(240,240,240);
 	display:inline-block;	
 	color:blue;
-	width:200px;
+	width:300px;
 	background-color:rgb(240,240,240);
 
 }
@@ -236,7 +276,7 @@ input, select{
 	border:solid 1px rgb(240,240,240);
 	display:inline-block;	
 	color:blue;
-	width:70px;
+	width:100px;
 	background-color:rgb(240,240,240);
 	
 }
@@ -270,7 +310,7 @@ input, select{
 .textnormal{
 	padding:1px;
 	border:solid 1px rgb(240,240,240);
-	width:150px;
+	width:200px;
 	display:inline-block;			
 }
 .textdate{
@@ -281,7 +321,7 @@ input, select{
 .textqty{
 	padding:1px;
 	border:solid 1px rgb(240,240,240);
-	width:70px;
+	width:100px;
 	display:inline-block;
 	text-align:right;
 }

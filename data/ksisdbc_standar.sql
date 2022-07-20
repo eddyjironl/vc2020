@@ -762,5 +762,49 @@ CREATE TABLE `arwhse` (
   `hora` time(6) default CURRENT_TIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+  /* DETALLE DE APARTADOS DEL SISTEMA PARA TIENDAS*/
 
+  /* Encabazado del apartado*/
+ drop table if exists arapam;
+  create table arapam(
+    capano int(10) AUTO_INCREMENT unique,
+    cfullname char(200) default '',
+    ctel char(10) default '',
+    crespno char(10) default '',
+    cstatus char(2) default 'OP',
+    dstar date default CURRENT_DATE,
+    dend date ,
+    cinvno char(10) default '',
+    usuario char(10) COLLATE utf8_spanish_ci default '',
+    fecha date default CURRENT_DATE,
+    hora time(6) default CURRENT_TIME
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  
+  /* Detalle de productos del apartado*/
+  drop table if exists arapad;
+  create table arapad(
+    cuid int(10) AUTO_INCREMENT unique,
+    capano int(10) default 0,
+    cservno char(20) default '',
+    cdesc char(200) default'',
+    nqty decimal(10,2) default 0.00,
+    nprice decimal(10,2) default 0.00,
+    usuario char(10) COLLATE utf8_spanish_ci default '',
+    fecha date default CURRENT_DATE,
+    hora time(6) default CURRENT_TIME
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  
+  /* detalle de pagos del apartado*/
+  drop table if exists arapap;
+  create table arapap(
+    cuid int(10) AUTO_INCREMENT unique,
+    capano int(10) default 0 ,
+    cdesc char(200) default'',
+    npayamt decimal(10,2) default 0.00,
+    dtrndate date default CURRENT_DATE,
+    usuario char(10) COLLATE utf8_spanish_ci default '',
+    fecha date default CURRENT_DATE,
+    hora time(6) default CURRENT_TIME
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  
 COMMIT;

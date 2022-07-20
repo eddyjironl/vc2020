@@ -59,6 +59,7 @@ function update_window(){
 	document.getElementById("cpaycode").value = odata.cpaycode;
 	document.getElementById("ccateno").value  = odata.ccateno;
 	document.getElementById("ctypcost").value = odata.ctypcost;
+	document.getElementById("ctypdesc").value = odata.ctypdesc;
 	document.getElementById("ctaxproc").value = odata.ctaxproc;
 	document.getElementById("minvno").value   = odata.minvno;
 	document.getElementById("mestados").value = odata.mestados;
