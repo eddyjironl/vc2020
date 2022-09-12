@@ -208,6 +208,7 @@ insert into symenu(cmenuid,cdesc,cmodule,cgppmod,cmenhid,cstatus,cview)
     ("tr008","Anulacion de Facturas","AR","TRN","AR01","OP","../view/arvinv.php"),
     ("tr009","Anulacion de Recibos","AR","TRN","AR01","OP","../view/arvcas.php"),
     ("tr010","Anulacion Requisas","AR","TRN","IN01","OP","../view/arvadj.php"),
+    ("tr011","Salir","AR","TRN","AR01","OP","../view/syquit.php"),
     /* REPORTES*/
     ("rp001","Resumen de Ventas (Moneda)    ","AR","RPT","AR02","OP","../view/arinvt_r.php"),
     ("rp013","Resumen de Ventas (Articulos) ","AR","RPT","AR02","OP","../view/arinvt2_r.php"),

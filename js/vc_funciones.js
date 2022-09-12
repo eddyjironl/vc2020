@@ -499,7 +499,8 @@ function get_bthelp(pcDesc){
 		lcDesc = pcDesc;
 	}
 	//../photos/buscar.bmp
-  	oBtMenu = "<img id='helpview' name='helpview' src='../photos/vc2009.ico' title='" + lcDesc + "' class='bthelp' alt='x'/>";
+
+  	oBtMenu = "<img id='helpview' name='helpview' src='../photos/vc2009.ico' title='" + lcDesc + "' class='bthelp' alt='x'/> ";
 	document.write(oBtMenu);
 }
 function get_clear_view(){

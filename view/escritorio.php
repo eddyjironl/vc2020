@@ -17,13 +17,13 @@ if (vc_funciones::Star_session() == 1){
 		<link rel="shortcut icon" type="image/x-icon" href="../photos/vc2009.ico" />
 	</head>
 	
-	<!-- background="../photos/fondo3.png" -->
+	<!-- background="../photos/fondo3.png"  background="fondo3.png"-->
 	<style>
   		#helps{
     		display: inline-block;
   		}
 	</style>
-	<body id="espacio"  background="fondo3.png">
+	<body id="espacio" class="body_print" >
 		<iframe id="ventana" name="ventana"> </iframe>	
 
 		<div id="barra_small">

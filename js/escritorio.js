@@ -42,15 +42,24 @@ function getmodulemenu(pcmodule){
 }
 function change_module(){
 	var omenu_general = "";
+	lcmodule = document.getElementById("cmodule_select").value;
 	if (document.getElementById("cia_desc").value == ""){
 		getmsgalert("Seleccione Compañia")	;
 	 	return;
 	}
 	var omenu = document.getElementById("bmenu");
 	omenu.innerHTML = "";
-	omenu_general   = getmodulemenu(document.getElementById("cmodule_select").value);
+	omenu_general   = getmodulemenu(lcmodule);
 	omenu.innerHTML = omenu_general;
 	config_click_menu(document.getElementById("cmodule_select").value);
+	// aca pondremos la pntalla de configuracion de periodos segun sea contabilidad
+	if (lcmodule == "CG"){
+		var lcformperd = "../view/cgperd_a.php";
+		document.getElementById("ventana").setAttribute("src",lcformperd);
+	}else{
+		document.getElementById("ventana").setAttribute("src","");
+	}
+
 }
 function config_click_menu(pcmodule){
 	var oRequest = new XMLHttpRequest();

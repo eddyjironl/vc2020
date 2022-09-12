@@ -2,28 +2,16 @@
 	include("vc_funciones.php");
 	// VALIDACIONES PREVIAS CAMPOS VACIOS 
 	if (empty($_POST["cuserid"])){
-		// iniciando session
-		session_start();
-		// cerrando sesion.
-		session_destroy();
 		header("location:../index.php?opcmsj=2");
-		RETURN ;
+		return ;
 	}
 	if (empty($_POST["cpasword"])){
-		// iniciando session
-		session_start();
-		// cerrando sesion.
-		session_destroy();
 		header("location:../index.php?opcmsj=3");
-		RETURN ;
+		return ;
 	}
 	if (empty($_POST["ccompid"])){
-		// iniciando session
-		session_start();
-		// cerrando sesion.
-		session_destroy();
 		header("location:../index.php?opcmsj=4");
-		RETURN ;
+		return ;
 	}
 	$oConn      = vc_funciones::get_coneccion("SYS");
 	$lcUserID 	= $_POST["cuserid"];
@@ -35,12 +23,15 @@
 	$lnRecno 	= mysqli_num_rows($lcResult); //$lcResult->num_rows;
 	if($lnRecno == 0){
 		// iniciando session
-		session_start();
+	//		session_start();
 		// cerrando sesion.
-		session_destroy();
+	//	session_destroy();
 		header("location:../index.php?opcmsj=1");
 	}else{
-		session_start();
+		// -------------------------------------------------------------------------------------------------
+		// Inicializando el medio ambiente
+		// -------------------------------------------------------------------------------------------------
+		vc_funciones::initEntornoGeneral();
 		$lcLine = mysqli_fetch_assoc($lcResult);
 		$_SESSION["cuserid"]   = $_POST["cuserid"];
 		$_SESSION["cpasword"]  = $_POST["cpasword"]; 
@@ -64,7 +55,7 @@
 			$_SESSION["cuser"]    = $lcinfocia["cuser"];
 			header("location:../view/escritorio.php");	
 		}else{
-			session_start();
+			//session_start();
 			// cerrando sesion.
 			session_destroy();
 			header("location:../index.php?opcmsj=5");

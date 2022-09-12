@@ -14,31 +14,47 @@ CLASS vc_funciones{
 		// convirtiendo este array en archivo jason.
 		return $oArSetup;
 	}
+	public static function initEntornoGeneral(){
+		session_start();
+		// definiendo variables.
+		$_SESSION["cuserid"]   = "";
+		$_SESSION["cpasword"]  = "";
+		$_SESSION["cfullname"] = "";
+		$_SESSION["cinvno"]    = "";
+		$_SESSION["ccompid"]   = "";
+		$_SESSION["compdesc"]  = "";
+		$_SESSION["ctel"] 	   = "";
+		$_SESSION["dbname"]    = "";
+		$_SESSION["chost"]     = "";
+		$_SESSION["ckeyid"]    = "";
+		$_SESSION["cuser"]     = "";
+		// datos del modulo contable.
+		$_SESSION["cyearw"]  = "1972";
+		$_SESSION["cperidw"] = "NO DEFINIDO TODABIA.";
+	}
 	public static function Star_session(){
-		// iniciando session
 		session_start();
 		// Verificando la session.
 		IF (isset($_SESSION["cuserid"])) {
-			//session_start();
 			return false;
 		}else{
 			//echo "<SPAN STYLE='COLOR:YELLOW'> NO HA INICIADO SESSION </SPAN>";
+			session_destroy();
 			header("location:../index.php");
 			return true;
 		}
 	}
 	public static function End_session(){
-		// iniciando session
-		session_start();
 		// cerrando sesion.
 		session_destroy();
-		//llamando el login.
 		header("location:index.php");
 	}
 	public static function init_index(){
-		session_start();
 		// cerrando sesion.
+		/*
 		session_destroy();
+		session_start();
+		*/
 	}
 	public static function getcialist(){
 		$oConn = vc_funciones::get_coneccion("SYS");
@@ -72,20 +88,7 @@ CLASS vc_funciones{
 		}
 		return $oConn;
 	}		
-	
-	
 	public static function get_msg2(){
-		/*
-		var lcbt  = '<button class="btbarra" ';
-		lcbt +=	'style="width:60px; height:60px" ';
-		lcbt +=	'type="button" ';
-					lcbt +=	'name="' + lcid + '" id="' + lcid + '" ';
-			lcbt +=	'title="Cierra la pantalla" ';
-			lcbt +=	'accesskey="s"> ';
-			lcbt +=	'<img style="width:30px; height:30px" src="../photos/salir.ico" alt="x" /> '
-			lcbt +=	'<br>Salir ';
-			lcbt +=	'</button>';
-		*/
 		echo '<section class="getmsgalert" id="getmsgalert">';
 		echo '		<section id="stitle">';
 		echo '			<STRONG>SISTEMA VISUAL CONTROL</STRONG>';
@@ -94,6 +97,18 @@ CLASS vc_funciones{
 		echo '		<br>';
 		//echo '<script>get_btprinc("btquit","msgquit")</script> ';
 		echo '	</section>';
+	}
+	public static function get_btn($pcname, $pcfoto, $pccaption, $pcplaceholder = "Accion no ilustrada" ){
+
+		echo '<button class="btbarra" ';
+		echo	'style="width:60px; height:60px" ';
+		echo	'type="button" ';
+		echo	'name="' . $pcname . '" id="' . $pcname . '" ';
+		echo	'title=" '.$pcplaceholder .'"' ;
+		echo	'accesskey="g"> ';
+		echo	'<img style="width:30px; height:30px" src="../photos/'. $pcfoto. '" alt="x" /> ';
+		echo	'<br>'. $pccaption;
+		echo	'</button>';
 	}
 }
 ?>	

@@ -1,77 +1,53 @@
 function init(){
-	var otbinfo1 = document.getElementById("tbinfo1");
-	var otbinfo2 = document.getElementById("tbinfo2");
-    var obtsave  = document.getElementById("btsave");
     document.getElementById("btquit").addEventListener("click",salir,false);
-	// poniendo los botones a la escucha.
-	otbinfo1.addEventListener("click",tabshow,false);
-	otbinfo2.addEventListener("click",tabshow,false);
-	obtsave.addEventListener("click",guardar,false);
-	// poniendo visible el objeto tab del info 
-	document.getElementById("finfo1").style.display = "block";
-	document.getElementById("tbinfo1").setAttribute("class","active");
-	// Menus interactivos
-	// --------------------------------------------------------------------------------
-	document.getElementById("btcctano1").addEventListener("click",function(){
-        get_menu_list("cgctas","showmenulist","cctano1","valid_cctano");
-    },false);
-	document.getElementById("btcctano2").addEventListener("click",function(){
-        get_menu_list("cgctas","showmenulist","cctano2","valid_cctano");
-    },false);
-	document.getElementById("btcctano3").addEventListener("click",function(){
-        get_menu_list("cgctas","showmenulist","cctano3","valid_cctano");
-    },false);
-	document.getElementById("btcctano4").addEventListener("click",function(){
-        get_menu_list("cgctas","showmenulist","cctano4","valid_cctano");
-    },false);
-	document.getElementById("btcmonid").addEventListener("click",function(){
-        get_menu_list("cgmonm","showmenulist","cmonid");
-    },false);
-	document.getElementById("btcperid").addEventListener("click",function(){
-        get_menu_list("cgperd","showmenulist","cperid");
-    },false);
-
-	document.getElementById("cctano1").addEventListener("change",valid_cctano,false);
-	document.getElementById("cctano2").addEventListener("change",valid_cctano,false);
-	document.getElementById("cctano3").addEventListener("change",valid_cctano,false);
-	document.getElementById("cctano4").addEventListener("change",valid_cctano,false);
-	document.getElementById("cmonid").addEventListener("change",valid_cctano,false);
-	document.getElementById("cperid").addEventListener("change",valid_cctano,false);
-
-
-
-	// refrescando la pantalla con todo sus contenidos.
-	update_window();
+	document.getElementById("btnueva").addEventListener("click",get_clear_view,false);
+	document.getElementById("btguardar").addEventListener("click",guardar,false);
+    document.getElementById("crespno").addEventListener("change",updHeader,false);
+    // definiendo comportamiento.
+    document.getElementById("cmodo").addEventListener("change",modEditForm,false);
+    document.getElementById("cmodo").value = "1";
+    modEditForm();
+    
 }
+// Comportamiento del combo
 
-function valid_cctano(pcvalue){
-	var oRequest = new XMLHttpRequest();
-	// Creando objeto para empaquetado de datos.
-	var oDatos   = new FormData();
-	// adicionando datos en formato CLAVE/VALOR en el objeto datos para enviar como parametro a la consulta AJAX
-	oDatos.append("pcvalue",pcvalue);
-	oDatos.append("pcuid",pcuid);
-	oDatos.append("accion","CMICXNO");
-	// obteniendo el menu
-	oRequest.open("POST","../modelo/crud_cgctas.php",false); 
-	oRequest.send(oDatos);
-	// desplegando pantalla de menu con su informacion.
-	var odata = JSON.parse(oRequest.response);
-	//cargando los valores de la pantalla.
-	if (odata != null){
-		lcdescmicx = "cdescmic"+pcuid;
-		document.getElementById(lcdescmicx).value = odata.cdesc;
-	}else{ 
-		alert("Agrupacion "+ pcuid + " no definida.");
-	}
+function modEditForm(){
+    // pone en forma de editable la forma.
+    if (document.getElementById("cmodo").value == "1" ){
+        // modo registrar.
+        document.getElementById("ctrnno").disabled = true;
+        document.getElementById("crespno").disabled = false;
+        // quitando la opcion de que despliegue el menu
+        document.getElementById("btctrnno").addEventListener("click",function(){
+            return false;
+        },false);
+    }else{
+        document.getElementById("ctrnno").disabled  = false;
+        document.getElementById("crespno").disabled = true;
+        // permitiendo que se despliegue el menu
+        document.getElementById("btctrnno").addEventListener("click",function(){
+            get_menu_list("cgmast_1","showmenulist","ctrnno");
+        },false);
+    }
 }
 function salir(){
 	//var pantalla = document.defaultView;
-	document.getElementById("cgsetup").style.display="none";	
+	document.getElementById("cgmast_1").style.display="none";	
 }
 function guardar(){
-	var oform = document.getElementById("cgsetup");
-	oform.submit();
+	document.getElementById("cgmast_1").submit();
+}
+function updHeader(){
+    // si ya eligio una fecha esta fecha se mantendra solo la primera vez en que 
+    // la fecha es vacia la propone
+    //alert(<?php echo $_SESSION['id']; ?>);
+    if (document.getElementById("crespno").value == ""){
+        document.getElementById("dtrndate").value = "";
+    }else{
+        if (document.getElementById("dtrndate").value ==""){
+            document.getElementById("dtrndate").value = get_date_comp();
+        }
+    }
 }
 function update_window(){
 	// --------------------------------------------------------------------------------------
@@ -165,28 +141,5 @@ lnConfRChk
 	}else{
 		alert("Modulo no configurado");
 	}
-}
-function tabshow(e){
-	// evitando que el tipo de boton haga un submit por defecto y recargue la pagina.
-	e.preventDefault();
-	var oTabFormBoton = e.target.id;
-	
-	// poniendo ocultos todos los div pantallas ocultos
-	var oTabForm = document.getElementsByClassName("tabcontent");
-	for (i = 0; i < oTabForm.length; i++) {
-		oTabForm[i].style.display = "none";
-	}
-
-	if(oTabFormBoton == "tbinfo1"){
-		document.getElementById("finfo1").style.display = "block";
-		document.getElementById("tbinfo2").setAttribute("class","")
-	}
-	
-	if(oTabFormBoton == "tbinfo2"){
-		document.getElementById("finfo2").style.display = "block";
-		document.getElementById("tbinfo1").setAttribute("class","")
-	}
-	document.getElementById(oTabFormBoton).setAttribute("class","active");
-
 }
 window.onload=init;

@@ -10,19 +10,20 @@
 */
 DROP TABLE IF EXISTS cgsetup;
 CREATE TABLE cgsetup (
-  ntrnno1  decimal(10),   
-  ntrnno2  decimal(10),
-  ntrnno3  decimal(10),
-  ntrnno4  decimal(10),
-  cperid   char(10),
-  cctano1  char(20),
-  cctano2  char(20),
-  cctano3  char(20),
-  cctano4  char(20), 
-  cctano5  char(20),
-  cctano6  char(20),
-  cmonid   char(10),
-  cfirma1  char(50) ,
+  ntrnno1  decimal(10) not null default 0,   
+  ntrnno2  decimal(10) not null default 0,
+  ntrnno3  decimal(10) not null default 0,
+  ntrnno4  decimal(10) not null default 0,
+  ncashamt decimal(10,2) not null default 0.00,
+  cperid   char(10) not null default '',
+  cctano1  char(20) not null default '',
+  cctano2  char(20) not null default '',
+  cctano3  char(20) not null default '',
+  cctano4  char(20) not null default '', 
+  cctano5  char(20) not null default '',
+  cctano6  char(20) not null default '',
+  cmonid   char(10) not null default '',
+  cfirma1  char(50) not null default '' ,
   lviewF1  tinyint(1) NOT null  default 0,
   ctitulo1 char(50) , /* Descripcion del titulo del que Firma */
   cfirma2  char(50) , /* Firma de Estado financiero*/
@@ -35,11 +36,11 @@ CREATE TABLE cgsetup (
   llogoBG  tinyint(1) NOT null  default 0, /* Ver logo en Balance General */
   llogoER  tinyint(1) NOT null  default 0, /* Ver logo en Estado de Resultados */
   nrentax  decimal(10,2), /* Porcenaje impuesto sobre la renta */
-  cmic1desc   char(15) , /* Descripcion del grupo */
-  cmic2desc   char(15) , /* Descripcion del grupo */
-  cmic3desc   char(15) , /* Descripcion del grupo */
-  cmic4desc   char(15) , /* Descripcion del grupo */
-  cmic5desc   char(15) , /* Descripcion del grupo */
+  cmic1desc   char(15) not null default '', /* Descripcion del grupo */
+  cmic2desc   char(15) not null default '' , /* Descripcion del grupo */
+  cmic3desc   char(15) not null default '' , /* Descripcion del grupo */
+  cmic4desc   char(15) not null default '' , /* Descripcion del grupo */
+  cmic5desc   char(15) not null default '' , /* Descripcion del grupo */
   lmic1desc   tinyint(1) NOT null  default 0, /* habilitar la descripcion de grupo */
   lmic2desc   tinyint(1) NOT null  default 0, /* habilitar la descripcion de grupo */
   lmic3desc   tinyint(1) NOT null  default 0, /* habilitar la descripcion de grupo */
@@ -316,6 +317,27 @@ create table cgresp(
 /* Borrando listados del catalogo maestro de Contabilidad unicamente.*/
 delete from ksschgrd where cmodule = 'CG';
 
+
+SET @lcSelect = " select ctrnno , cperid, cdesc ,dtrndate, nrate, if(lpost=0,'Si','No') as lpost, cstatus   from cgmast_1 ";
+INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
+  VALUES("CGMAST_1","00","Lista de asientos",@lcSelect,0,"CG"),
+        ("CGMAST_1","01","Asiento #","ctrnno",100,"CG"),
+        ("CGMAST_1","02","Periodo Id","cperid",70,"CG"),
+        ("CGMAST_1","03","Descripcion","cdesc",200,"CG"),
+        ("CGMAST_1","04","Fecha","dtrndate",70,"CG"),
+        ("CGMAST_1","05","Posteado","lpost",70,"CG"),
+        ("CGMAST_1","06","Estado","cstatus",70,"CG"),
+        ("CGMAST_1","07","Tipo Cambio","nrate",70,"CG");
+
+
+SET @lcSelect = " select cperid, cdesc , cyear, if(lclose = 1,'Cerrado','Activo') as estado from cgperd ";
+INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
+  VALUES("CGPERD","00","Lista de Periodos",@lcSelect,0,"CG"),
+        ("CGPERD","01","Periodo Id","cperid",100,"CG"),
+        ("CGPERD","02","Descripcion","cdesc",200,"CG"),
+        ("CGPERD","03","Estado","lclose",70,"CG"),
+        ("CGPERD","04","Año","cyear",70,"CG");
+
 SET @lcSelect = " select cctaid, cdesc  from cgctas ";
 INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
   VALUES("CGCTAS","00","Catalogo General",@lcSelect,0,"CG"),
@@ -328,7 +350,7 @@ INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
   VALUES("CGMONM","00","Listados de Monedas",@lcSelect,0,"CG"),
         ("CGMONM","01","Moneda id","cmonid",100,"CG"),
         ("CGMONM","02","cdesc","cdesc",200,"CG");
-
+/*
 SET @lcSelect = " select ctrnno,cperid,cdesc,if(lpost=0,'Si','No') as lpost from cgmast_1 ";
 INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
   VALUES("CGMAST_1","00","Listados de Transacciones.",@lcSelect,0,"CG"),
@@ -336,7 +358,7 @@ INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
         ("CGMAST_1","02","Periodo","cperid",100,"CG"),
         ("CGMAST_1","03","Descripcion","cdesc",200,"CG"),
         ("CGMAST_1","04","Posteado","lpost",200,"CG");
-
+*/
 SET @lcSelect = " select cbanno, cdesc  from cgbanm ";
 INSERT INTO ksschgrd(calias,corder,cheader,mcolvalue,ncolwidth,cmodule)
   VALUES("CGBANM","00","Listados de Bancos.",@lcSelect,0,"CG"),
@@ -413,6 +435,8 @@ insert into symenu(cmenuid,cdesc,cmodule,cgppmod,cmenhid,cstatus,cview)
     values("CGTR05","Reposteo de Partidas","CG","TRN","CG01","OP","../view/cgmast_1.php");
 insert into symenu(cmenuid,cdesc,cmodule,cgppmod,cmenhid,cstatus,cview)
     values("CGTR06","Cierre del Periodo","CG","TRN","CG01","OP","../view/cgmast_1.php");
+insert into symenu(cmenuid,cdesc,cmodule,cgppmod,cmenhid,cstatus,cview)
+    values("CGTR07","Seleccion de Periodo","CG","TRN","CG01","OP","../view/cgperd_a.php");
 /* Catalogos */
 insert into symenu(cmenuid,cdesc,cmodule,cgppmod,cmenhid,cstatus,cview)
     values("CGCA01","Catalogo Contable Ctas Operativas","CG","CAT","CG03","OP","../view/cgctas.php");

@@ -16,15 +16,6 @@ if ($lcStarSession == 1){
 		<link rel="stylesheet" href="../css/vc_estilos.css?v1">
 		<script src="../js/vc_funciones.js?v1"></script>
         <script src="../js/cgsetup.js?v1"></script>
-		<!--
-		 Required meta tags 
-
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        -->
-        <!-- Bootstrap CSS 
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-        -->
     </head>
     <style>
         .labellarge{
@@ -36,7 +27,10 @@ if ($lcStarSession == 1){
         }
     </style>    
     <body>
-        <form name="cgsetup" id="cgsetup" class="form2" method="post" action="../modelo/crud_cgsetup?accion=NEW">
+        <form name="cgsetup" id="cgsetup" 
+              class="form2" 
+              method="post" 
+              action="../modelo/crud_cgsetup.php?accion=NEW">
             <div class="barra_info"> 
                 <strong> Configuracion del Modulo Contable</strong>
             </div>
@@ -190,7 +184,7 @@ if ($lcStarSession == 1){
                     <label class="labelnormal">Agrupacion  # 2</label>
                     <input type="text" class="textcdesc" name="cmic2desc" id="cmic2desc">
                     &nbsp;
-                    <input type="checkbox" id="lmic1desc" name="lmic2desc"></input>
+                    <input type="checkbox" id="lmic2desc" name="lmic2desc"></input>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <input type="number" class="textkey" name="nmic2desc" id="nmic2desc">
 
@@ -318,5 +312,6 @@ if ($lcStarSession == 1){
 
             </div>    
         </form>    
+        <div id="showmenulist"></div>
     </body>
 </html>

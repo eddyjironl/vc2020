@@ -7,7 +7,7 @@ vc_funciones::init_index();
 //action="modelo/uservalid.php"
 ?>
 
-<!DOCTYPEHTLM>
+
 <html>
 	<head>
 		<title>Login de usuarios</title>
@@ -18,7 +18,7 @@ vc_funciones::init_index();
 		<script src="js/index.js"></script>
 
 	</head>
-	<body background="fondo3.png">
+	<body class="body_print">
 		<form  id="sysinit" name="sysinit" method="post" action="modelo/uservalid.php" >
 			<div id="divtitulo">
 				<h2>Inicio de Session</h2>
