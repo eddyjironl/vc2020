@@ -1,3 +1,10 @@
+/* fondo de toda la aplicacion*/
+.body_print{
+	background: #44A08D;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #093637, #44A08D);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #093637, #44A08D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
 /*Estilos para las opciones miniatura*/
 .botones_row {
 	width: 20px;
@@ -17,8 +24,8 @@
 	left: 0px;
 	box-shadow: white 0px 10px 10px;
 	color: yellow;
-	/*text-align: center;*/
-	padding: 10px;
+	text-align: center;
+	padding: 15px;
 	min-height: 15px;
 	margin-bottom: 5px;
 	border-radius: 10px 10px 0px 0px;
@@ -157,37 +164,6 @@
 	Estilos del View Menu 
 	---------------------------------------------------------------------------------------------------------------------------------------------------------------
 		*/
-
-
-.formato_datos_grid{
-	background-color: #dcdcdc;
-	color:blue;
-	font-size: 12px;
-	font-family: arial;
-}
-
-.area_bloqueo{
-	position: fixed;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-}
-.area_encabezado {
-	color:white;
-	font-size: 12px;
-	text-align:left;
-	background-color:gray;
-}
-.rowhtext {
-	padding: 5px;
-	text-align: left;
-} 
-.rowhqty {
-	padding: 5px;
-	text-align: right;
-} 
-/*----------------------------------------------------------------------*/		
 .mx_area_bloqueo {
 	position: fixed;
 	top: 0;
@@ -433,7 +409,16 @@ select {
 	display: inline-block;
 	min-width: 110px;
 }
-
+.labellarge{
+	padding: 1px;
+	margin-bottom: 1px;
+	border: solid 1px rgb(240, 240, 240);
+	background-color: rgb(255, 255, 128);
+	width: auto;
+	color: black;
+	display: inline-block;
+	min-width: 250px;
+}
 .labelsencilla {
 	padding: 1px;
 	margin-bottom: 3px;
@@ -594,70 +579,6 @@ Boton de Ayuda de pantallas
 .bthelp:hover {
 	box-shadow: yellow 5px 5px 10px;
 }
-
-/*
-	Botnones del portal VC
-	estilos para vc
-*/
-/* haciendo pequeno los botones*/
-.btlinks {
-	background-color:#132244;
-	box-shadow:black 4px 4px 10px;
-	color:white;
-	border-radius:10px 10px 10px 10px;
-	/*float: left;*/
-	border: none;
-	outline: none;
-	cursor: pointer;
-	padding: 10px 10px;
-	transition: 0.3s;
-	font-size: 12px;
-	margin:5px;
-	border-right:solid 2px blue;
-  }
-  .btlinks_warning {
-	background-color:yellowgreen;
-	box-shadow:black 4px 4px 10px;
-	color:#000000;
-	border-radius:10px 10px 10px 10px;
-	border: none;
-	outline: none;
-	cursor: pointer;
-	padding: 10px 10px;
-	transition: 0.3s;
-	font-size: 12px;
-	margin:5px;
-	border-right:solid 2px yellow;
-  }
-  /* Change background color of buttons on hover */
-  .btlinks_warning:hover {
-	background-color:yellowgreen;
-	box-shadow:#f1f374 5px 5px 9px;
-	border-right:solid 2px rgb(250, 234, 4);
-  }
-  .btlinks:hover {
-	background-color:#242485;
-	box-shadow:#E91E63 5px 5px 9px;
-	border-right:solid 2px aqua;
-  }
-  /* Create an active/current tablink class */
-  /*.btlinks.active {*/
-  .btlinksactive {
-	color:white;
-	border-radius:10px 10px 10px 10px;
-	float: left;
-	border: none;
-	outline: none;
-	cursor: pointer;
-	padding: 10px 10px;
-	transition: 0.3s;
-	font-size: 12px;
-	margin:5px;
-	background-color:#242485;
-	box-shadow:blue 5px 5px 9px;
-	border-right:solid 2px aqua;
-  }
-  
 
 /* 
 ---------------------------------------------------------------------------------------

@@ -158,7 +158,7 @@ if($lcaccion=="NEW"){
 // ------------------------------------------------------------------------------------------------
 if ($lcaccion == "JSON"){
 	// Consulta unitaria
-	$lcSqlCmd = " select * from cgsetup ";
+	$lcSqlCmd = " select cgsetup.*, '" . $_SESSION['cperidw'] ."' as cperidw from cgsetup ";
 	// obteniendo datos del servidor
 	$lcResult = mysqli_query($oConn,$lcSqlCmd);
     // convirtiendo estos datos en un array asociativo

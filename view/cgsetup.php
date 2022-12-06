@@ -17,15 +17,6 @@ if ($lcStarSession == 1){
 		<script src="../js/vc_funciones.js?v1"></script>
         <script src="../js/cgsetup.js?v1"></script>
     </head>
-    <style>
-        .labellarge{
-            display: inline-block;
-            padding:1px;
-            width:250px;
-            background:yellow;
-
-        }
-    </style>    
     <body>
         <form name="cgsetup" id="cgsetup" 
               class="form2" 

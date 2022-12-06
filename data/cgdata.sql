@@ -77,6 +77,7 @@ CREATE TABLE cgsetup (
   fecha    date default CURRENT_DATE,
   hora     time(6) default CURRENT_TIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
 drop table if exists cgperd;
 create table cgperd(
     cperid   char(10) primary key ,
@@ -90,6 +91,7 @@ create table cgperd(
   fecha    date default CURRENT_DATE,
   hora     time(6) default CURRENT_TIME
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
 drop table if exists cgmonm;
 create table cgmonm(
     cmonid   char(10) primary key,
@@ -115,22 +117,22 @@ create table cgmond(
 
 drop table if exists cgmast_1;
 create table cgmast_1(
-    ctrnno    char(10),
-	ckqno     char(10),         /* Numero de cheque */
-	crefno    char(10),         /* Numero de cheque */
-	crespno   char(10),         /* codigo del que elabora el registro */
+    ctrnno    char(10) primary key,
+	ckqno     char(10) default "",         /* Numero de cheque */
+	crefno    char(10) default "",         /* Numero de cheque */
+	crespno   char(10) ,         /* codigo del que elabora el registro */
     ctypeMon  char(1) default "N" , /* tipo de moneda del comprobante N = nacional D = dolares E= Euros */
-	ctype     char(10),         /* Indicando el tipo de comprobante */
+	ctype     char(10) default "1",         /* Indicando el tipo de comprobante */
 	dtrndate  date default CURRENT_DATE,   /* fecha de transaccion */
-	cdesc     char(200),         /* Descripcion del documento */
-	mnotas    text default'' ,			 /* Comentarios generales del documento */
-	namount   decimal(10,2),       /* Monto del cheque */
-	namount_d decimal(10,2),       /* Monto del cheque Dolares */
-	nrate     decimal(10,4),       /* Tasa de cambio para valorazion de cuentas factuor de divicion. */
+	cdesc     char(200) default '',         /* Descripcion del documento */
+	mnotas    text default '' ,			 /* Comentarios generales del documento */
+	namount   decimal(10,2) default 0,       /* Monto del cheque */
+	namount_d decimal(10,2) default 0,       /* Monto del cheque Dolares */
+	nrate     decimal(10,4) default 1,       /* Tasa de cambio para valorazion de cuentas factuor de divicion. */
 	lprint    tinyint(1) NOT null  default 0,             /* Indica si el cheque esta impreso o no. */
 	lpost     tinyint(1) NOT null  default 0,			 /* indica si esta posteado o no a contabilidad */
-	cperid    char(10),         /* periodo contable */
-	cstatus   char(2),          /* Estatus */
+	cperid    char(10) default "",         /* periodo contable */
+	cstatus   char(2) default "OP",          /* Estatus */
     hora     char(10) DEFAULT CURRENT_TIME,
     fecha    date DEFAULT CURRENT_DATE,
     usuario  char(10) default '' 
@@ -138,17 +140,17 @@ create table cgmast_1(
 drop table if exists cgmasd_1;
 create table cgmasd_1(
     cuid     int(10) AUTO_INCREMENT primary key,     /* Identificacion unica de la linea */
-    ctrnno   char(10),      /*  Numero de la transaccion */
-    ccodno   char(20),      /*  Codigo de Cuenta */
-	cperid   char(10),      /*  periodo contable */
-    cdesc    char(200) ,    /*  descripcion del codigo */
-	crefno   char(10),      /*  Descripcion del documento */
-	ccosno   char(10),      /*  Centro de costo */
+    ctrnno   char(10)  default "" ,      /*  Numero de la transaccion */
+    ccodno   char(20)  default "" ,      /*  Codigo de Cuenta */
+	cperid   char(10)  default "",      /*  periodo contable */
+    cdesc    char(200) default "" ,    /*  descripcion del codigo */
+	crefno   char(10)  default "" ,      /*  Descripcion del documento */
+	ccosno   char(10)  default "" ,      /*  Centro de costo */
 	dref     date default CURRENT_DATE,          /*  Fecha referencial */
-    ndebe    decimal(16,4), /*  Monto del debe */
-    nhaber   decimal(16,4), /*  Monto del haber */
-    ndebe_d  decimal(16,4), /*  Monto del debe */
-    nhaber_d decimal(16,4), /*  Monto del haber */
+    ndebe    decimal(16,4) default 0, /*  Monto del debe */
+    nhaber   decimal(16,4) default 0 , /*  Monto del haber */
+    ndebe_d  decimal(16,4) default 0, /*  Monto del debe */
+    nhaber_d decimal(16,4) default 0, /*  Monto del haber */
     mnotas   text default '', /*  Comentarios de la transaccion */
     hora     char(10) DEFAULT CURRENT_TIME,
     fecha    date DEFAULT CURRENT_DATE,
@@ -157,7 +159,7 @@ create table cgmasd_1(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 drop table if EXISTS cgmast_1h;
 create table cgmast_1h(
-    ctrnno    char(10),           /* Numero de transaccion */
+    ctrnno    char(10) primary key,           /* Numero de transaccion */
 	ctrnno2   char(10),           /* Numero de Presupuesto asociado al asiento */
 	ckqno     char(10),             /* Numero de cheque  */
 	crefno    char(10),           /* Numero de cheque */
@@ -200,7 +202,7 @@ create table cgmasd_1h(
 /* Bancos */
 drop table if exists cgbanm;
 create table cgbanm(
-    cbanno  char(10),         /* Numero de la transaccion */
+    cbanno  char(10) primary key,         /* Numero de la transaccion */
     cdesc   char(200) ,       /* descripcion del codigo de banco */
     chk     char(200),        /* ubicacion del formato de cheque. */
     mnotas  text default '' , /* Comentarios de la transaccion */
@@ -225,7 +227,7 @@ create table cgband(
 
 drop table if exists cgctas;
 create table cgctas(
-    cctaid    char(20),        /* Codigo del Cuenta Contable */
+    cctaid    char(20) primary key,        /* Codigo del Cuenta Contable */
     nubic     integer(3),      /* Orden de la cuenta  */
     cerff     char(2),
     ctype     char(1),         /* Tipo de saldo D= Debe H = haber */
